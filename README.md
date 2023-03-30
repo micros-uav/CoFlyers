@@ -203,13 +203,15 @@ where the first term is a tadeoff between self velocity direction and target dir
 
 In order to evaluate the performance of swarm, five metrics corresponding to the algorithm are proposed as follows:
 * One function of the first term of the algorithm is to maintain agents' speed on $v^{flock}$. To evaluate this performance, a speed maintenance metric is used:
-$$ \phi^{vel}=\sum^N_{i=1}|\boldsymbol{v}_i|/N/v^{flock} $$
+<!-- $$ \phi^{vel}=\sum^N_{i=1}|\boldsymbol{v}_i|/N/v^{flock} $$ -->
+$$ \phi^{vel}=\sum^N_{i=1}|{v}_i|/N/v^{flock} $$
 
 * Another function of the first item  is to achieve the main purpose of crossing a area with obstacles to the target area. For this purpose, a crossing completion metric is used:
 $$\phi^{cross}=\sum^N_{i=1}\frac{1-T^{end}_i}{T}/N$$
 where $T^{end}_i$ is the consuming time and T is the total time.
 * To evaluate the alignment effect of the second term, a velocity correlation metric is used
-$$ \phi^{corr}=\frac{1}{N(N-1)}\sum^N_{i=1}\sum_{j\not ={i}}\frac{\boldsymbol{v}_i\cdot\boldsymbol{v}_j}{|\boldsymbol{v}_i||\boldsymbol{v}_j|}$$
+<!-- $$ \phi^{corr}=\frac{1}{N(N-1)}\sum^N_{i=1}\sum_{j\not ={i}}\frac{\boldsymbol{v}_i\cdot\boldsymbol{v}_j}{|\boldsymbol{v}_i||\boldsymbol{v}_j|}$$ -->
+$$ \phi^{corr}=\frac{1}{N(N-1)}\sum^N_{i=1}\sum_{j\not ={i}}\frac{{v}_i\cdot{v}_j}{|{v}_i||{v}_j|}$$
 * To evaluate the repulsion effect of the third term, a metric of collision risk between agents is used:
 $$ \phi^{corr}=\frac{1}{N(N-1)}\sum^N_{i=1}\sum_{j\not ={i}}\Theta(d^{coll}-d)$$
 where $d^{coll}$ is a dangerous distance around agents. $\Theta(d)=1$ when $d>0$, otherwise $\Theta(d)=0$.
