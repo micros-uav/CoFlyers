@@ -196,6 +196,7 @@ Our platform has integrated three algorithms: [Vásárhelyi](https://www.science
 
 The algorithm is a variant of the Vásárhelyi algorithm used to cross a area with dense obstacles. The desired velocity formula on the horizontal plane of the ith individual is as follows:
 $$ \boldsymbol{v}^d_i=v^{flock}((1-\omega)\frac{\boldsymbol{v}_i}{|\boldsymbol{v}_i|}+\omega\boldsymbol{v}^t) + \boldsymbol{v}_i^{frict} + \boldsymbol{v}_i^{rep} + \sum_s{\boldsymbol{v}_{is}^{shill}}$$
+
 where the first term is a tadeoff between self velocity direction and target direction with a constant $\omega$ between 0 and 1. The other three terms are used for ailgnment, repulsion and obstacle avoidance. See the original article of the Vásárhelyi algorithm for details. In addition, keep the agent at a specific height in the altitude direction.
 
 In order to evaluate the performance of swarm, five metrics corresponding to the algorithm are proposed as follows:
