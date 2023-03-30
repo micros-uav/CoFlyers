@@ -28,57 +28,50 @@
 *CoFlyers* is a drone swarm platform mainly written in MATLAB&Simulink. The main components of the platform are a prototype simuator and a verification system for drone swarm.
 The prototype simulator is written in MATLAB and has three functions:
 * Rapid protyping
+
 <p align="center">
 <img src="./docs/images/rp.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">Collective motion in confined environments with the Vásárhelyi algorithm </div>
+</p>
+
+<p align="center" style="color: #999;">
+Collective motion in confined environments with the Vásárhelyi algorithm
 </p>
 
 <br>
 
 <p align="center">
 <img src="./docs/images/couzin.png" alt="1111111" height="400">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">Theoretical research of collective motion with the Couzin algorithm (a) swarm (b) torus (c) dynamic parallel group (d) highly parallel group </div>
+</p>
+<p align="center" style="color: #999;">
+Theoretical research of collective motion with the Couzin algorithm (a) swarm (b) torus (c) dynamic parallel group (d) highly parallel group
 </p>
 <br>
 
 <p align="center">
 <img src="./docs/images/lidar_and_map.png" alt="1111111" height="300">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Simulated environment and LIDAR
- </div>
 </p>
+<p align="center" style="color: #999;">
+Simulated environment and LIDAR
+</p>
+<br>
 
 * Parameter auto-tuning for getting the optimized parameters
 <p align="center">
 <img src="./docs/images/auto_tuning.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;"> Parameter auto-tuning of the Vásárhelyi algorithm </div>
 </p>
+<p align="center" style="color: #999;">
+Parameter auto-tuning of the Vásárhelyi algorithm
+</p>
+
 
 * Batch processing for obtaining the impact of internal and external parameters on swarm performances
 <p align="center">
 <img src="./docs/images/batch_processing.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;"> Impact of the control sampling time and velocity noise on swarm velocity correlation using the Vásárhelyi algorithm
- </div>
 </p>
+<p align="center" style="color: #999;">
+Impact of the control sampling time and velocity noise on swarm velocity correlation using the Vásárhelyi algorithm
+</p>
+
 
 <br>
 
@@ -134,87 +127,72 @@ catkin_make
 
 <p align="center">
 <img src="./docs/images/overall_architecture.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Overall architecture of the platform
- </div>
 </p>
+<p align="center" style="color: #999;">
+Overall architecture of the platform
+</p>
+
 
 <br>
 
 <p align="center">
 <img src="./docs/images/architecture_prototype.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Architecture of prototype simulator
- </div>
 </p>
-
-
+<p align="center" style="color: #999;">
+Architecture of prototype simulator
+</p>
 
 <br>
 
 <p align="center">
 <img src="./docs/images/gui.png" alt="1111111" height="500">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Graphical user interface
- </div>
+</p>
+<p align="center" style="color: #999;">
+Graphical user interface
 </p>
 
 <br>
 
 <p align="center">
 <img src="./docs/images/simulink_simulator.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Architecture of simulink simulation
- </div>
 </p>
+<p align="center" style="color: #999;">
+Architecture of simulink simulation
+</p>
+
+
 
 <br>
 
 <p align="center">
 <img src="./docs/images/architecture_gazebo.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Architecture of the simulation with ROS&PX4&Gazebo
- </div>
 </p>
+<p align="center" style="color: #999;">
+Architecture of the simulation with ROS&PX4&Gazebo
+</p>
+
+
 
 <br>
 
 <p align="center">
 <img src="./docs/images/architecture_tello.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Architecture of the experimental verification with Tellos&Optitrack
- </div>
 </p>
+<p align="center" style="color: #999;">
+Architecture of the experimental verification with Tellos&Optitrack
+</p>
+
+
 
 <br>>
 
 <p align="center">
 <img src="./docs/images/architecture_crazyswarm.png" alt="1111111" height="200">
-<br>
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">  Architecture of the experimental verification with Crazyswarm
- </div>
 </p>
+<p align="center" style="color: #999;">
+Architecture of the experimental verification with Crazyswarm
+</p>
+
 
 
 # A step-by-step example
