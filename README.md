@@ -1,32 +1,31 @@
-# CoFlyers {ignore=true}
+# CoFlyers
 CoFlyers: a universal platform for collective flying of swarm drones
-# Contents {ignore=true}
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+# Contents
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 
-<b><font size=10> 111 </font></b>
 <!-- code_chunk_output -->
 
-- [CoFlyers {ignore=true}](#coflyers-ignoretrue)
-- [Contents {ignore=true}](#contents-ignoretrue)
-- [Introduction](#introduction)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Overview](#overview)
-- [A step-by-step example](#a-step-by-step-example)
-  - [Swarm theory](#swarm-theory)
-  - [Prototype specification](#prototype-specification)
-    - [Rapid prototyping](#rapid-prototyping)
-    - [Parameter auto-tuning and batch processing](#parameter-auto-tuning-and-batch-processing)
-  - [Further verification](#further-verification)
-    - [Simulink simulation](#simulink-simulation)
-    - [Simulation with PX4\&Gazebo](#simulation-with-px4gazebo)
-    - [Experimental verification with Tello swarm](#experimental-verification-with-tello-swarm)
-    - [Experimental verification with Crazyswarm](#experimental-verification-with-crazyswarm)
-- [Troubleshooting](#troubleshooting)
+- [CoFlyers](#coflyers)
+- [Contents](#contents)
+  - [Introduction](#introduction)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Overview](#overview)
+  - [A step-by-step example](#a-step-by-step-example)
+    - [Swarm theory](#swarm-theory)
+    - [Prototype specification](#prototype-specification)
+      - [Rapid prototyping](#rapid-prototyping)
+      - [Parameter auto-tuning and batch processing](#parameter-auto-tuning-and-batch-processing)
+    - [Further verification](#further-verification)
+      - [Simulink simulation](#simulink-simulation)
+      - [Simulation with PX4\&Gazebo](#simulation-with-px4gazebo)
+      - [Experimental verification with Tello swarm](#experimental-verification-with-tello-swarm)
+      - [Experimental verification with Crazyswarm](#experimental-verification-with-crazyswarm)
+  - [Troubleshooting](#troubleshooting)
 
 <!-- /code_chunk_output -->
 
-# Introduction
+## Introduction
 
 *CoFlyers* is a drone swarm platform mainly written in MATLAB&Simulink. The main components of the platform are a prototype simuator and a verification system for drone swarm.
 The prototype simulator is written in MATLAB and has three functions:
@@ -89,7 +88,7 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 </p>
 
 
-# Requirements
+## Requirements
 
 * Only [MATLAB R2021b](https://www.mathworks.com/support/install-matlab.html?q=&page=1) or later for prototype simulator, simulink simulator and simulink commander. (Ubuntu and Windows are supported)
 * Working installation of [PX4](https://github.com/PX4/PX4-Autopilot) and [Gazebo](https://gazebosim.org/home) for high-fidelity simulation. (Ubuntu18.04 are supported)
@@ -97,7 +96,7 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 
 
 
-# Installation
+## Installation
 1. Clone the *CoFlyers* git repository or download it directly:
 <pre><code>
 git clone https://github.com/micros-uav/CoFlyers.git
@@ -126,7 +125,7 @@ cd ./crazyswarm/ros_ws
 catkin_make
 </code></pre>
 
-# Overview
+## Overview
 
 <p align="center">
 <img src="./docs/images/overall_architecture.png" alt="1111111" height="200">
@@ -198,8 +197,8 @@ Architecture of the experimental verification with Crazyswarm
 
 
 
-# A step-by-step example
-## Swarm theory
+## A step-by-step example
+### Swarm theory
 Our platform has integrated three algorithms: [Vásárhelyi](https://www.science.org/doi/10.1126/scirobotics.aat3536), Vásárhelyi+[will](http://dx.doi.org/10.1098/rsif.2019.0853), and [Couzin](https://www.sciencedirect.com/science/article/pii/S0022519302930651?via%3Dihub). The deployment of the Vásárhelyi algorithm has been described in the relevant paper on *CoFlyers*. To enable users to understand the use of Coflyers more quickly, here is an example of deploying a new algorithm theory on *CoFlyers* step by step.
 
 The algorithm is a variant of the Vásárhelyi algorithm used to cross a area with dense obstacles. The desired velocity formula on the horizontal plane of the ith individual is as follows:
@@ -225,8 +224,8 @@ $$F=1-\frac{(Sat(\widetilde{\phi}^{vel})\widetilde{\phi}^{corr}\phi^{cross})}{(\
 where $\widetilde{\phi}$ is the time average of metrics and $\lambda$ is a constanst.
 
 Now, the algorithm and metrics have been designed. Consider the following scenario. A group of 8 agents moves within the boundaries in the X range of [-3m, 3m] and the Y range of [-2m, 2m]. There are 8 cylindrical obstacles with a radius of 0.15m uniformly distributed in the center of the map. The group is required to cross the area with dense obstacles from one end of the map to reach the other end. 
-## Prototype specification
-### Rapid prototyping
+### Prototype specification
+#### Rapid prototyping
 Next, we implement this scenario in the prototype simulator.
 
 Open MATLAB, enter the workspace of the protopyer simulator and add the files to the MATLAB path:
@@ -417,7 +416,7 @@ flag_eva = 2;
 </code></pre>
 
 Now, we can run main_rapid_prototyping.m and observe the results. But we saw that the group did not move, which is because the current swarm parameters are not suitable for the current scenario. We can try to manually tune the parameters, but it is difficult to get a suitable parameter setting. 
-### Parameter auto-tuning and batch processing
+#### Parameter auto-tuning and batch processing
 Next, we can obtain the optimized parameters through the parameter auto-tuning module.
 
 In main_auto_tuning.m, modify the following:
@@ -459,10 +458,10 @@ The batch processing module is mainly used to customize parameter combinations t
 In addition, users can easily adjust the drawing parameters and save data, images, videos, etc. on the *CoFlyers* GUI. Due to the addition of the new algorithm and the new metric set, a little extra settings are required. Double click and open CoFlyersGUI.mlapp in appdesigner. In design view, add an additional item in the two drop-down boxes of 'Swarm Algorithm' and 'Evaluation Metrics'.
 <p align="center"><img src="./docs/images/gui1.png" alt="gui" height="200"></p>
 
-## Further verification
+### Further verification
 Next, users can perform further verification through the Simulink commander. Enter the workspace 'Simulink_module', input 'addpath (genpath ("."))' to add all files to the MATLAB path. 
 In the initialization file of init_condition.m, change the number to 8, and run the script. This script obtains the map module parameters, map, and swarm module parameters from the prototype simulator. Since the input and output have not been modified, it is no need to modify them here.
-### Simulink simulation
+#### Simulink simulation
 
 First, we verify that the model is functioning properly without external platforms.
 In the model of testControlWithDroneSwarm.slx, modify the ip address of UDP as local ip address:
@@ -477,7 +476,7 @@ position = [-2.5,-2.5,-2.5,-2.5,-1.5,-1.5,-1.5,-1.5;
 </code></pre>
 
 Open quadcoptersVerification.slx and run it, and we can see 8 quadcopters. Meanwhile, run the testControlWithDroneSwarm.slx in another MATLAB. Turn the rotary switch to 'takeoff'. When the drones hover, turn the switch to 'alg', and we will see the drones flying according to the swarm algorithm. Then, turn the rotary switch to 'land', and the drones will land. If everything runs normally, further verification can be performed with external platforms.
-### Simulation with PX4&Gazebo
+#### Simulation with PX4&Gazebo
 Under Ubuntu system, copy multi_uav_mavros_sitl_10.launch as multi_uav_mavros_sitl_8.launch in the path of ~/PX4-Autopilot/launch and delete two UAVs. In addition, modify the ip addresses and initial positions in the .launch file. 
 Similarly copy px4_node_multiple_10.launch as px4_node_multiple_8.launch in the path of ~/CoFlyers/ros_ws\src\px4_sitl_coflyers\launch and delete two UAVs. In addition, modify the ip addresses and initial positions in the .launch file. The ip addresses also need to modify in the simulink commander. 
 Then start Px4 sitl with Gazebo:
@@ -493,12 +492,12 @@ roslaunch px4_sitl_coflyers px4_node_multiple_8.launch
 </code></pre>
 Now, we can run testControlWithDroneSwarm.slx to control the drones in Gazebo.
 
-### Experimental verification with Tello swarm
+#### Experimental verification with Tello swarm
 Under Windows system, configure configuration_swarm.txt in CoFlyers/tello_optitrack_win/drone_swarm_v19/x64/Debug/config. Then run multi_drone_control.exe in the path of CoFlyers/tello_optitrack_win/drone_swarm_v19/x64/Debug. This program will continuously obtain the poses of tellos from the Optitrack and send them to the simulink commander, and receive commanders from the simulink commander and send them to the tellos.
 
 Now, we can run testControlWithDroneSwarm.slx to control the tellos to verify the swarm algorithm experimentally.
 
-### Experimental verification with Crazyswarm
+#### Experimental verification with Crazyswarm
 Under Ubuntu system, open a new shell:
 <pre><code>
 cd ~/crazyswarm/ros_ws
@@ -522,7 +521,7 @@ roslaunch udp_common udp_node_.launch udp_node_uav_multiple_10.launch
 
 Now, we can run testControlWithDroneSwarm.slx to control the Crazyflies to verify the swarm algorithm experimentally.
 
-# Troubleshooting
+## Troubleshooting
 Please open an [Issue](https://github.com/micros-uav/CoFlyers/issues) if you have some droubles and advice.
 
 The document is being continuously updated.
