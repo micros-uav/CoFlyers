@@ -32,7 +32,7 @@ The prototype simulator is written in MATLAB and has three functions:
 * Rapid protyping
 
 <p align="center">
-<img src="./docs/images/rp.png" alt="1111111" height="200">
+<img src="./docs/images/rp.png" alt="figure" height="200">
 </p>
 
 <p align="center" style="color: #999;">
@@ -42,7 +42,7 @@ Collective motion in confined environments with the Vásárhelyi algorithm
 <br>
 
 <p align="center">
-<img src="./docs/images/couzin.png" alt="1111111" height="400">
+<img src="./docs/images/couzin.png" alt="figure" height="400">
 </p>
 <p align="center" style="color: #999;">
 Theoretical research of collective motion with the Couzin algorithm (a) swarm (b) torus (c) dynamic parallel group (d) highly parallel group
@@ -50,7 +50,7 @@ Theoretical research of collective motion with the Couzin algorithm (a) swarm (b
 <br>
 
 <p align="center">
-<img src="./docs/images/lidar_and_map.png" alt="1111111" height="300">
+<img src="./docs/images/lidar_and_map.png" alt="figure" height="300">
 </p>
 <p align="center" style="color: #999;">
 Simulated environment and LIDAR
@@ -59,7 +59,7 @@ Simulated environment and LIDAR
 
 * Parameter auto-tuning for getting the optimized parameters
 <p align="center">
-<img src="./docs/images/auto_tuning.png" alt="1111111" height="200">
+<img src="./docs/images/auto_tuning.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Parameter auto-tuning of the Vásárhelyi algorithm
@@ -68,7 +68,7 @@ Parameter auto-tuning of the Vásárhelyi algorithm
 
 * Batch processing for obtaining the impact of internal and external parameters on swarm performances
 <p align="center">
-<img src="./docs/images/batch_processing.png" alt="1111111" height="200">
+<img src="./docs/images/batch_processing.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Impact of the control sampling time and velocity noise on swarm velocity correlation using the Vásárhelyi algorithm
@@ -84,7 +84,7 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 * Experimental verification with Tello&Optitrack
 * Experimental verification with Crazyswarm
 <p align="center">
-<img src="./docs/images/gazebo_tello_crazyflie.png" alt="1111111" height="200">
+<img src="./docs/images/gazebo_tello_crazyflie.png" alt="figure" height="200">
 </p>
 
 
@@ -121,7 +121,7 @@ catkin_make</code></pre>
 ## Overview
 
 <p align="center">
-<img src="./docs/images/overall_architecture.png" alt="1111111" height="200">
+<img src="./docs/images/overall_architecture.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Overall architecture of the platform
@@ -131,7 +131,7 @@ Overall architecture of the platform
 <br>
 
 <p align="center">
-<img src="./docs/images/architecture_prototype.png" alt="1111111" height="200">
+<img src="./docs/images/architecture_prototype.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Architecture of prototype simulator
@@ -140,7 +140,7 @@ Architecture of prototype simulator
 <br>
 
 <p align="center">
-<img src="./docs/images/gui.png" alt="1111111" height="500">
+<img src="./docs/images/gui.png" alt="figure" height="500">
 </p>
 <p align="center" style="color: #999;">
 Graphical user interface
@@ -149,7 +149,7 @@ Graphical user interface
 <br>
 
 <p align="center">
-<img src="./docs/images/simulink_simulator.png" alt="1111111" height="200">
+<img src="./docs/images/simulink_simulator.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Architecture of simulink simulation
@@ -160,7 +160,7 @@ Architecture of simulink simulation
 <br>
 
 <p align="center">
-<img src="./docs/images/architecture_gazebo.png" alt="1111111" height="200">
+<img src="./docs/images/architecture_gazebo.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Architecture of the simulation with ROS&PX4&Gazebo
@@ -171,7 +171,7 @@ Architecture of the simulation with ROS&PX4&Gazebo
 <br>
 
 <p align="center">
-<img src="./docs/images/architecture_tello.png" alt="1111111" height="200">
+<img src="./docs/images/architecture_tello.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Architecture of the experimental verification with Tellos&Optitrack
@@ -182,7 +182,7 @@ Architecture of the experimental verification with Tellos&Optitrack
 <br>>
 
 <p align="center">
-<img src="./docs/images/architecture_crazyswarm.png" alt="1111111" height="200">
+<img src="./docs/images/architecture_crazyswarm.png" alt="figure" height="200">
 </p>
 <p align="center" style="color: #999;">
 Architecture of the experimental verification with Crazyswarm
