@@ -28,14 +28,14 @@
 *CoFlyers* is a drone swarm platform mainly written in MATLAB&Simulink. The main components of the platform are a prototype simuator and a verification system for drone swarm.
 The prototype simulator is written in MATLAB and has three functions:
 * Rapid protyping
-<center>
+<p align="center">
 <img src="./docs/images/rp.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">Collective motion in confined environments with the Vásárhelyi algorithm </div>
-</center>
+</p>
 
 <br>
 
