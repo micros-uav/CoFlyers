@@ -98,9 +98,7 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 
 ## Installation
 1. Clone the *CoFlyers* git repository or download it directly:
-<pre><code>
-git clone https://github.com/micros-uav/CoFlyers.git
-</code></pre>
+<pre><code>git clone https://github.com/micros-uav/CoFlyers.git</code></pre>
 2. For simulation with PX4, copy some files for PX4
 <pre><code>
 sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/my_world.world ./PX4-Autopilot/Tools/sitl_gazebo/worlds
