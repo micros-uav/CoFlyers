@@ -99,29 +99,24 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 ## Installation
 1. Clone the *CoFlyers* git repository or download it directly:
 <pre><code>git clone https://github.com/micros-uav/CoFlyers.git</code></pre>
+
 2. For simulation with PX4, copy some files for PX4
-<pre><code>
-sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/my_world.world ./PX4-Autopilot/Tools/sitl_gazebo/worlds
+<pre><code>sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/my_world.world ./PX4-Autopilot/Tools/sitl_gazebo/worlds
 sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/multi_uav_mavros_sitl_1.launch ./PX4-Autopilot/launch
-sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/multi_uav_mavros_sitl_10.launch ./PX4-Autopilot/launch
-</code></pre>
+sudo cp ./CoFlyers/for_external_projects/PX4-Autopilot/multi_uav_mavros_sitl_10.launch ./PX4-Autopilot/launch</code></pre>
+
 3. For experiments with Crazyswarm, copy some files for Crazyswarm
-<pre><code>
-sudo cp -r ./CoFlyers/for_external_projects/crazyswarm/crazyswarm_coflyers ./crazyswarm/ros_ws/src
+<pre><code>sudo cp -r ./CoFlyers/for_external_projects/crazyswarm/crazyswarm_coflyers ./crazyswarm/ros_ws/src
 cd ./crazyswarm/ros_ws
-catkin_make
-</code></pre>
+catkin_make</code></pre>
 Currently, it is a problem with the publish frequency to the /cf#/pose topic created by Crazyswarm. It cannot be performed at a faster frequency of 30 Hz. If users' Crazywarm can normally pulish poses to /cf#/pose topic at a frequency of 30 Hz, it is no need to replace the source code with the following command:
-<pre><code>
-sudo cp ./CoFlyers/for_external_projects/crazyswarm/crazyswarm_server.cpp ./crazyswarm/ros_ws/src/crazyswarm/src
+<pre><code>sudo cp ./CoFlyers/for_external_projects/crazyswarm/crazyswarm_server.cpp ./crazyswarm/ros_ws/src/crazyswarm/src
 cd ./crazyswarm/ros_ws
-catkin_make
-</code></pre>
+catkin_make</code></pre>
+
 4. Build:
-<pre><code>
-cd ./crazyswarm/ros_ws
-catkin_make
-</code></pre>
+<pre><code>cd ./crazyswarm/ros_ws
+catkin_make</code></pre>
 
 ## Overview
 
