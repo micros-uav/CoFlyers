@@ -230,39 +230,32 @@ Since the algorithm in this section inherits from the Vásárhelyi algorithm, we
 % Then modify the corresponding function names from Vasarhelyi_XXX to Vasarhelyi_c_XXX.</code></pre>
 
 In Vasarhelyi_c_module_parameters.m, add three extra parameters:
-<pre><code>
-dr = 0.1; 
+<pre><code>dr = 0.1; 
 [numS,posShill,velShill] = generateShills(map_lines,dr);
 % Crossing
 omega = 0.5; v_target = [1;0]; x_finished = 1.5;
 %%% Merge all parameters to an array
-parameters_flocking = […; omega; v_target; x_finished];
-</code></pre>
+parameters_flocking = […; omega; v_target; x_finished];</code></pre>
 
 In Vasarhelyi_c_module_parameters_deal.m, add the allocatoon of the three params:
-<pre><code>
-[r_com,v_flock,r_rep0,p_rep,r_frict0,C_frict,v_frict,p_frict,a_frict,r_shill0,...
+<pre><code>[r_com,v_flock,r_rep0,p_rep,r_frict0,C_frict,v_frict,p_frict,a_frict,r_shill0,...
     v_shill,p_shill,a_shill,v_max,number_h,heights,numS,posShill,velShill,omega,v_target,x_finished] =...
 Vasarhelyi_c_module_parameters_deal(parameters_flocking)
 …
 omega   = parameters_flocking(myCount); myCount = myCount + 1;
 v_target   = parameters_flocking(myCount:myCount+1); myCount = myCount + 2;
-x_finished   = parameters_flocking(myCount); myCount = myCount + 1;
-</code></pre>
+x_finished   = parameters_flocking(myCount); myCount = myCount + 1;</code></pre>
 
 In Vasarhelyi_c_module_generate_desire_i.m, add the acquisition of the new params and the crossing rule:
-<pre><code>
-[r_com,v_flock,r_rep0,p_rep,r_frict0,C_frict,v_frict,p_frict,a_frict,r_shill0,...
+<pre><code>[r_com,v_flock,r_rep0,p_rep,r_frict0,C_frict,v_frict,p_frict,a_frict,r_shill0,...
     v_shill,p_shill,a_shill,v_max,~,heights,~,posShill,velShill,omega,v_target] =...
 Vasarhelyi_c_module_parameters_deal(parameters_flocking);
 %Self-propelling term
 …
-vFlockId(1:dimension) = (1-omega)*vFlockId(1:dimension) + omega*v_flock*v_target;
-</code></pre>
+vFlockId(1:dimension) = (1-omega)*vFlockId(1:dimension) + omega*v_flock*v_target;</code></pre>
 
 The distributed algorithm is implemented in Vasarhelyi_c_module_generate_desire_i.m, while Vasarhelyi_c_module_generate_desire.m can centrally process all agents' data. Here, add the determination of whether agents has completed crossing and use the completed flag as a function output to calculate crossing completion metric $\phi^{cross}$ in evaluation module:
-<pre><code>
-function [command_upper_s,control_mode_s,finished] =...
+<pre><code>function [command_upper_s,control_mode_s,finished] =...
 Vasarhelyi_c_module_generate_desire(t,states,parameters_flocking,map_lines,map_grid,parameters_sensor_env)
 …
 [r_com,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,~,x_finished] =...
@@ -275,14 +268,11 @@ Vasarhelyi_c_module_parameters_deal(parameters_flocking);
 …
 command_upper_s = [posDesired;velDesired;accDesired];
 %%%%%Finished%%%%%
-finished = states(1,:) > x_finished;
-</code></pre>
+finished = states(1,:) > x_finished;</code></pre>
 
 In swarm_module_parameters.m, add a branch of the new algorithm:
-<pre><code>
-    case 3
-        parameters_swarm =Vasarhelyi_c_module_parameters(number_h, map_lines);
-</code></pre>
+<pre><code>    case 3
+        parameters_swarm =Vasarhelyi_c_module_parameters(number_h, map_lines);</code></pre>
 
 In swarm_module_generate_desire.m, add a branch of the new algorithm and a new output:
 <pre><code>
@@ -293,8 +283,7 @@ finished = [];
 …
     case 3
         [command_upper_s,control_mode_s,finished] =... 
-Vasarhelyi_c_module_generate_desire(t,states,parameters_swarm_sub,map_lines,map_grid,parameters_sensor_env);
-</code></pre>
+Vasarhelyi_c_module_generate_desire(t,states,parameters_swarm_sub,map_lines,map_grid,parameters_sensor_env);</code></pre>
 
 Next, implement the performance metrics.
 
@@ -304,8 +293,7 @@ Since the metric set in this section is similar to the metric set 0, we directly
 
 Since the required parameters are the same as the set 0, it is no need to modify the evaluation_ 2_ module_parameters.m and evaluation_2_module_parameters_deal.m.
 Open evaluation_2_module_one.m and add the calculation of crossing completion metric:
-<pre><code>
-[values, values_for_visual] = evaluation_2_module_one(t, states, parameters_evalue, map_grid, parameters_map, finished, time_max)
+<pre><code>[values, values_for_visual] = evaluation_2_module_one(t, states, parameters_evalue, map_grid, parameters_map, finished, time_max)
 [v_flock,rColl,~,~,~] =...
     evaluation_2_module_parameters_deal(parameters_evalue);
 …
@@ -318,42 +306,32 @@ T_finished_now(T_finished_now==0) = inf;
 T_finished_now = min(T_finished_now,T_finished_pre);
 T_finished_pre = T_finished_now;
 phi_cross = mean(1- T_finished_now/time_max);
-values = [phiCorr;phiVel;phiColl;phiWall;phiMND;phi_cross];
-</code></pre>
+values = [phiCorr;phiVel;phiColl;phiWall;phiMND;phi_cross];</code></pre>
 
 In evaluation_2_module_average.m, add the calculation of crossing completion metric:
-<pre><code>
-phiCross = values_series(6,end);
+<pre><code>phiCross = values_series(6,end);
 [~,~,~,~,F] = fitness_function_combine(v_flock,aTol,vTol,rTol,phiVel, ...
 phiColl,phiWall,phiCorr*phiCross);
-values = [F;phiCorr;phiVel;phiColl;phiWall;phiMND;phiCross];
-</code></pre>
+values = [F;phiCorr;phiVel;phiColl;phiWall;phiMND;phiCross];</code></pre>
 
 
 In evaluation_module_one.m, add a branch of the new set of metrics and the input of the total time:
-<pre><code>
-[values, values_for_visual] = evaluation_module_one(t, states,parameters_evalue,map_grid,parameters_map,flag_evalue,finished,time_max)
+<pre><code>[values, values_for_visual] = evaluation_module_one(t, states,parameters_evalue,map_grid,parameters_map,flag_evalue,finished,time_max)
 …
     case 2
-        [values, values_for_visual] = evaluation_2_module_one(t, states, parameters_evalue_sub, map_grid, parameters_map, finished, time_max);
-</code></pre>
+        [values, values_for_visual] = evaluation_2_module_one(t, states, parameters_evalue_sub, map_grid, parameters_map, finished, time_max);</code></pre>
 
 In evaluation_module_parameters.m, add a branch of the new set of metrics:
-<pre><code>
-    case 2
-        parameters_evalue_sub = evaluation_2_module_parameters(v_flock);
-</code></pre>
+<pre><code>    case 2
+        parameters_evalue_sub = evaluation_2_module_parameters(v_flock);</code></pre>
 
 In evaluation_module_average.m, add a branch of the new set of metrics:
-<pre><code>
-    case 2
-        [values] = evaluation_2_module_average(values_series,parameters_evalue_sub);
-</code></pre>
+<pre><code>    case 2
+        [values] = evaluation_2_module_average(values_series,parameters_evalue_sub);</code></pre>
 
 Next, modify the map module.
 Open map_module_parameters.m and change:
-<pre><code>
-xrange =[-3,3];
+<pre><code>xrange =[-3,3];
 yrange =[-2,2];
 cylinder_radius      = 0.15;
 cylinder_rows_number = 3;
@@ -362,13 +340,11 @@ cylinder_delta_x     = 1.0;
 cylinder_delta_y     = 1.15; 
 cylinder_offset_x    = 0;
 cylinder_offset_y    = 0; 
-cylinder_disc_num    = 15;
-</code></pre>
+cylinder_disc_num    = 15;</code></pre>
 
 Due to the previous changes to the input and output of some functions, we need to modify the functions used to integrate various modules.
 In model_swarm.m, modify the following
-<pre><code>
-%%% Initialize states
+<pre><code>%%% Initialize states
 …
 [commands_upper,control_mode_s,data_swarm_for_visual,finished] =...
     swarm_module_generate_desire(t,states_m,parameters_flocking,map_lines,map_grid,parameters_sensor_env, flag_alg,sample_time_control_u);
@@ -382,39 +358,31 @@ if mod(count,rate_upper) == 0
 end
 …
 % Calculate the performance of current frame
-[values, values_for_visual] = evaluation_module_one(t, states_ob, parameters_evalue, map_grid, parameters_map, flag_eva, finished, time_max);
-</code></pre>
+[values, values_for_visual] = evaluation_module_one(t, states_ob, parameters_evalue, map_grid, parameters_map, flag_eva, finished, time_max);</code></pre>
 
 In initialize_parameters_states.m, modify the following:
-<pre><code>
-%%% Swarm parameters. 3th module
+<pre><code>%%% Swarm parameters. 3th module
     case 3
-        [~, v_flock] = Vasarhelyi_c_module_parameters_deal(parameters_swarm_sub);
-</code></pre>
+        [~, v_flock] = Vasarhelyi_c_module_parameters_deal(parameters_swarm_sub);</code></pre>
 
 Open initialize_states.m, change the initial positions:
-<pre><code>
-position = [-2.5,-2.5,-2.5,-2.5,-1.5,-1.5,-1.5,-1.5;
+<pre><code>position = [-2.5,-2.5,-2.5,-2.5,-1.5,-1.5,-1.5,-1.5;
     -1.5,-0.5,0.5,1.5,-1.5,-0.5,0.5,1.5;
-    0,0,0,0,0,0,0,0];
-</code></pre>
+    0,0,0,0,0,0,0,0];</code></pre>
 
 In parameters_setting_get.m, change the number of agents to 8 and select the algorithm and the metric set:
-<pre><code>
-number   = 8; 
+<pre><code>number   = 8; 
 time_max  = 70;
 …
 flag_alg  = 3;
-flag_eva = 2;
-</code></pre>
+flag_eva = 2;</code></pre>
 
 Now, we can run main_rapid_prototyping.m and observe the results. But we saw that the group did not move, which is because the current swarm parameters are not suitable for the current scenario. We can try to manually tune the parameters, but it is difficult to get a suitable parameter setting. 
 #### Parameter auto-tuning and batch processing
 Next, we can obtain the optimized parameters through the parameter auto-tuning module.
 
 In main_auto_tuning.m, modify the following:
-<pre><code>
-%% Settings of auto-tuning 
+<pre><code>%% Settings of auto-tuning 
 % Lower boundary and upper boundary of optimization
 flag_use_parallel     = true;
 repeat_times        = 1; %Times of experimental repetitions used to average multiple simulations
@@ -422,13 +390,11 @@ repeat_times        = 1; %Times of experimental repetitions used to average mult
 lower_boudaries = [0.2000   0.01   00.1000    0.0100    0.0100    0.1000    0.0100    0.0100   0.0100    0.0100    0.0100, 0.0];
 upper_boudaries = [2.0000    1.0   10.0000     0.500    0.2000    10.000    1.000     1.000    2.000    1000     1000, 1.0];
 order_s = [3:13,1081];
-flag_alg_opt = 0; % 0: genetic algorithm, 1: particle swarm optimization
-</code></pre>
+flag_alg_opt = 0; % 0: genetic algorithm, 1: particle swarm optimization</code></pre>
 
 In order to see the results quickly, set repeat_times=1 (To reduce accidental errors, you need to increase this parameter). In addition, the parameter list is one more parameter $\omega$ than the Vashelyi algorithm. The serial number of this parameter in the swarm parameter is 1081. Run the script (takes about half an hour) and obtain the optimized parameters.
 Modify the Vasaryi_c_module_parameters.m:
-<pre><code>
-rRep0   = 1.1376;										
+<pre><code>rRep0   = 1.1376;										
 pRep    = 0.9535;	
 rFrict0 = 6.5789;	
 CFrict  = 0.4896;	
@@ -440,8 +406,7 @@ vShill  = 0.4683;
 pShill  = 105.7271;	
 aShill  = 554.5390;
 …
-omega = 0.4638;
-</code></pre>
+omega = 0.4638;</code></pre>
 
 Run main_rapid_prototyping.m and observe the results again.
 <p align="center"><img src="./docs/images/image1.png" alt="image1" height="200"></p>
@@ -462,27 +427,21 @@ In the model of testControlWithDroneSwarm.slx, modify the ip address of UDP as l
 
 Next, because simulink cannot run two models at the same time, open another MATLAB to run the simulator.
 Enter path of Simulink_Module\simulator and add the matlab_simulink_ws folder to the MATLAB path. In the initialization file of initial_condition_sim.m, change the number to 8, and change the initial positions:
-<pre><code>
-position = [-2.5,-2.5,-2.5,-2.5,-1.5,-1.5,-1.5,-1.5;
+<pre><code>position = [-2.5,-2.5,-2.5,-2.5,-1.5,-1.5,-1.5,-1.5;
     -1.5,-0.5,0.5,1.5,-1.5,-0.5,0.5,1.5;
-    0,0,0,0,0,0,0,0];
-</code></pre>
+    0,0,0,0,0,0,0,0];</code></pre>
 
 Open quadcoptersVerification.slx and run it, and we can see 8 quadcopters. Meanwhile, run the testControlWithDroneSwarm.slx in another MATLAB. Turn the rotary switch to 'takeoff'. When the drones hover, turn the switch to 'alg', and we will see the drones flying according to the swarm algorithm. Then, turn the rotary switch to 'land', and the drones will land. If everything runs normally, further verification can be performed with external platforms.
 #### Simulation with PX4&Gazebo
 Under Ubuntu system, copy multi_uav_mavros_sitl_10.launch as multi_uav_mavros_sitl_8.launch in the path of ~/PX4-Autopilot/launch and delete two UAVs. In addition, modify the ip addresses and initial positions in the .launch file. 
 Similarly copy px4_node_multiple_10.launch as px4_node_multiple_8.launch in the path of ~/CoFlyers/ros_ws\src\px4_sitl_coflyers\launch and delete two UAVs. In addition, modify the ip addresses and initial positions in the .launch file. The ip addresses also need to modify in the simulink commander. 
 Then start Px4 sitl with Gazebo:
-<pre><code>
-cd ~/PX4-Autopilot
-roslaunch px4 multi_uav_mavros_sitl_8.launch
-</code></pre>
+<pre><code>cd ~/PX4-Autopilot
+roslaunch px4 multi_uav_mavros_sitl_8.launch</code></pre>
 Start ros nodes to communicate with simulink commander in a new shell:
-<pre><code>
-cd ~/CoFlyers/ros_ws
+<pre><code>cd ~/CoFlyers/ros_ws
 source devel/setup.bash
-roslaunch px4_sitl_coflyers px4_node_multiple_8.launch
-</code></pre>
+roslaunch px4_sitl_coflyers px4_node_multiple_8.launch</code></pre>
 Now, we can run testControlWithDroneSwarm.slx to control the drones in Gazebo.
 
 #### Experimental verification with Tello swarm
@@ -492,25 +451,19 @@ Now, we can run testControlWithDroneSwarm.slx to control the tellos to verify th
 
 #### Experimental verification with Crazyswarm
 Under Ubuntu system, open a new shell:
-<pre><code>
-cd ~/crazyswarm/ros_ws
+<pre><code>cd ~/crazyswarm/ros_ws
 source devel/setup.bash
-roslaunch crazyswarm hover_swarm.launch
-</code></pre>
+roslaunch crazyswarm hover_swarm.launch</code></pre>
 
 Open a new shell:
-<pre><code>
-cd ~/crazyswarm/ros_ws
+<pre><code>cd ~/crazyswarm/ros_ws
 source devel/setup.bash
-roslaunch crazyswarm_coflyers crazyswarm_coflyers_run.launch
-</code></pre>
+roslaunch crazyswarm_coflyers crazyswarm_coflyers_run.launch</code></pre>
 
 Open a new shell:
-<pre><code>
-cd ~/CoFlyers/ros_ws
+<pre><code>cd ~/CoFlyers/ros_ws
 source devel/setup.bash
-roslaunch udp_common udp_node_.launch udp_node_uav_multiple_10.launch
-</code></pre>
+roslaunch udp_common udp_node_.launch udp_node_uav_multiple_10.launch</code></pre>
 
 Now, we can run testControlWithDroneSwarm.slx to control the Crazyflies to verify the swarm algorithm experimentally.
 
