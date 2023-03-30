@@ -1,0 +1,30 @@
+<launch>
+    <arg name="ipLocal" default = "192.168.2.3"/>
+    <arg name="portLocal" default = "21005"/>
+    <arg name="ipTarget" default = "192.168.2.5"/>
+    <arg name="portTarget" default = "21004"/>
+    <arg name="enableList" default = "1"/>
+    <arg name="enableSend" default = "1"/>
+    <arg name="portLocalBat" default = "0"/>
+    <arg name="portTargetBat" default = "20004"/>
+    <arg name="enableList_n" default = "0"/>
+    <arg name="enableSendBat" default = "1"/>
+
+    <arg name="ID" default = "2"/>
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="0"/>
+    <arg name="throttle_hover" default = "0.6106"/>
+    <group ns="coflyers">
+        <group ns="command_state">
+            <node pkg="udp_common" type="udp_node" name="udp_node" output="screen" args="$(arg ipLocal) $(arg portLocal) $(arg ipTarget) $(arg portTarget) $(arg enableList) $(arg enableSend)"/>  
+        </group>
+        <group ns="battery">
+            <node pkg="udp_common" type="udp_node" name="udp_node" output="screen" args="$(arg ipLocal) $(arg portLocalBat) $(arg ipTarget) $(arg portTargetBat) $(arg enableList_n) $(arg enableSendBat)"/>  
+        </group>    
+        <node pkg="px4_sitl_coflyers" type="px4_node" name="px4_node" output="screen" args="$(arg ID) $(arg x) $(arg y) $(arg z) $(arg R) $(arg P) $(arg Y) $(arg throttle_hover)"/>
+    </group>
+</launch>

@@ -1,0 +1,11 @@
+<launch>
+    <group ns="coflyers">
+        <arg name="ipLocal" default = "192.168.2.3"/>
+        <arg name="portLocal" default = "21001"/>
+        <arg name="ipTarget" default = "192.168.2.4"/>
+        <arg name="portTarget" default = "21000"/>
+        <arg name="enableList" default = "1"/>
+        <arg name="enableSend" default = "1"/>
+        <node pkg="udp_common" type="udp_node" name="udp_node" output="screen" args="$(arg ipLocal) $(arg portLocal) $(arg ipTarget) $(arg portTarget) $(arg enableList) $(arg enableSend)"/>  
+    </group>
+</launch>

@@ -1,0 +1,19 @@
+﻿  main.cpp
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_GetVersion，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_SetLogCallback，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_DecodeID，函数 "void __cdecl DataHandler(struct sFrameOfMocapData *,void *)" (?DataHandler@@YAXPAUsFrameOfMocapData@@PAX@Z) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_DecodeTimecode，函数 "void __cdecl DataHandler(struct sFrameOfMocapData *,void *)" (?DataHandler@@YAXPAUsFrameOfMocapData@@PAX@Z) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_TimecodeStringify，函数 "void __cdecl DataHandler(struct sFrameOfMocapData *,void *)" (?DataHandler@@YAXPAUsFrameOfMocapData@@PAX@Z) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_FreeDescriptions，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_CreateAsyncServerDiscovery，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 _NatNet_FreeAsyncServerDiscovery，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: __thiscall NatNetClient::NatNetClient(void)" (??0NatNetClient@@QAE@XZ)，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: __thiscall NatNetClient::~NatNetClient(void)" (??1NatNetClient@@QAE@XZ)，函数 "public: void * __thiscall NatNetClient::`scalar deleting destructor'(unsigned int)" (??_GNatNetClient@@QAEPAXI@Z) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::Connect(struct sNatNetClientConnectParams const &)" (?Connect@NatNetClient@@QAE?AW4ErrorCode@@ABUsNatNetClientConnectParams@@@Z)，函数 "int __cdecl ConnectClient(void)" (?ConnectClient@@YAHXZ) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::Disconnect(void)" (?Disconnect@NatNetClient@@QAE?AW4ErrorCode@@XZ)，函数 "int __cdecl ConnectClient(void)" (?ConnectClient@@YAHXZ) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::SetFrameReceivedCallback(void (__cdecl*)(struct sFrameOfMocapData *,void *),void *)" (?SetFrameReceivedCallback@NatNetClient@@QAE?AW4ErrorCode@@P6AXPAUsFrameOfMocapData@@PAX@Z1@Z)，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::SendMessageAndWait(char const *,void * *,int *)" (?SendMessageAndWait@NatNetClient@@QAE?AW4ErrorCode@@PBDPAPAXPAH@Z)，函数 "int __cdecl ConnectClient(void)" (?ConnectClient@@YAHXZ) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::GetServerDescription(struct sServerDescription *)" (?GetServerDescription@NatNetClient@@QAE?AW4ErrorCode@@PAUsServerDescription@@@Z)，函数 "int __cdecl ConnectClient(void)" (?ConnectClient@@YAHXZ) 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: enum ErrorCode __thiscall NatNetClient::GetDataDescriptionList(struct sDataDescriptions * *,unsigned int)" (?GetDataDescriptionList@NatNetClient@@QAE?AW4ErrorCode@@PAPAUsDataDescriptions@@I@Z)，函数 _main 中引用了该符号
+main.obj : error LNK2019: 无法解析的外部符号 "public: double __thiscall NatNetClient::SecondsSinceHostTimestamp(unsigned __int64)const " (?SecondsSinceHostTimestamp@NatNetClient@@QBEN_K@Z)，函数 "void __cdecl DataHandler(struct sFrameOfMocapData *,void *)" (?DataHandler@@YAXPAUsFrameOfMocapData@@PAX@Z) 中引用了该符号
+E:\Study_huang\Code\VS2019projects\drone_swarm\tello_control\Debug\optitrack_sdk.exe : fatal error LNK1120: 17 个无法解析的外部命令

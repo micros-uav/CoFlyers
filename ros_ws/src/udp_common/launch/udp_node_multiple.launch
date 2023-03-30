@@ -1,0 +1,119 @@
+<launch>
+    <arg name="ipLocal_" default = "192.168.2.3"/>
+    <arg name="portLocal_0" default = "21001"/>
+    <arg name="ipTarget_" default = "192.168.2.4"/>
+    <arg name="portTarget_0" default = "21000"/>
+    <arg name="enableList_" default = "1"/>
+    <arg name="enableSend_" default = "1"/>
+    <group ns="udp_port0">
+        <arg name="ID" value="0"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port1">
+        <arg name="ID" value="1"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port2">
+        <arg name="ID" value="2"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port3">
+        <arg name="ID" value="3"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port4">
+        <arg name="ID" value="4"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port5">
+        <arg name="ID" value="5"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port6">
+        <arg name="ID" value="6"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port7">
+        <arg name="ID" value="7"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port8">
+        <arg name="ID" value="8"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+    <group ns="udp_port9">
+        <arg name="ID" value="9"/>
+        <include file="$(find udp_common)/launch/udp_node_single.launch">
+            <arg name="ipLocal" value="$(arg ipLocal_)"/>
+            <arg name="portLocal" value="$(eval arg('portLocal_0') + arg('ID')*2)"/>
+            <arg name="ipTarget" value="$(arg ipTarget_)"/>
+            <arg name="portTarget" value="$(eval arg('portTarget_0') + arg('ID')*2)"/>
+            <arg name="enableList" value="$(arg enableList_)"/>
+            <arg name="enableSend" value="$(arg enableSend_)"/>
+        </include>
+    </group>
+
+</launch>

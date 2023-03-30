@@ -1,0 +1,9 @@
+uint8 start
+uint8 len_payload
+uint8 num_sequence
+uint8 system_id
+uint8 component_id
+uint8 message_id
+float32[] msg_data
+float64 time_stamp
+uint16 check_num

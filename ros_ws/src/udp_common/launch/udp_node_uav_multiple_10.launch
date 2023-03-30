@@ -1,0 +1,117 @@
+<launch>
+    <arg name="ipLocal_" value = "127.0.0.1"/>
+    <arg name="ipTarget_" value = "127.0.0.1"/>
+    <arg name = "ID_start" value = "0"/>
+
+    <!-- UAV0 -->
+    <group ns="uav0">
+        <arg name="ID" value="0"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV1 -->
+    <group ns="uav1">
+        <arg name="ID" value="1"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV2 -->
+    <group ns="uav2">
+        <arg name="ID" value="2"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV3 -->
+    <group ns="uav3">
+        <arg name="ID" value="3"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV4 -->
+    <group ns="uav4">
+        <arg name="ID" value="4"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV5 -->
+    <group ns="uav5">
+        <arg name="ID" value="5"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV6 -->
+    <group ns="uav6">
+        <arg name="ID" value="6"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV7 -->
+    <group ns="uav7">
+        <arg name="ID" value="7"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV8 -->
+    <group ns="uav8">
+        <arg name="ID" value="8"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+    <!-- UAV9 -->
+    <group ns="uav9">
+        <arg name="ID" value="9"/>
+        <include file="$(find udp_common)/launch/udp_node_uav_single.launch">
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+
+</launch>

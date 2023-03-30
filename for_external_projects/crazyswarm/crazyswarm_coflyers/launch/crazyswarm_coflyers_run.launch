@@ -1,0 +1,5 @@
+<launch>
+    <arg name="span_filter_v" default = "10"/>
+    <arg name="span_filter_a" default = "10"/>
+    <node pkg="crazyswarm_coflyers" type="crazyswarm_coflyers_node" name="crazyswarm_coflyers_node" output="screen" args="$(arg span_filter_v) $(arg span_filter_a)"/>  
+</launch>

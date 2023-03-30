@@ -1,0 +1,11 @@
+1. 积分用梯形积分，(e(k) - e(k-1))/2*dt的累加，而不是e(k)*dt的累加
+2. 微分加上低通滤波器，比如速度值，系数k=0-1，速度滤波值等于k*速度观测值+(1-k)*上一时刻速度滤波值，k越小，滤波效果越好，但是会使幅值变小。
+
+
+
+备注：
+1.（1）输入
+发现simulink的S function中输入信号的内存不是连续的，包括同一端口号内的数据，但数据的地址的存储内存是连续的，通过ssSetInputPortRequiredContiguous(S,id,1)可以使同一端口号内的数据内存连续然后可以用ssGetInputPortRealSignal，但是不同端口号的数据仍然不是连续的（这里有个疑惑，用constant作为输入，可以连续获取到数据，但是变化的数据不行）。
+所以要通过指针连续获得不同端口号的数据，需要用real_T **u = (real_T**) ssGetInputPortSignalPtrs(S,0);，**u++可以遍历全部
+（2）输出
+输出信号倒是连续的，可以用real_T *y    = ssGetOutputPortRealSignal(S,0);，*y++遍历全部

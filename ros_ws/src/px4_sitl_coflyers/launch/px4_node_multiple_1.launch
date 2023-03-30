@@ -1,0 +1,27 @@
+<launch>
+    <arg name="ipLocal_" value = "192.168.2.3"/>
+    <arg name="ipTarget_" value = "192.168.2.5"/>
+    <arg name ="N" default = "20"/>
+    <arg name ="deltaX" default = "2.42"/>
+    <arg name = "N2" default = "$(eval floor(sqrt(arg('N'))))"/>
+    <arg name = "N2_1" value = "$(eval floor((arg('N')-1)/arg('N2'))/2)"/>
+    <arg name = "X0" value = "-28"/>
+    <arg name = "Y0" value = "0"/>
+    <arg name = "ID_start" value = "0"/>
+
+    <!-- UAV0 -->
+    <group ns="uav0">
+        <arg name="ID" value="0"/>
+        <include file="$(find px4_sitl_coflyers)/launch/px4_node_single.launch">
+            <arg name="x" value="$(eval ((arg('ID')+arg('ID_start'))%arg('N2'))*arg('deltaX') + arg('X0') )"/>
+            <arg name="y" value="$(eval (-arg('N2_1')+floor((arg('ID')+arg('ID_start'))/arg('N2')))*arg('deltaX') + arg('Y0')  )"/>
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="ipLocal" default = "$(arg ipLocal_)"/>
+            <arg name="portLocal" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2 + 1)"/>
+            <arg name="ipTarget" default = "$(eval ipTarget_)"/>
+            <arg name="portTarget" default = "$(eval 21000 + (arg('ID') + arg('ID_start'))*2)"/>
+            <arg name="portTargetBat" default = "$(eval 20000 + (arg('ID') + arg('ID_start'))*2)"/>
+        </include>
+    </group>
+
+</launch>
