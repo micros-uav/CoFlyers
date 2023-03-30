@@ -39,17 +39,17 @@ The prototype simulator is written in MATLAB and has three functions:
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/couzin.png" alt="1111111" height="400">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">Theoretical research of collective motion with the Couzin algorithm (a) swarm (b) torus (c) dynamic parallel group (d) highly parallel group </div>
-</center>
+</p>
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/lidar_and_map.png" alt="1111111" height="300">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -57,20 +57,20 @@ The prototype simulator is written in MATLAB and has three functions:
     color: #999;
     padding: 2px;">  Simulated environment and LIDAR
  </div>
-</center>
+</p>
 
 * Parameter auto-tuning for getting the optimized parameters
-<center>
+<p align="center">
 <img src="./docs/images/auto_tuning.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;"> Parameter auto-tuning of the Vásárhelyi algorithm </div>
-</center>
+</p>
 
 * Batch processing for obtaining the impact of internal and external parameters on swarm performances
-<center>
+<p align="center">
 <img src="./docs/images/batch_processing.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -78,7 +78,7 @@ The prototype simulator is written in MATLAB and has three functions:
     color: #999;
     padding: 2px;"> Impact of the control sampling time and velocity noise on swarm velocity correlation using the Vásárhelyi algorithm
  </div>
-</center>
+</p>
 
 <br>
 
@@ -88,9 +88,9 @@ The verification system for drone swarm is written in MATLAB&Simulink and it use
 * High-fidelity simulation with ROS&PX4&Gazebo
 * Experimental verification with Tello&Optitrack
 * Experimental verification with Crazyswarm
-<center>
+<p align="center">
 <img src="./docs/images/gazebo_tello_crazyflie.png" alt="1111111" height="200">
-</center>
+</p>
 
 
 # Requirements
@@ -132,7 +132,7 @@ catkin_make
 
 # Overview
 
-<center>
+<p align="center">
 <img src="./docs/images/overall_architecture.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -140,11 +140,11 @@ catkin_make
     color: #999;
     padding: 2px;">  Overall architecture of the platform
  </div>
-</center>
+</p>
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/architecture_prototype.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -152,13 +152,13 @@ catkin_make
     color: #999;
     padding: 2px;">  Architecture of prototype simulator
  </div>
-</center>
+</p>
 
 
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/gui.png" alt="1111111" height="500">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -166,11 +166,11 @@ catkin_make
     color: #999;
     padding: 2px;">  Graphical user interface
  </div>
-</center>
+</p>
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/simulink_simulator.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -178,11 +178,11 @@ catkin_make
     color: #999;
     padding: 2px;">  Architecture of simulink simulation
  </div>
-</center>
+</p>
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/architecture_gazebo.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -190,11 +190,11 @@ catkin_make
     color: #999;
     padding: 2px;">  Architecture of the simulation with ROS&PX4&Gazebo
  </div>
-</center>
+</p>
 
 <br>
 
-<center>
+<p align="center">
 <img src="./docs/images/architecture_tello.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -202,11 +202,11 @@ catkin_make
     color: #999;
     padding: 2px;">  Architecture of the experimental verification with Tellos&Optitrack
  </div>
-</center>
+</p>
 
 <br>>
 
-<center>
+<p align="center">
 <img src="./docs/images/architecture_crazyswarm.png" alt="1111111" height="200">
 <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -214,7 +214,7 @@ catkin_make
     color: #999;
     padding: 2px;">  Architecture of the experimental verification with Crazyswarm
  </div>
-</center>
+</p>
 
 
 # A step-by-step example
