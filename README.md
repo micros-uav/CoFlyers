@@ -31,12 +31,15 @@ The prototype simulator is written in MATLAB and has three functions:
 <p align="center">
 <img src="./docs/images/rp.png" alt="1111111" height="200">
 <br>
+</p>
+
+<center>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
     padding: 2px;">Collective motion in confined environments with the Vásárhelyi algorithm </div>
-</p>
-
+</center>
+    
 <br>
 
 <p align="center">
