@@ -195,13 +195,16 @@ Architecture of the experimental verification with Crazyswarm
 Our platform has integrated three algorithms: [Vásárhelyi](https://www.science.org/doi/10.1126/scirobotics.aat3536), Vásárhelyi+[will](http://dx.doi.org/10.1098/rsif.2019.0853), and [Couzin](https://www.sciencedirect.com/science/article/pii/S0022519302930651?via%3Dihub). The deployment of the Vásárhelyi algorithm has been described in the relevant paper on *CoFlyers*. To enable users to understand the use of Coflyers more quickly, here is an example of deploying a new algorithm theory on *CoFlyers* step by step.
 
 The algorithm is a variant of the Vásárhelyi algorithm used to cross a area with dense obstacles. The desired velocity formula on the horizontal plane of the ith individual is as follows:
-$$ \boldsymbol{v}^d_i=v^{flock}((1-\omega)\frac{\boldsymbol{v}_i}{|\boldsymbol{v}_i|}+\omega\boldsymbol{v}^t) + \boldsymbol{v}_i^{frict} + \boldsymbol{v}_i^{rep} + \sum_s{\boldsymbol{v}_{is}^{shill}}$$
+
+<!-- $$ \boldsymbol{v}^d_i=v^{flock}((1-\omega)\frac{\boldsymbol{v}_i}{|\boldsymbol{v}_i|}+\omega\boldsymbol{v}^t) + \boldsymbol{v}_i^{frict} + \boldsymbol{v}_i^{rep} + \sum_s{\boldsymbol{v}_{is}^{shill}}$$ -->
+$$ {v}^d_i=v^{flock}((1-\omega)\frac{{v}_i}{|{v}_i|}+\omega{v}^t) + {v}_i^{frict} + {v}_i^{rep} + \sum_s{{v}_{is}^{shill}}$$
 
 where the first term is a tadeoff between self velocity direction and target direction with a constant $\omega$ between 0 and 1. The other three terms are used for ailgnment, repulsion and obstacle avoidance. See the original article of the Vásárhelyi algorithm for details. In addition, keep the agent at a specific height in the altitude direction.
 
 In order to evaluate the performance of swarm, five metrics corresponding to the algorithm are proposed as follows:
 * One function of the first term of the algorithm is to maintain agents' speed on $v^{flock}$. To evaluate this performance, a speed maintenance metric is used:
 $$ \phi^{vel}=\sum^N_{i=1}|\boldsymbol{v}_i|/N/v^{flock} $$
+
 * Another function of the first item  is to achieve the main purpose of crossing a area with obstacles to the target area. For this purpose, a crossing completion metric is used:
 $$\phi^{cross}=\sum^N_{i=1}\frac{1-T^{end}_i}{T}/N$$
 where $T^{end}_i$ is the consuming time and T is the total time.
