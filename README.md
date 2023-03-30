@@ -1,11 +1,12 @@
-<p size =10>***CoFlyers***</p>
-
-<br>
-<font size =6.7>**Contents**</font>
+# CoFlyers {ignore=true}
+CoFlyers: a universal platform for collective flying of swarm drones
+# Contents {ignore=true}
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
+- [CoFlyers {ignore=true}](#coflyers-ignoretrue)
+- [Contents {ignore=true}](#contents-ignoretrue)
 - [Introduction](#introduction)
 - [Requirements](#requirements)
 - [Installation](#installation)
