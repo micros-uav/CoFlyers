@@ -40,7 +40,7 @@
         <follow_agent value="0"/>
         <activate_save_figure value="0"/>
         <activate_save_video value="0"/>
-        <dim_visual value="2"/>
+        <dim_visual value="3"/>
         <time_interval_trajectory value="20"/>
         <video_speed value="10"/> <!-- frame rate -->
     </visual>
