@@ -1,0 +1,182 @@
+<CoFlyers>
+    <!-- Note:
+    1: using field.subfield to reference a declared variable.
+    2: allowing to use MATLAB commands in 'value'.
+    3. adding a suffix to the variable name will ignore the creation of the variable, but it can still be referenced in this file
+    -->
+
+    <!-- global settings -->
+    <number value="5"/> 
+    <time_max value="100"/>
+    <sample_time_motion value="0.0025"/>
+    <sample_time_control_upper value="0.1"/>
+    <sample_time_control_bottom value="0.01"/>  
+    <activate_save_states value="1"/>
+    <time_interval_save value="1"/>
+    <!-- 0: point-mass, 
+           1: quadcoper. You must set a fast rate of bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
+           2: point-mass-rotation
+    -->
+    <motion_model_type value="1"/>
+    <swarm_algorithm_type value="1"/>
+    <evaluation_metric_type value="0"/>
+    
+    <!-- Init position and velocity -->
+    <NSqrt__ value="ceil(sqrt(CoFlyers.number))"/>
+    <delta_r__ value = "1.0"/>
+    <position__ value="[(mod(0:CoFlyers.number-1,CoFlyers.NSqrt__))*CoFlyers.delta_r__ + CoFlyers.map.x_range(1) + CoFlyers.delta_r__;
+    (floor((0:CoFlyers.number-1)/CoFlyers.NSqrt__) - floor((CoFlyers.number-1)/CoFlyers.NSqrt__)/2)*CoFlyers.delta_r__;
+    zeros(1,CoFlyers.number)+1.0]"/>
+    
+    <!-- visualization module -->
+    <visual>
+        <activate_plot value="1"/>
+        <time_interval_plot value="1"/>
+        <activate_trajectory value="1"/>
+        <follow_agent value="0"/>
+        <activate_save_figure value="0"/>
+        <activate_save_video value="0"/>
+        <dim_visual value="3"/>
+        <time_interval_trajectory value="20"/>
+        <video_speed value="10"/> <!-- frame rate -->
+    </visual>
+    
+    <noise>
+        <velocity_noise value="0.05"/>
+    </noise>
+
+    <swarm>
+        <Vasarhelyi>
+            <r_com value="4"/>
+            <v_flock value="0.2"/>
+            <r_rep_0 value="0.861723"/>
+            <p_rep value="0.923553"/>
+            <r_frict_0 value="5.693489"/>
+            <c_frict value="0.155726"/>
+            <v_frict value="0.057981"/>
+            <p_frict value="4.506540"/>
+            <a_frict value="0.401540"/>
+            <r_shill_0 value="0.968532"/>
+            <v_shill value="0.943399"/>
+            <p_shill value="1.980570"/>
+            <a_shill value="0.223193"/>
+            <v_max value="CoFlyers.swarm.Vasarhelyi.v_flock*1.2"/>
+            <dim value = "2"/>
+            <height values = "0.7"/>
+            <dr_shill value="0.1"/>
+            <pos_shill-vel_shill value = "map_module_generate_shill_agent(map3d_faces,...
+                                          map3d_struct,...
+                                          CoFlyers.swarm.Vasarhelyi.dr_shill,...
+                                          CoFlyers.swarm.Vasarhelyi.dim,...
+                                          CoFlyers.swarm.Vasarhelyi.height)"/>
+        </Vasarhelyi>
+
+        <Vasarhelyi_will>
+            <r_com value="4"/>
+            <v_flock value="0.2"/>
+            <tau_will value="1"/>
+            <r_rep_0 value="0.861723"/>
+            <p_rep value="0.923553"/>
+            <r_frict_0 value="5.693489"/>
+            <c_frict value="0.155726"/>
+            <v_frict value="0.057981"/>
+            <p_frict value="4.506540"/>
+            <a_frict value="0.401540"/>
+            <r_shill_0 value="0.968532"/>
+            <v_shill value="0.943399"/>
+            <p_shill value="1.980570"/>
+            <a_shill value="0.223193"/>
+            <v_max value="CoFlyers.swarm.Vasarhelyi_will.v_flock*1.2"/>
+            <dim value = "2"/>
+            <height values = "0.7"/>
+            <dr_shill value="0.1"/>
+            <pos_shill-vel_shill value = "map_module_generate_shill_agent(map3d_faces,...
+                                          map3d_struct,...
+                                          CoFlyers.swarm.Vasarhelyi_will.dr_shill,...
+                                          CoFlyers.swarm.Vasarhelyi_will.dim,...
+                                          CoFlyers.swarm.Vasarhelyi_will.height)"/>
+        </Vasarhelyi_will>
+    </swarm>
+    
+    <evaluation>
+        <evaluation_0>
+            <v_flock value="CoFlyers.swarm.Vasarhelyi.v_flock"/>
+            <r_coll value="0.4"/>
+            <a_tol value="0.00003"/>
+        </evaluation_0>
+    </evaluation>
+    
+
+    
+    <sensor_env>
+        <activate_sensor value = "0"/>
+        <lidar>
+            <resolution value="2*pi/359"/>
+            <r_sense_min value="0.15"/>
+            <r_sense_max value="3.00"/>
+            <phi_range value=" [0;0]"/>
+            <psi_range value="[-pi;pi]"/>
+        </lidar>
+    </sensor_env>
+
+    <motion>
+        <point_mass>
+            <a_max value="2"/>
+            <v_max value="1.5"/>
+            <T_p value="1"/>
+            <T_v value="1"/>
+        </point_mass>
+        
+        <quadcopter>
+            <gravity value="9.81"/>
+            <inertia value="2.90833e-4; 2.90833e-4; 5.4e-4"/>
+            <mass value="0.092"/>
+            <len_arm value="0.06"/>
+            <v_max_h value="1.5"/>
+            <v_max_v value="1.0"/>
+            <yaw_rate_max value="0.5"/>
+            <a_max_h value="2"/>
+            <a_max_v value="2"/>
+            <euler_max value="15*pi/180"/>
+            <thrust_max value="2.2563"/>
+            <ct value="1.2220e-07"/>
+            <cm value="3.0000e-09"/>
+            <T_rotor_inverse value="20"/>
+            <kp_att value="0.08725; 0.08725; 0.16200"/>
+            <kd_att value="0.0175; 0.0175; 0.0324"/>
+            <kp_pos value="1;1;1;0.1"/>
+            <ki_pos value="0;0;0;0"/>
+            <kd_pos value="0;0;0;0"/>
+            <cd_filter_pos value="0.4"/>
+            <lb_pos_pid value="-2;-2;-2;-2"/>
+            <ub_pos_pid value="2;2;2;2"/>
+            <kp_vel value="2.2;2.2;1"/>
+            <ki_vel value="0; 0; 0"/>
+            <kd_vel value="0; 0; 0"/>
+            <cd_filter_vel value="0.4"/>
+            <lb_vel_pid value="-2;-2;-2"/>
+            <ub_vel_pid value="2;2;2"/>
+        </quadcopter>
+
+        <point_mass_rotation>
+            <speed_max value="3"/>
+            <theta_max value="0.7"/>
+            <T_p value="0.1"/>
+        </point_mass_rotation>
+
+    </motion>
+
+    <map>
+        <activate value="1"/>
+        <x_range value="-8 8"/> <!-- set value to "" to ignore the range -->
+        <y_range value="-8 8"/>
+        <z_range value="0 3"/>
+        <x_color value="0.5 0.5 0.5"/>
+        <x_alpha value="0.2"/>
+        <y_color value="0.5 0.5 0.5"/>
+        <y_alpha value="0.2"/>
+        <z_color value="0.5 0.5 0.5"/>
+        <z_alpha value="0"/>
+    </map>
+</CoFlyers>
+

@@ -1,0 +1,52 @@
+<map3d>
+    <activate> 1 </activate>
+
+    <ignore_range> 0 </ignore_range>
+    <xrange>-2 2 </xrange>
+    <yrange>-3 3 </yrange>
+    <zrange>  0 2 </zrange>
+    <color>0.5 0.5 0.5</color>
+    <alpha>0.2</alpha>
+    
+    <model>
+        <stl> cube.stl </stl>
+        <scale> 0.5 0.5 0.5</scale>
+        <position> 0 -1.5 1</position>
+        <rotation> 0 0 0</rotation>
+        <color>1 0 0</color>
+        <alpha>0.5</alpha>
+        <static> 0 </static>
+        <id> 1 </id>
+    </model>
+
+    <model>
+        <stl> ring_rough.stl </stl>
+        <scale> 1 1 1</scale>
+        <position> 0 1 1</position>
+        <rotation> 0 0 90</rotation>
+        <color>0.5 0.5 0.5</color>
+        <alpha>0.5</alpha>
+        <static> 1 </static>
+    </model>
+
+    <model>
+        <stl> sphere_rough.stl </stl>
+        <scale> 0.5 0.5 0.5</scale>
+        <position> 0 2 1</position>
+        <rotation> 0 0 0</rotation>
+        <color>0.5 0.5 0.5</color>
+        <alpha>0.5</alpha>
+        <static> 1 </static>
+    </model>
+
+    <model>
+        <stl> cylinder_rough.stl </stl>
+        <scale> 1 1 1</scale>
+        <position> 0 0 1</position>
+        <rotation> 0 0 0</rotation>
+        <color>0.5 0.5 0.5</color>
+        <alpha>0.5</alpha>
+        <static> 1 </static>
+    </model>
+
+</map3d>

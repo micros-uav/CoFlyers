@@ -105,6 +105,7 @@ unsigned int inputNumber = 6;
 /*
  * Check to make sure that each parameter is 1-d and positive
  */
+
 static void mdlCheckParameters(SimStruct *S)
 {
     // const int lenIP = 16;
@@ -115,10 +116,13 @@ static void mdlCheckParameters(SimStruct *S)
     int number = (int)floor((*numPtr)+0.5);
     int portLocal = (int)floor((*portLocalPtr)+0.5);
     int portTarget = (int)floor((*portTargetPtr)+0.5);
-    char ipLocal[LEN_IP_STRING];
+    //char ipLocal[LEN_IP_STRING];
     const double *ipTargetPtr = (double*)getIpTargetMxArrayPtr(S);
-
-    mxGetString(getIpLocalMxArrayPtr(S), ipLocal, LEN_IP_STRING);
+    const char *ipLocal = mxArrayToString(getIpLocalMxArrayPtr(S));
+    //const char *ipLocal = getIpLocalPtr(S);
+    
+    //printf("%s %d %ld\n",ipLocal, strlen(ipLocal), inet_addr(ipLocal));
+    //mxGetString(getIpLocalMxArrayPtr(S), ipLocal, LEN_IP_STRING);
     //mxGetString(getIpTargetMxArrayPtr(S), ipTarget, LEN_IP_STRING);
     const double *inputPortWidth = getInputPortWidthPtr(S);
     const double *outputPortWidth = getOutputPortWidthPtr(S);
@@ -278,9 +282,9 @@ static void mdlInitializeSampleTimes(SimStruct *S)
     int number = (int)floor((*numPtr)+0.5);
     int portLocal = (int)floor((*portLocalPtr)+0.5);
     int portTarget = (int)floor((*portTargetPtr)+0.5);
-    char ipLocal[LEN_IP_STRING];
-    mxGetString(getIpLocalMxArrayPtr(S), ipLocal, LEN_IP_STRING);
-
+    //char ipLocal[LEN_IP_STRING];
+    //mxGetString(getIpLocalMxArrayPtr(S), ipLocal, LEN_IP_STRING);
+    const char *ipLocal = mxArrayToString(getIpLocalMxArrayPtr(S));
     const double *ipTargetPtr = (double*)getIpTargetMxArrayPtr(S);
     char ipTarget[LEN_IP_STRING]{};
     int dot_count = 0;

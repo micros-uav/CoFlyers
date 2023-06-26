@@ -1,5 +1,5 @@
 function performances_mean = model_swarm_repeat(mode_simulation, ...
-    parameters_op, parameters_bp, Nr, txtName)
+    parameters_op, parameters_bp, Nr, txtName, flag_parallel)
 %MODEL_SWARM_REPEAT repeats running "model_swarm" to get the average of Nr
 %simulations
 %INPUT:
@@ -13,20 +13,20 @@ if Nr < 1
     return
 end
 
-parameters_setting = parameters_setting_get([],mode_simulation);
-
-%%% Run the model once to get the dimension of the output
-values = model_swarm(parameters_setting, parameters_op, parameters_bp,1);
-values_all = zeros([length(values),Nr]);
-values_all(:,1) = values;
-
 %%% Repeat simulation
-for i = 2:Nr
-    values = model_swarm(parameters_setting, parameters_op, parameters_bp,i);
-    values_all(:,i) = values;
+values_all = [];
+if flag_parallel
+    parfor i = 1:Nr
+        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation);
+        values_all(:,i) = values;
+    end
+else
+    for i = 1:Nr
+        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation);
+        values_all(:,i) = values;
+    end
 end
 value_mean = mean(values_all,2);
-
 
 %%% Save the ouput performances and parameters when auto-tuning
 if ~isempty(txtName) && mode_simulation == 1
@@ -41,16 +41,16 @@ if ~isempty(txtName) && mode_simulation == 1
     first_create = isempty(dir(whole_name));
     myTxT = fopen(whole_name,'a');
     if first_create
-        for i = 1:length(parameters_op)
-            fprintf(myTxT,"param_%d\t",i);
+        for i = 1:length(parameters_op.param_name_s)
+            fprintf(myTxT,"%s\t",parameters_op.param_name_s{i});
         end
         for i = 1:length(value_mean)
             fprintf(myTxT,"value_%d\t",i);
         end
         fprintf(myTxT,"\n");
     end
-    for i = 1:length(parameters_op)
-        fprintf(myTxT,"%f\t",parameters_op(i));
+    for i = 1:length(parameters_op.param_name_s)
+        fprintf(myTxT,"%f\t",parameters_op.param_value_s{i});
     end
     for i = 1:length(value_mean)
         fprintf(myTxT,"%f\t",value_mean(i));

@@ -1,18 +1,18 @@
-clc;close all;
+clc;
+close all;
 mode_simulation       = 0; % 0 Running test, 1 Auto-tuning, 2 Patch processing
 if ~exist('app','var')
     app = [];
 end
-parameters_settings = parameters_setting_get(app,mode_simulation);
+parameters_gui = get_params_from_gui(app);
 parameters_auto_tuning = [];
 parameters_batch_processing    = [];
 
 % ts = tic;
 % repeat_num = 1;
 % for i = 1:repeat_num
-
 tic
-values = model_swarm(parameters_settings, parameters_auto_tuning, parameters_batch_processing,1);
+values = model_swarm(parameters_gui, parameters_auto_tuning, parameters_batch_processing,1, mode_simulation);
 disp(values');
 toc
 

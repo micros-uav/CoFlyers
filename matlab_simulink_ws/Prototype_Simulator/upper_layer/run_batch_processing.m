@@ -1,4 +1,4 @@
-function results = run_batch_processing(flag_use_parallel,...
+function results = run_batch_processing(flag_use_parallel, type_parallel,...
     repeat_times, parameters_bp_s)
 %RUN_BATCH_PROCESSING Summary of this function goes here
 %   Detailed explanation goes here
@@ -9,15 +9,23 @@ results = [];
 
 %%% Traverse
 if flag_use_parallel
-    parfor k = 1:size(parameters_bp_s,3)
-        parameters_bp = parameters_bp_s(:,:,k);
-        results(:,k) = model_swarm_repeat(mode_simulation, [],parameters_bp,repeat_times,[]); 
-        disp(['No.',num2str(k),': ',num2str(results(:,k)')])
+    if type_parallel == 1
+        parfor k = 1:length(parameters_bp_s)
+            parameters_bp = parameters_bp_s(k);
+            results(:,k) = model_swarm_repeat(mode_simulation, [],parameters_bp,repeat_times,[],false);
+            disp(['No.',num2str(k),': ',num2str(results(:,k)')])
+        end
+    else
+        for k = 1:length(parameters_bp_s)
+            parameters_bp = parameters_bp_s(k);
+            results(:,k) = model_swarm_repeat(mode_simulation, [],parameters_bp,repeat_times,[],true);
+            disp(['No.',num2str(k),': ',num2str(results(:,k)')])
+        end
     end
 else
-    for k = 1:size(parameters_bp_s,3)
-        parameters_bp = parameters_bp_s(:,:,k);
-        results(:,k) = model_swarm_repeat(mode_simulation, [],parameters_bp,repeat_times,[]); 
+    for k = 1:length(parameters_bp_s)
+        parameters_bp = parameters_bp_s(k);
+        results(:,k) = model_swarm_repeat(mode_simulation, [],parameters_bp,repeat_times,[],false); 
         disp(['No.',num2str(k),': ',num2str(results(:,k)')])
     end
 end
