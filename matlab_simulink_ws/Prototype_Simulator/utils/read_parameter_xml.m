@@ -109,7 +109,7 @@ path_here = path_here(1:end-18);
 [values, values_name, modules_name] = get_values_and_names(params);
 
 %%% write setting parameter %%%
-dir_name_1 = strcat(path_here,"..\combine_modules");
+dir_name_1 = strcat(path_here,"../combine_modules");
 if ~exist(dir_name_1,'dir')
     mkdir(dir_name_1);
 end
@@ -121,11 +121,11 @@ clear setting_parameters.m
 for ii = 1:length(modules_name)
     module_name = modules_name(ii);
     [values, values_name, submodules_name] = get_values_and_names(params.(module_name));
-    dir_name_1 = strcat(path_here,"..\lower_layers");
+    dir_name_1 = strcat(path_here,"../lower_layers");
     if ~exist(dir_name_1,'dir')
         mkdir(dir_name_1);
     end
-    dir_name_2 = strcat(dir_name_1,"\", module_name, "_module");
+    dir_name_2 = strcat(dir_name_1,"/", module_name, "_module");
     if ~exist(dir_name_2,'dir')
         mkdir(dir_name_2);
     end
@@ -138,7 +138,7 @@ for ii = 1:length(modules_name)
         for jj = 1:length(submodules_name)
             submodule_name = submodules_name(jj);
             [values, values_name] = get_values_and_names(params.(module_name).(submodule_name));
-            dir_name_3 = strcat(dir_name_2,"\", submodule_name, "_module");
+            dir_name_3 = strcat(dir_name_2,"/", submodule_name, "_module");
             if ~exist(dir_name_3,'dir')
                 mkdir(dir_name_3);
             end
@@ -151,7 +151,7 @@ end
 
 %% Write swarm module
 %%% Write swarm_module_generate_desire.m %%%
-dir_name_sm = strcat(path_here,"..\lower_layers\swarm_module");
+dir_name_sm = strcat(path_here,"../lower_layers/swarm_module");
 file_name_sm = "swarm_module_generate_desire";
 field_names_swarm  = fieldnames(CoFlyers.swarm);
 ind_subswarm = cellfun(@(x)isstruct(CoFlyers.swarm.(x)),field_names_swarm);
@@ -159,7 +159,7 @@ field_names_swarm = field_names_swarm(ind_subswarm);
 write_swarm_module_generate_desire(dir_name_sm, file_name_sm, field_names_swarm);
 %%% Write each function of subswarm model %%%
 for ii = 1:length(field_names_swarm)
-    dir_name_ssm = strcat(path_here,"..\lower_layers\swarm_module\",...
+    dir_name_ssm = strcat(path_here,"../lower_layers/swarm_module/",...
         field_names_swarm{ii},"_module");
     file_name_ssm = strcat(field_names_swarm{ii},"_module_generate_desire");
     [values, values_name] = get_values_and_names(CoFlyers.('swarm').(field_names_swarm{ii}));
@@ -167,7 +167,7 @@ for ii = 1:length(field_names_swarm)
 end
 %% Write evaluation module
 %%% Write evaluation_module_one.m %%%
-dir_name_em = strcat(path_here,"..\lower_layers\evaluation_module");
+dir_name_em = strcat(path_here,"../lower_layers/evaluation_module");
 file_name_em = "evaluation_module_one";
 field_names_eva  = fieldnames(CoFlyers.evaluation);
 ind_subeva = cellfun(@(x)isstruct(CoFlyers.evaluation.(x)),field_names_eva);
@@ -175,7 +175,7 @@ field_names_eva = field_names_eva(ind_subeva);
 write_evaluation_module_one(dir_name_em, file_name_em, field_names_eva);
 
 %%% %%%
-dir_name_em = strcat(path_here,"..\lower_layers\evaluation_module");
+dir_name_em = strcat(path_here,"../lower_layers/evaluation_module");
 file_name_em = "evaluation_module_average";
 field_names_eva  = fieldnames(CoFlyers.evaluation);
 ind_subeva = cellfun(@(x)isstruct(CoFlyers.evaluation.(x)),field_names_eva);
@@ -184,7 +184,7 @@ write_evaluation_module_average(dir_name_em, file_name_em, field_names_eva);
 
 % %%% Write each function of subevaluation model %%%
 for ii = 1:length(field_names_eva)
-    dir_name_sem = strcat(path_here,"..\lower_layers\evaluation_module\",...
+    dir_name_sem = strcat(path_here,"../lower_layers/evaluation_module/",...
         field_names_eva{ii},"_module");
     file_name_sem = strcat(field_names_eva{ii},"_module_one");
     [values, values_name] = get_values_and_names(CoFlyers.('evaluation').(field_names_eva{ii}));
@@ -197,7 +197,7 @@ end
 
 %%
 
-addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
+addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
 
 %%
 %%% Functions %%%
@@ -324,7 +324,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_params_for_file(dir_name, file_name, values, values_name)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
@@ -383,7 +383,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
     end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_swarm_module_generate_desire(dir_name, file_name, field_names)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
@@ -419,7 +419,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
     end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_subswarm_for_file(dir_name, file_name, subswarm_name, values, values_name)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
         if ~exist(file_fullpath,'file')
             %%% write function name %%%
             file_id = fopen(file_fullpath,'w');
@@ -481,7 +481,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
     end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_evaluation_module_one(dir_name, file_name, field_names)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
@@ -509,7 +509,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_evaluation_module_average(dir_name, file_name, field_names)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
@@ -537,7 +537,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_subevaluation_one_for_file(dir_name, file_name, subeva_name, values, values_name)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
         if ~exist(file_fullpath,'file')
             %%% write function name %%%
             file_id = fopen(file_fullpath,'w');
@@ -576,7 +576,7 @@ addpath(genpath(strcat(path_here,"..\..\Prototype_Simulator")));
     end
 
  function write_subevaluation_average_for_file(dir_name, file_name, subeva_name, values, values_name)
-        file_fullpath = strcat(dir_name,"\",file_name,".m");
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
         if ~exist(file_fullpath,'file')
             %%% write function name %%%
             file_id = fopen(file_fullpath,'w');
