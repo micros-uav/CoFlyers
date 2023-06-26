@@ -21,7 +21,7 @@
            1: quadcoper. You must set a fast rate of bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
            2: point-mass-rotation
     -->
-    <motion_model_type value="0"/>
+    <motion_model_type value="0 "/>
     <swarm_algorithm_type value="'Vasarhelyi'"/>
     <evaluation_metric_type value="'evaluation_0'"/>
     
@@ -40,10 +40,9 @@
         <follow_agent value="0"/>
         <activate_save_figure value="0"/>
         <activate_save_video value="0"/>
-        <dim_visual value="3"/>
+        <dim_visual value="2"/>
         <time_interval_trajectory value="20"/>
         <video_speed value="10"/> <!-- frame rate -->
-        <legend_name value='["$\phi^{corr}$","$\phi^{vel}$","$\phi^{coll}$","$\phi^{wall}$","$\phi^{MND}$"]'/>
     </visual>
     
     <!-- noise module -->
