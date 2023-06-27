@@ -12,13 +12,13 @@
     <!-- global settings -->
     <number value="10"/> 
     <time_max value="100"/>
-    <sample_time_motion value="0.1"/>
+    <sample_time_motion value="0.1*(CoFlyers.motion_model_type~=1)+0.0025*(CoFlyers.motion_model_type==1)"/>
     <sample_time_control_upper value="0.1"/>
-    <sample_time_control_bottom value="0.1"/>  
+    <sample_time_control_bottom value="0.1*(CoFlyers.motion_model_type~=1)+0.0025*(CoFlyers.motion_model_type==1)"/>  
     <activate_save_states value="0"/>
     <time_interval_save value="1"/>
     <!-- 0: point-mass, 
-           1: quadcoper. You must set a fast rate of bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
+           1: quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
            2: point-mass-rotation
     -->
     <motion_model_type value="0 "/>
