@@ -22,7 +22,11 @@ velDesired = zeros(4,size(states,2));
 accDesired = zeros(4,size(states,2));
 control_mode_s = uint8(zeros(1,number)) + 7;
 
-[r_com,~,tau_will] = Vasarhelyi_will_module_parameters();
+file_name_param = 'Vasarhelyi_will_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
+
+[r_com,~,tau_will] = fun_params();
 
 for id  = 1:number
     state_i = states(:,id);

@@ -5,6 +5,8 @@ function values = evaluation_module_one(t, states, map3d_faces, map3d_struct,eva
 switch evaluation_metric_type
 	case 'evaluation_0'
 		values = evaluation_0_module_one(t, states, map3d_faces, map3d_struct);
+	case 'user_evaluation'
+		values = user_evaluation_module_one(t, states, map3d_faces, map3d_struct);
 	otherwise
 		values = [];
 end

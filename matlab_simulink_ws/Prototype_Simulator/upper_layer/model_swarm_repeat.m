@@ -50,7 +50,8 @@ if ~isempty(txtName) && mode_simulation == 1
         fprintf(myTxT,"\n");
     end
     for i = 1:length(parameters_op.param_name_s)
-        fprintf(myTxT,"%f\t",parameters_op.param_value_s{i});
+%         fprintf(myTxT,"%f\t",parameters_op.param_value_s{i});
+        fprintf(myTxT,"%s\t",parameters_op.param_value_s{i});
     end
     for i = 1:length(value_mean)
         fprintf(myTxT,"%f\t",value_mean(i));

@@ -55,17 +55,18 @@
         <Vasarhelyi>
             <r_com value="4"/>
             <v_flock value="0.2"/>
-            <r_rep_0 value="0.861723"/>
-            <p_rep value="0.923553"/>
-            <r_frict_0 value="5.693489"/>
-            <c_frict value="0.155726"/>
-            <v_frict value="0.057981"/>
-            <p_frict value="4.506540"/>
-            <a_frict value="0.401540"/>
-            <r_shill_0 value="0.968532"/>
-            <v_shill value="0.943399"/>
-            <p_shill value="1.980570"/>
-            <a_shill value="0.223193"/>
+            <r_rep_0 value="0.68958"/>
+            <p_rep value="0.95398"/>
+            <r_frict_0 value="5.6507"/>
+            <c_frict value="0.31105"/>
+            <v_frict value="0.10056"/>
+            <p_frict value="2.6554"/>
+            <a_frict value="0.28243"/>
+            <r_shill_0 value="0.31146"/>
+            <v_shill value="0.60997"/>
+            <p_shill value="9.4705"/>
+            <a_shill value="0.45071"/>
+
             <v_max value="CoFlyers.swarm.Vasarhelyi.v_flock*1.2"/>
             <dim value = "2"/>
             <height values = "0.7"/>
@@ -115,6 +116,11 @@
             <r_coll value="0.4"/>
             <a_tol value="0.00003"/>
         </evaluation_0>
+
+        <user_evaluation>
+            <v_flock value="CoFlyers.swarm.Vasarhelyi.v_flock"/>
+
+        </user_evaluation>
     </evaluation>
     
 
@@ -189,9 +195,9 @@
     -->
     <map>
         <activate value="1"/>
-        <x_range value="-8;8"/> <!-- set value to "" to ignore the range -->
-        <y_range value="-8;8"/>
-        <z_range value="0;3"/>
+        <x_range value="-4;4"/> <!-- set value to "" to ignore the range -->
+        <y_range value="-4;4"/>
+        <z_range value="0;2"/>
         <x_color value="0.5;0.5;0.5"/>
         <x_alpha value="0.2"/>
         <y_color value="0.5;0.5;0.5"/>
@@ -199,6 +205,7 @@
         <z_color value="0.5;0.5;0.5"/>
         <z_alpha value="0"/>
 
+    <!--  
         <model>
             <stl value="cylinder_rough.stl"/>
             <scale value="1;1;1"/>
@@ -218,7 +225,7 @@
             <alpha value="0.5"/>
             <static value="0"/> 
             <id value="1"/>
-        </model>
+        </model>-->
     </map>
 
 

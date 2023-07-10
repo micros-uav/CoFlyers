@@ -16,7 +16,13 @@ function [command_upper_s,control_mode_s] =user_swarm_module_generate_desire(t, 
 % Parameters only be generated once by read_parameter_xml.m.
 % If you change the parameters of your swarm submodule, you need to
 % get parameters by user_swarm_module_parameters()
-[r_com] = user_swarm_module_parameters();
+
+% The following operations are for multi-core parallel computing.
+file_name_param = 'user_swarm_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
+
+[r_com] = fun_params();
 
 %
 number = size(states,2);

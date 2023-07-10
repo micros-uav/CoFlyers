@@ -6,10 +6,13 @@ function commands_bottom = pmr_control(t, states,xyz_ds, vxyz_d_fws,control_mode
 %    0b001000: height maintenance
 
 %%% Get paramters
+file_name_param = 'point_mass_rotation_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
 
 [speed_max,...
 theta_max,...
-T_p] = point_mass_rotation_module_parameters();
+T_p] = fun_params();
 
 if bitand(control_mode,0b001000) == 0
     n = size(states,2);

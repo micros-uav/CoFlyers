@@ -16,11 +16,14 @@ function commands_bottom = pm_control(t, states,xyz_ds, vxyz_d_fws, ...
 %    0b100000: add acceleration feedforword, vertical
 
 %%% Get paramters
+file_name_param = 'point_mass_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
 
 [a_max,...
 v_max,...
 T_p,...
-T_v] = point_mass_module_parameters();
+T_v] = fun_params();
 
 %%% Calculate desired velocity
 vxyz_d = (xyz_ds - states(1:3,:))/T_p;

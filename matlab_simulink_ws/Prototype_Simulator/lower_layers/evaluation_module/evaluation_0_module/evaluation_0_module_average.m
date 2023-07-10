@@ -4,9 +4,13 @@ function values = evaluation_0_module_average(time_series, values_series)
 v_tol = 0;
 r_tol = 0;
 
+file_name_param = 'evaluation_0_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
+
 [v_flock,...
 r_coll,...
-a_tol] = evaluation_0_module_parameters();
+a_tol] = fun_params();
 
 phiCorr = mean(values_series(1,:));
 phiVel  = mean(values_series(2,:));

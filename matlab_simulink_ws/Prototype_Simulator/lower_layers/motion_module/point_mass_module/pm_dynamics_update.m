@@ -2,10 +2,15 @@ function [states,dstates] = pm_dynamics_update(t, states,commands_bottom,sample_
 %PM_DYNAMICS_UPDATE Summary of this function goes here
 %   Detailed explanation goes here
 
+
+file_name_param = 'point_mass_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
+
 [a_max,...
 v_max,...
 T_p,...
-T_v] = point_mass_module_parameters();
+T_v] = fun_params();
 
 axyz = commands_bottom;
 

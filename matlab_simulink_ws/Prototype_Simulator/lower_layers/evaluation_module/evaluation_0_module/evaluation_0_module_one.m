@@ -1,9 +1,14 @@
 function values = evaluation_0_module_one(t, states, map3d_faces, map3d_struct)
 %EVALUATION_MODEL_ONE 
 
+file_name_param = 'evaluation_0_module_parameters';
+[~,str_core] = get_multi_core_value();
+fun_params = str2func([file_name_param, str_core]);
+
 [v_flock,...
 r_coll,...
-a_tol] = evaluation_0_module_parameters();
+a_tol] = fun_params();
+
 
 number = size(states,2); 
 position = states(1:2,:);

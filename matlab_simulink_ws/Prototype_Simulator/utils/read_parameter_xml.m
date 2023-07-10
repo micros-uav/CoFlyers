@@ -1,6 +1,10 @@
 function [map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml(file_name,ps_mofify)
 %READ_PARAMETER_XML Summary of this function goes here
 %   Detailed explanation goes here
+
+[flag_parallel,str_core] = get_multi_core_value();
+
+% 
 if nargin < 1
     file_name = "parameters.xml";
     ps_mofify = struct("param_name_s",[],"param_value_s",[]);
@@ -11,6 +15,11 @@ end
 if isempty(file_name)
     file_name = "parameters.xml";
 end
+
+% Get the creation time of the xml file
+xml_file = dir(file_name);
+ctime_xml = datenum(xml_file.date);
+%
 
 % translate xml to struct
 % 
@@ -113,7 +122,8 @@ dir_name_1 = strcat(path_here,"../combine_modules");
 if ~exist(dir_name_1,'dir')
     mkdir(dir_name_1);
 end
-write_params_for_file(dir_name_1, "setting_parameters", values, values_name);
+file_name = strcat("setting_parameters",str_core);
+write_params_for_file(dir_name_1, file_name, values, values_name, flag_parallel);
 
 clear setting_parameters.m
 
@@ -129,8 +139,8 @@ for ii = 1:length(modules_name)
     if ~exist(dir_name_2,'dir')
         mkdir(dir_name_2);
     end
-    file_name = strcat(module_name,"_module_parameters");
-    write_params_for_file(dir_name_2, file_name, values, values_name);
+    file_name = strcat(module_name,"_module_parameters",str_core);
+    write_params_for_file(dir_name_2, file_name, values, values_name, flag_parallel);
     clear(strcat(file_name,".m"))
 
     %%% has submodules
@@ -142,8 +152,8 @@ for ii = 1:length(modules_name)
             if ~exist(dir_name_3,'dir')
                 mkdir(dir_name_3);
             end
-            file_name = strcat(submodule_name,"_module_parameters");
-            write_params_for_file(dir_name_3, file_name, values, values_name);
+            file_name = strcat(submodule_name,"_module_parameters",str_core);
+            write_params_for_file(dir_name_3, file_name, values, values_name, flag_parallel);
             clear(strcat(file_name,".m"))
         end
     end
@@ -156,7 +166,7 @@ file_name_sm = "swarm_module_generate_desire";
 field_names_swarm  = fieldnames(CoFlyers.swarm);
 ind_subswarm = cellfun(@(x)isstruct(CoFlyers.swarm.(x)),field_names_swarm);
 field_names_swarm = field_names_swarm(ind_subswarm);
-write_swarm_module_generate_desire(dir_name_sm, file_name_sm, field_names_swarm);
+write_swarm_module_generate_desire(dir_name_sm, file_name_sm, field_names_swarm, ctime_xml);
 %%% Write each function of subswarm model %%%
 for ii = 1:length(field_names_swarm)
     dir_name_ssm = strcat(path_here,"../lower_layers/swarm_module/",...
@@ -172,7 +182,7 @@ file_name_em = "evaluation_module_one";
 field_names_eva  = fieldnames(CoFlyers.evaluation);
 ind_subeva = cellfun(@(x)isstruct(CoFlyers.evaluation.(x)),field_names_eva);
 field_names_eva = field_names_eva(ind_subeva);
-write_evaluation_module_one(dir_name_em, file_name_em, field_names_eva);
+write_evaluation_module_one(dir_name_em, file_name_em, field_names_eva, ctime_xml);
 
 %%% %%%
 dir_name_em = strcat(path_here,"../lower_layers/evaluation_module");
@@ -180,7 +190,7 @@ file_name_em = "evaluation_module_average";
 field_names_eva  = fieldnames(CoFlyers.evaluation);
 ind_subeva = cellfun(@(x)isstruct(CoFlyers.evaluation.(x)),field_names_eva);
 field_names_eva = field_names_eva(ind_subeva);
-write_evaluation_module_average(dir_name_em, file_name_em, field_names_eva);
+write_evaluation_module_average(dir_name_em, file_name_em, field_names_eva, ctime_xml);
 
 % %%% Write each function of subevaluation model %%%
 for ii = 1:length(field_names_eva)
@@ -323,8 +333,14 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
     end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function write_params_for_file(dir_name, file_name, values, values_name)
-        file_fullpath = strcat(dir_name,"/",file_name,".m");
+    function write_params_for_file(dir_name, file_name, values, values_name, flag_parallel)
+        if flag_parallel
+            dir_name = strcat(dir_name,"/","params_for_parallel");
+            if ~exist(dir_name,'dir')
+                mkdir(dir_name);
+            end
+        end
+        file_fullpath = strcat(dir_name,"/", file_name,".m");
 
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
@@ -381,10 +397,17 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
         fprintf(file_id,'\n\nend');
         fclose(file_id);
     end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function write_swarm_module_generate_desire(dir_name, file_name, field_names)
-        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    function write_swarm_module_generate_desire(dir_name, file_name, field_names, ctime_xml)
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
+        if exist(file_fullpath,"file")
+            file_now = dir(file_fullpath);
+            ctime_file = datenum(file_now.date);
+            if ctime_file > ctime_xml
+                return
+            end
+        end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
         fprintf(file_id,['function [command_upper_s,control_mode_s] = swarm_module_generate_desire(t, states, swarm_algorithm_type, sample_time, sensor_data_s)\n']);
@@ -417,6 +440,7 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
         fprintf(file_id,'\n\nend');
         fclose(file_id);
     end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function write_subswarm_for_file(dir_name, file_name, subswarm_name, values, values_name)
         file_fullpath = strcat(dir_name,"/",file_name,".m");
@@ -443,6 +467,12 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% Parameters only be generated once by read_parameter_xml.m.\n');
             fprintf(file_id,'%% If you change the parameters of your swarm submodule, you need to\n');
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subswarm_name);
+            fprintf(file_id,'\n');
+            fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
+            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subswarm_name);
+            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
+            fprintf(file_id,'\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
                 fprintf(file_id,'%s', values_name(i));
@@ -450,7 +480,7 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
                     fprintf(file_id,',...\n');
                 end
             end
-            fprintf(file_id,'] = %s_module_parameters();\n\n',subswarm_name);
+            fprintf(file_id,'] = fun_params();\n\n');
 
             %%% write %%%%
             fprintf(file_id,['%%\n',...
@@ -479,10 +509,18 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fclose(file_id);
         end
     end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function write_evaluation_module_one(dir_name, file_name, field_names)
-        file_fullpath = strcat(dir_name,"/",file_name,".m");
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    function write_evaluation_module_one(dir_name, file_name, field_names, ctime_xml)
+        file_fullpath = strcat(dir_name,"/",file_name,".m");
+    
+        if exist(file_fullpath,"file")
+            file_now = dir(file_fullpath);
+            ctime_file = datenum(file_now.date);
+            if ctime_file > ctime_xml
+                return
+            end
+        end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
         fprintf(file_id,['function values = evaluation_module_one(t, states, map3d_faces, map3d_struct,evaluation_metric_type)\n']);
@@ -508,9 +546,16 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
     end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function write_evaluation_module_average(dir_name, file_name, field_names)
+    function write_evaluation_module_average(dir_name, file_name, field_names, ctime_xml)
         file_fullpath = strcat(dir_name,"/",file_name,".m");
-
+        
+        if exist(file_fullpath,"file")
+            file_now = dir(file_fullpath);
+            ctime_file = datenum(file_now.date);
+            if ctime_file > ctime_xml
+                return
+            end
+        end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
         fprintf(file_id,['function values = evaluation_module_average(time_series, values_series, evaluation_metric_type)\n']);
@@ -552,6 +597,11 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% Parameters only be generated once by read_parameter_xml.m.\n');
             fprintf(file_id,'%% If you change the parameters of your evaluation submodule, you need to\n');
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subeva_name);
+            fprintf(file_id,'\n');
+            fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
+            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subeva_name);
+            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
                 fprintf(file_id,'%s', values_name(i));
@@ -559,7 +609,7 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
                     fprintf(file_id,',...\n');
                 end
             end
-            fprintf(file_id,'] = %s_module_parameters();\n\n',subeva_name);
+            fprintf(file_id,'] = fun_params();\n\n');
 
             %%% write %%%%
             fprintf(file_id,['%%\n',...
@@ -575,7 +625,8 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
         end
     end
 
- function write_subevaluation_average_for_file(dir_name, file_name, subeva_name, values, values_name)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    function write_subevaluation_average_for_file(dir_name, file_name, subeva_name, values, values_name)
         file_fullpath = strcat(dir_name,"/",file_name,".m");
         if ~exist(file_fullpath,'file')
             %%% write function name %%%
@@ -591,6 +642,11 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% Parameters only be generated once by read_parameter_xml.m.\n');
             fprintf(file_id,'%% If you change the parameters of your evaluation submodule, you need to\n');
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subeva_name);
+            fprintf(file_id,'\n');
+            fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
+            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subeva_name);
+            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
                 fprintf(file_id,'%s', values_name(i));
@@ -598,7 +654,7 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
                     fprintf(file_id,',...\n');
                 end
             end
-            fprintf(file_id,'] = %s_module_parameters();\n\n',subeva_name);
+            fprintf(file_id,'] = fun_params();\n\n');
 
             %%% write %%%%
             fprintf(file_id,['%%\n',...

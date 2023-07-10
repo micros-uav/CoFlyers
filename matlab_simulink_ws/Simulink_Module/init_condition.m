@@ -1,7 +1,7 @@
 %% using parameters.xml to config. 
 close all;
 
-[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml();
+[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml("../Prototype_Simulator/parameters.xml");
 
 local_ip = param_simulink.local_ip;
 target_ip_array = param_simulink.target_ip;

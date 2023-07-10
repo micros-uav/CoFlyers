@@ -1,7 +1,7 @@
 clc;close all;clear;
 %% Settings of auto-tuning 
 % Lower boundary and upper boundary of optimization
-flag_use_parallel     = false;
+flag_use_parallel     = true;
 repeat_times        = 1; %Times of experimental repetitions used to average multiple simulations
 lower_boudary_s = [0.2000   0.01   00.1000    0.0100    0.0100    0.1000    0.0100    0.0100   0.0100    0.0100    0.0100];
 upper_boudary_s = [2.0000    1.0   10.0000     0.500    0.2000    10.000    1.000     1.000    2.000    10.000     1.000];

@@ -5,6 +5,8 @@ function values = evaluation_module_average(time_series, values_series, evaluati
 switch evaluation_metric_type
 	case 'evaluation_0'
 		values = evaluation_0_module_average(time_series, values_series);
+	case 'user_evaluation'
+		values = user_evaluation_module_average(time_series, values_series);
 	otherwise
 		values = [];
 end
