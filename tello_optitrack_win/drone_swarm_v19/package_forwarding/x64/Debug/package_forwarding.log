@@ -1,13 +1,1 @@
-﻿  data_description.cpp
-  UDPInterfaceBase.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\UDPInterfaceBase.cpp(59,35): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\UDPInterfaceBase.cpp(60,31): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  UDPInterfacePack.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\UDPInterfacePack.cpp(106,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
-  test_package_forwarding.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\package_forwarding\test_package_forwarding.cpp(46,26): warning C4244: “=”: 从“size_t”转换到“float”，可能丢失数据
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\package_forwarding\test_package_forwarding.cpp(48,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\package_forwarding\test_package_forwarding.cpp(64,27): warning C4244: “=”: 从“size_t”转换到“float”，可能丢失数据
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\package_forwarding\test_package_forwarding.cpp(66,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
-  正在生成代码...
-  package_forwarding.vcxproj -> H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\x64\Debug\package_forwarding.lib
+﻿  package_forwarding.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\package_forwarding.lib

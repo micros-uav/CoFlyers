@@ -69,7 +69,7 @@
 
             <v_max value="CoFlyers.swarm.Vasarhelyi.v_flock*1.2"/>
             <dim value = "2"/>
-            <height values = "0.7"/>
+            <height value = "0.7"/>
             <dr_shill value="0.1"/>
             <pos_shill-vel_shill value = "map_module_generate_shill_agent(map3d_faces,...
                                           map3d_struct,...
@@ -225,12 +225,13 @@
             <alpha value="0.5"/>
             <static value="0"/> 
             <id value="1"/>
-        </model>-->
+        </model>
+     -->
     </map>
 
 
     <simulink>
-        <sim_quad value="1"/>
+        <sim_quad value="0"/>
         <local_ip value="'192.168.1.3'"/>
         <target_ip value="ones(1,CoFlyers.number)*3"/>
     </simulink>

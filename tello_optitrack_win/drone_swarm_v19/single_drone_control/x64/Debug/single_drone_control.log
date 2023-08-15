@@ -1,10 +1,1 @@
-﻿  operations.cpp
-  drone_commander.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.h(18,24): warning C4305: “初始化”: 从“double”到“float”截断
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.cpp(41,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.cpp(259,4): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.cpp(275,4): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
-  test_single_drone_control.cpp
-  test_single_drone_control_2.cpp
-  正在生成代码...
-  single_drone_control.vcxproj -> H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\x64\Debug\single_drone_control.lib
+﻿  single_drone_control.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\single_drone_control.lib

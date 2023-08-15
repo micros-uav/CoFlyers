@@ -1,15 +1,1 @@
-﻿  configuration.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(105,21): warning C4018: “<”: 有符号/无符号不匹配
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(113,21): warning C4018: “>”: 有符号/无符号不匹配
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(124,16): warning C4018: “<”: 有符号/无符号不匹配
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(64,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(68,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(88,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(92,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(101,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  drone_controller.cpp
-H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\drone_controller\drone_controller.cpp(48,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  test_drone_controller.cpp
-  pid_controller.cpp
-  正在生成代码...
-  drone_controller.vcxproj -> H:\paper_Coflyers\version_2023_0118\tello_optitrack_win\drone_swarm_v19\x64\Debug\drone_controller.lib
+﻿  drone_controller.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\drone_controller.lib
