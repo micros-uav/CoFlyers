@@ -1,53 +1,40 @@
 function [posS, velS] = map_module_generate_shill_agent(map3d_faces, map3d_struct, dr, dim, height)
     %==============deleta some faces in range=================%
-    ind_range = find(map3d_struct(15,:) == -2);
-    if ~isempty(ind_range)
-        ind_1_range = map3d_struct(end-1,ind_range);
-        ind_2_range = map3d_struct(end,ind_range);
-    %     ind = arrayfun(@(x)ind_1_range(x):ind_2_range(x),1:length(ind_2_range));
-        ind = [];
-        for i = 1:length(ind_1_range)
-            ind = [ind, ind_1_range(i):ind_2_range(i)];
-        end
-        x_range = [min(map3d_faces(1,ind)),max(map3d_faces(1,ind))];
-        y_range = [min(map3d_faces(2,ind)),max(map3d_faces(2,ind))];
-        z_range = [min(map3d_faces(3,ind)),max(map3d_faces(3,ind))];
-        ind_delete = [];
-        for i = 1:length(ind_1_range)
-            ind_1 = ind_1_range(i);
-            ind_2 = ind_2_range(i);
-            for j = ind_1:ind_2
-                ind_now = j;
-                f_now = map3d_faces(:, ind_now);
-                if abs(f_now(1) - f_now(4)) < 1e-8 && abs(f_now(1) - f_now(7)) < 1e-8
-                    % x range
-                    if abs(f_now(1) - x_range(1))<1e-8 || abs(f_now(1) - x_range(2))<1e-8
-                        ind_delete = [ind_delete,ind_now];
-                    elseif min([norm(f_now(1:3)-f_now(4:6)), norm(f_now(1:3)-f_now(7:9)), norm(f_now(4:6)-f_now(7:9))]) <...
-                            max([y_range(2)-y_range(1),z_range(2)-z_range(1)])*0.02
-                        ind_delete = [ind_delete,ind_now];
-                    end
-                elseif abs(f_now(2) - f_now(5)) < 1e-8 && abs(f_now(2) - f_now(8)) < 1e-8
-                    % y range
-                    if abs(f_now(2) - y_range(1))<1e-8 || abs(f_now(2) - y_range(2))<1e-8
-                        ind_delete = [ind_delete,ind_now];
-                    elseif min([norm(f_now(1:3)-f_now(4:6)), norm(f_now(1:3)-f_now(7:9)), norm(f_now(4:6)-f_now(7:9))]) <...
-                            max([x_range(2)-x_range(1),z_range(2)-z_range(1)])*0.02
-                        ind_delete = [ind_delete,ind_now];
-                    end
-                elseif abs(f_now(3) - f_now(6)) < 1e-8 && abs(f_now(3) - f_now(9)) < 1e-8
-                    % z range
-                    if abs(f_now(3) - z_range(1))<1e-8 || abs(f_now(3) - z_range(2))<1e-8
-                        ind_delete = [ind_delete,ind_now];
-                    elseif min([norm(f_now(1:3)-f_now(4:6)), norm(f_now(1:3)-f_now(7:9)), norm(f_now(4:6)-f_now(7:9))]) <...
-                            max([x_range(2)-x_range(1),y_range(2)-y_range(1)])*0.02
-                        ind_delete = [ind_delete,ind_now];
-                    end
-    
+    ind_range_s = find(map3d_struct(15,:) == -2);
+    if ~isempty(ind_range_s)
+        is_xyz = zeros(size(ind_range_s));
+        xyz_range = zeros(3,2);
+        for i = 1:2:length(ind_range_s)
+            ind_r_s_i = ind_range_s(i);
+            for j = 1:3
+                v_min = map3d_struct(j,ind_r_s_i);
+                v_max = map3d_struct(j,ind_r_s_i+1);
+                if v_min ~= v_max
+                    v_spin = map3d_struct(6+j,ind_r_s_i)/2;
+                    is_xyz(i:i+1) = j;
+                    xyz_range(j,:) = [v_min+v_spin,v_max-v_spin];
+                    continue
                 end
             end
         end
-        map3d_faces(:,ind_delete) = [];
+        ind = [];
+        ind_save_f = [];
+        for i = 1:length(ind_range_s)
+            ind_r_s_i = ind_range_s(i);
+            ind_s = map3d_struct(end-1,ind_r_s_i);
+            ind_e = map3d_struct(end,ind_r_s_i);
+            ind = [ind,ind_s:ind_e];
+            is_xyz_now = is_xyz(i);
+            for j = ind_s:ind_e
+                face_now = map3d_faces(:,j);
+                if sum(abs(face_now((1:3:7)+is_xyz_now-1)-xyz_range(is_xyz_now,1))) < 1e-8 ||...
+                     sum(abs(face_now((1:3:7)+is_xyz_now-1)-xyz_range(is_xyz_now,2))) < 1e-8   
+                    ind_save_f = [ind_save_f, j];
+                end
+            end
+        end
+        ind_del_f = setdiff(ind,ind_save_f);
+        map3d_faces(:,ind_del_f) = [];
     end
     %===============================================%
 

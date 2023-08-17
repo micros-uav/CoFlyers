@@ -49,26 +49,27 @@ for ii = 1:length(ps_mofify.param_value_s)
     end
 end
 
-
-% Generate map
-[map3d_struct_0, model_stls,ind_models] = read_map_param_struct(CoFlyers.map);
-temp = fieldnames(CoFlyers.map);
-CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
-[map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
-
 % Find models of map module
 temp_11 = strfind(param_string(2,:),strcat(first_name,".map.model"));
 temp_22 = strfind(param_string(2,:),".stl");
-temp_33 = arrayfun(@(x)~isempty(temp_11{x})&&~isempty(temp_22{x}),1:length(temp_11));
-param_string(:,temp_33) = [];
+is_model = arrayfun(@(x)~isempty(temp_11{x})&&~isempty(temp_22{x}),1:length(temp_11));
+% param_string(:,temp_33) = [];
+num_model = sum(is_model);
 
 % Deal with MATLAB commands with ref
+init_map = false;
 count = 1;
 ind_delete = [];
-while ~isempty(param_string)
+while size(param_string,2)>num_model
     for s = 1:size(param_string,2)
+        if is_model(s)
+            continue
+        end
         field_string = param_string(2,s);
         field_value = param_string(1,s);
+        if contains(field_value,param_string(2,:))
+            continue
+        end
         %%% deal with multiple ouput of function %%%
         temp1 = strsplit(field_string,".");
         temp2 = strsplit(temp1{end},"-");
@@ -100,12 +101,37 @@ while ~isempty(param_string)
         %         error("xml error");
         error(strcat("%s file error.\n",str_error),file_name);
     end
+
+    %%%
+    temp = contains(param_string(2,:),".map.")|...
+        contains(param_string(1,:),".map.")|...
+        contains(param_string(1,:),"map3d_faces")|...
+        contains(param_string(1,:),"map3d_struct");
+    if ~init_map && sum(temp)==numel(temp)
+        % Generate map
+        [map3d_struct_0, model_stls,ind_models] = read_map_param_struct(CoFlyers.map);
+        temp = fieldnames(CoFlyers.map);
+        CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
+        [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
+        init_map = true;
+    end
+end
+
+if ~init_map
+    % Generate map
+    [map3d_struct_0, model_stls,ind_models] = read_map_param_struct(CoFlyers.map);
+    temp = fieldnames(CoFlyers.map);
+    CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
+    [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
+    init_map = true;
 end
 % CoFlyers = rmfield(CoFlyers, "map");
 position0 = CoFlyers.position__;
 CoFlyers = rmfield(CoFlyers, "position__");
 param_simulink = CoFlyers.simulink;
 CoFlyers = rmfield(CoFlyers, "simulink");
+
+
 %========================Remove XXX__ params================%%%
 CoFlyers = remove_XXX__(CoFlyers);
 params = CoFlyers;
