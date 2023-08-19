@@ -18,9 +18,12 @@ function [command_upper_s,control_mode_s] =user_swarm_module_generate_desire(t, 
 % get parameters by user_swarm_module_parameters()
 
 % The following operations are for multi-core parallel computing.
-file_name_param = 'user_swarm_module_parameters';
-[~,str_core] = get_multi_core_value();
-fun_params = str2func([file_name_param, str_core]);
+persistent fun_params
+if isempty(fun_params)
+	file_name_param = 'user_swarm_module_parameters';
+	[~,str_core] = get_multi_core_value();
+	fun_params = str2func([file_name_param,str_core]);
+end
 
 [r_com] = fun_params();
 

@@ -19,8 +19,8 @@ sample_time_control_bottom = 0.100000000000;
 activate_save_states = 0.000000000000;
 time_interval_save = 1.000000000000;
 motion_model_type = 0.000000000000;
-swarm_algorithm_type = ['V', 'a', 's', 'a', 'r', 'h', 'e', 'l', 'y', 'i'];
-evaluation_metric_type = ['e', 'v', 'a', 'l', 'u', 'a', 't', 'i', 'o', 'n', '_', '0'];
+swarm_algorithm_type = ['u', 's', 'e', 'r', '_', 's', 'w', 'a', 'r', 'm'];
+evaluation_metric_type = ['u', 's', 'e', 'r', '_', 'e', 'v', 'a', 'l', 'u', 'a', 't', 'i', 'o', 'n'];
 
 
 end

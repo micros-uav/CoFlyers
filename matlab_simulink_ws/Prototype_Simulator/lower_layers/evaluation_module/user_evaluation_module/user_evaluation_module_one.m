@@ -8,9 +8,12 @@ function values =user_evaluation_module_one(t, states, map3d_faces, map3d_struct
 % get parameters by user_evaluation_module_parameters()
 
 % The following operations are for multi-core parallel computing.
-file_name_param = 'user_evaluation_module_parameters';
-[~,str_core] = get_multi_core_value();
-fun_params = str2func([file_name_param, str_core]);
+persistent fun_params
+if isempty(fun_params)
+	file_name_param = 'user_evaluation_module_parameters';
+	[~,str_core] = get_multi_core_value();
+	fun_params = str2func([file_name_param,str_core]);
+end
 [v_flock] = fun_params();
 
 %

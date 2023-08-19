@@ -1,4 +1,4 @@
-function [map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml(file_name,ps_mofify)
+function [map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml(file_name_xml,ps_mofify)
 %READ_PARAMETER_XML Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -6,25 +6,20 @@ function [map3d_faces, map3d_struct, model_stls, params, position0, param_simuli
 
 % 
 if nargin < 1
-    file_name = "parameters.xml";
+    file_name_xml = "parameters.xml";
     ps_mofify = struct("param_name_s",[],"param_value_s",[]);
 elseif nargin < 2
     ps_mofify = struct("param_name_s",[],"param_value_s",[]);
 end
 
-if isempty(file_name)
-    file_name = "parameters.xml";
+if isempty(file_name_xml)
+    file_name_xml = "parameters.xml";
 end
-
-% Get the creation time of the xml file
-xml_file = dir(file_name);
-ctime_xml = datenum(xml_file.date);
-%
 
 % translate xml to struct
 % 
 first_name = "CoFlyers";
-param_xml = parseXML(file_name);
+param_xml = parseXML(file_name_xml);
 [CoFlyers, param_string] = parseXML2(param_xml, first_name);
 
 % modify params
@@ -99,7 +94,7 @@ while size(param_string,2)>num_model
             end
         end
         %         error("xml error");
-        error(strcat("%s file error.\n",str_error),file_name);
+        error(strcat("%s file error.\n",str_error),file_name_xml);
     end
 
     %%%
@@ -123,18 +118,30 @@ if ~init_map
     temp = fieldnames(CoFlyers.map);
     CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
     [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
-    init_map = true;
+%     init_map = true;
 end
 % CoFlyers = rmfield(CoFlyers, "map");
 position0 = CoFlyers.position__;
 CoFlyers = rmfield(CoFlyers, "position__");
 param_simulink = CoFlyers.simulink;
 CoFlyers = rmfield(CoFlyers, "simulink");
-
-
 %========================Remove XXX__ params================%%%
 CoFlyers = remove_XXX__(CoFlyers);
 params = CoFlyers;
+
+%%
+% Get the creation time of the xml file
+xml_file = dir(file_name_xml);
+ctime_xml = datenum(xml_file.date);
+% Get the creation time of the "setting_parameters.m" file
+oth_file = dir("combine_modules/setting_parameters.m");
+ctime_oth = datenum(oth_file.date);
+if ctime_xml < ctime_oth && isempty(ps_mofify.param_name_s)
+    disp('The XML file has not been changed, so the module files will not be updated. (read_parameter_xml.m)');
+    return
+end
+
+%%
 %%%======================Write params to file=================%%%
 %%%
 path_here = mfilename('fullpath');
@@ -193,6 +200,7 @@ field_names_swarm  = fieldnames(CoFlyers.swarm);
 ind_subswarm = cellfun(@(x)isstruct(CoFlyers.swarm.(x)),field_names_swarm);
 field_names_swarm = field_names_swarm(ind_subswarm);
 write_swarm_module_generate_desire(dir_name_sm, file_name_sm, field_names_swarm, ctime_xml);
+clear(strcat(file_name_sm,".m"));
 %%% Write each function of subswarm model %%%
 for ii = 1:length(field_names_swarm)
     dir_name_ssm = strcat(path_here,"../lower_layers/swarm_module/",...
@@ -200,6 +208,7 @@ for ii = 1:length(field_names_swarm)
     file_name_ssm = strcat(field_names_swarm{ii},"_module_generate_desire");
     [values, values_name] = get_values_and_names(CoFlyers.('swarm').(field_names_swarm{ii}));
     write_subswarm_for_file(dir_name_ssm, file_name_ssm, field_names_swarm{ii}, values, values_name);
+    clear(strcat(file_name_ssm,".m"));
 end
 %% Write evaluation module
 %%% Write evaluation_module_one.m %%%
@@ -209,7 +218,7 @@ field_names_eva  = fieldnames(CoFlyers.evaluation);
 ind_subeva = cellfun(@(x)isstruct(CoFlyers.evaluation.(x)),field_names_eva);
 field_names_eva = field_names_eva(ind_subeva);
 write_evaluation_module_one(dir_name_em, file_name_em, field_names_eva, ctime_xml);
-
+clear(strcat(file_name_em,".m"));
 %%% %%%
 dir_name_em = strcat(path_here,"../lower_layers/evaluation_module");
 file_name_em = "evaluation_module_average";
@@ -225,9 +234,11 @@ for ii = 1:length(field_names_eva)
     file_name_sem = strcat(field_names_eva{ii},"_module_one");
     [values, values_name] = get_values_and_names(CoFlyers.('evaluation').(field_names_eva{ii}));
     write_subevaluation_one_for_file(dir_name_sem, file_name_sem, field_names_eva{ii}, values, values_name);
+    clear(strcat(file_name_sem,".m"));
     file_name_sem = strcat(field_names_eva{ii},"_module_average");
     [values, values_name] = get_values_and_names(CoFlyers.('evaluation').(field_names_eva{ii}));
     write_subevaluation_average_for_file(dir_name_sem, file_name_sem, field_names_eva{ii}, values, values_name);
+    clear(strcat(file_name_sem,".m"));
 end
 
 
@@ -495,9 +506,12 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subswarm_name);
             fprintf(file_id,'\n');
             fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
-            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subswarm_name);
-            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
-            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
+            fprintf(file_id,'persistent fun_params\n');
+            fprintf(file_id,'if isempty(fun_params)\n');
+            fprintf(file_id,"\tfile_name_param = '%s_module_parameters';\n",subswarm_name);
+            fprintf(file_id,'\t[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'\tfun_params = str2func([file_name_param,str_core]);\n');
+            fprintf(file_id,'end\n');
             fprintf(file_id,'\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
@@ -625,9 +639,12 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subeva_name);
             fprintf(file_id,'\n');
             fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
-            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subeva_name);
-            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
-            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
+            fprintf(file_id,'persistent fun_params\n');
+            fprintf(file_id,'if isempty(fun_params)\n');
+            fprintf(file_id,"\tfile_name_param = '%s_module_parameters';\n",subeva_name);
+            fprintf(file_id,'\t[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'\tfun_params = str2func([file_name_param,str_core]);\n');
+            fprintf(file_id,'end\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
                 fprintf(file_id,'%s', values_name(i));
@@ -670,9 +687,12 @@ addpath(genpath(strcat(path_here,"../../Prototype_Simulator")));
             fprintf(file_id,'%% get parameters by %s_module_parameters()\n',subeva_name);
             fprintf(file_id,'\n');
             fprintf(file_id,'%% The following operations are for multi-core parallel computing.\n');
-            fprintf(file_id,'file_name_param = "%s_module_parameters";\n',subeva_name);
-            fprintf(file_id,'[~,str_core] = get_multi_core_value();\n');
-            fprintf(file_id,'fun_params = str2func(strcat(file_name_param,str_core));\n');
+            fprintf(file_id,'persistent fun_params\n');
+            fprintf(file_id,'if isempty(fun_params)\n');
+            fprintf(file_id,"\tfile_name_param = '%s_module_parameters';\n",subeva_name);
+            fprintf(file_id,'\t[~,str_core] = get_multi_core_value();\n');
+            fprintf(file_id,'\tfun_params = str2func(strcat(file_name_param,str_core));\n');
+            fprintf(file_id,'end\n');
             fprintf(file_id,'[');
             for i = 1:length(values_name)
                 fprintf(file_id,'%s', values_name(i));
