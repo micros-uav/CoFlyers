@@ -3,6 +3,8 @@ CoFlyers: a universal platform for collective flying of swarm drones
 
 # This document construction of the latest version is in progress.
 
+xxx
+
 ## Contents
 <!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 
