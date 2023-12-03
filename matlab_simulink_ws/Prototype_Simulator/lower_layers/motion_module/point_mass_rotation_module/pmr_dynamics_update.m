@@ -3,7 +3,7 @@ function [states,dstates] = pmr_dynamics_update(t, states,commands_bottom,sample
 %   Detailed explanation goes here
 
 
-vxyz_ds = commands_bottom;
+vxyz_ds = commands_bottom(1:3,:);
 
 %%% Numerical intergration, first-order
 

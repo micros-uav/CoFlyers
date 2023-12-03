@@ -2,6 +2,11 @@ function distance_s = distance2faces(P_s_in, face_s_in)
 %DISTANCE2FACES Summary of this function goes here
 %   Detailed explanation goes here
 
+if isempty(face_s_in)
+    distance_s = inf+zeros(1,size(P_s_in,2));
+    return
+end
+
 num_p = size(P_s_in,2);
 num_face = size(face_s_in,2);
 

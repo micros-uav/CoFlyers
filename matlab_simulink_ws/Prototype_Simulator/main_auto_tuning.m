@@ -2,6 +2,9 @@ clc;close all;clear;
 %% Settings of auto-tuning 
 % Lower boundary and upper boundary of optimization
 flag_use_parallel     = true;
+if flag_use_parallel && isempty(gcp('nocreate'))
+   parpool(8); 
+end
 repeat_times        = 1; %Times of experimental repetitions used to average multiple simulations
 lower_boudary_s = [0.2000   0.01   00.1000    0.0100    0.0100    0.1000    0.0100    0.0100   0.0100    0.0100    0.0100];
 upper_boudary_s = [2.0000    1.0   10.0000     0.500    0.2000    10.000    1.000     1.000    2.000    10.000     1.000];
@@ -17,6 +20,8 @@ param_name_s = ["CoFlyers.swarm.Vasarhelyi.r_rep_0",...
     "CoFlyers.swarm.Vasarhelyi.p_shill",...
     "CoFlyers.swarm.Vasarhelyi.a_shill"];
 flag_alg_opt = "GA"; % "GA" "PSO"
+
+xml_name = 'xml_config_files/parameters.xml';
 %% Running auto-tuning
 x_opt = run_auto_tuning(flag_use_parallel,repeat_times,...
-    lower_boudary_s, upper_boudary_s, param_name_s, flag_alg_opt);
+    lower_boudary_s, upper_boudary_s, param_name_s, flag_alg_opt, xml_name);

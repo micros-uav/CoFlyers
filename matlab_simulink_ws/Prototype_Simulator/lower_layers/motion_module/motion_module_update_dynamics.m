@@ -3,12 +3,14 @@ function [states,dstates] = motion_module_update_dynamics(t, states,commands_bot
 
 
 switch flag_motion_model
-    case 0 % point-mass
+    case 'point_mass' % point-mass
         [states,dstates] = pm_dynamics_update(t, states,commands_bottom,sample_time_motion);
-    case 1 % quadcopter
+    case 'quadcopter' % quadcopter
         [states,dstates] = qm_dynamics_update(t, states, commands_bottom,sample_time_motion);
-    case 2 % point-mass rotation
+    case 'point_mass_rotation' % point-mass rotation
         [states,dstates] = pmr_dynamics_update(t, states, commands_bottom,sample_time_motion);
+    otherwise
+        [states,dstates] = pm_dynamics_update(t, states,commands_bottom,sample_time_motion);
 end
 
 end

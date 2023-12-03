@@ -1,6 +1,6 @@
 function [states,dstates,...
     map3d_faces, map3d_struct, model_stls] = ...
-initialize_parameters_states(P_GUI, P_op, P_bp, mode_simulation)
+initialize_parameters_states(P_GUI, P_op, P_bp, mode_simulation, xml_name)
 % P_GUI: parameters from gui
 % P_op:  parameters to be optimized
 % P_bp:  parameters for batch processing
@@ -10,14 +10,15 @@ ps_mofify = struct("param_name_s",[],"param_value_s",[]);
 
 % GUI Parameters
 if ~isempty(P_GUI)
-    field_names1 = fieldnames(P_GUI.parameters_settings);
-    field_names_full1 = arrayfun(@(x)strcat("CoFlyers.",x),field_names1);
-    field_values1 = struct2cell(P_GUI.parameters_settings);
-    field_names2 = fieldnames(P_GUI.parameters_visual);
-    field_names_full2 = arrayfun(@(x)strcat("CoFlyers.visual.",x),field_names2);
-    field_values2 = struct2cell(P_GUI.parameters_visual);
-    ps_mofify.param_name_s = [field_names_full1',field_names_full2'];
-    ps_mofify.param_value_s = [field_values1',field_values2'];
+    ps_mofify = P_GUI;
+    % field_names1 = fieldnames(P_GUI.parameters_settings);
+    % field_names_full1 = arrayfun(@(x)strcat("CoFlyers.",x),field_names1);
+    % field_values1 = struct2cell(P_GUI.parameters_settings);
+    % field_names2 = fieldnames(P_GUI.parameters_visual);
+    % field_names_full2 = arrayfun(@(x)strcat("CoFlyers.visual.",x),field_names2);
+    % field_values2 = struct2cell(P_GUI.parameters_visual);
+    % ps_mofify.param_name_s = [field_names_full1',field_names_full2'];
+    % ps_mofify.param_value_s = [field_values1',field_values2'];
 end
 % Batch processing parameters
 if ~isempty(P_bp)
@@ -28,7 +29,7 @@ if ~isempty(P_op)
     ps_mofify = P_op;
 end
 
-[map3d_faces, map3d_struct, model_stls, ~, position0] = read_parameter_xml([], ps_mofify);
+[map3d_faces, map3d_struct, model_stls, ~, position0] = read_parameter_xml(xml_name, ps_mofify);
 
 
 [number,...
@@ -45,7 +46,7 @@ evaluation_metric_type] = setting_parameters();
 
 %%% Initialize state
 
-[states,dstates] = initialize_states(position0,motion_model_type);
+[states,dstates] = initialize_states(position0, motion_model_type);
 
 %%% Find out the parameters of the mth module for batch processing
     function p_bp = find_out_params_of_mth_module_for_bp(P_bp,m)

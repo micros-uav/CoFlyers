@@ -8,8 +8,9 @@ if number < 1
     return
 end
 position3D_s = states_ob(1:3,:);
-if flag_motion_model == 1
-    attitude_s = permute(states_ob(10:12,:),[2,3,1])*180/pi;
+if strcmp(flag_motion_model,'quadcopter')
+    % attitude_s = permute(states_ob(10:12,:),[2,3,1])*180/pi;
+    attitude_s = states_ob(10:12,:)*180/pi;
 else
     attitude_s = zeros(3,number);
 end
@@ -23,6 +24,8 @@ switch flag_sensor
         sensor_data_s = zeros([size(datas),number]);
         sensor_data_s(:,:,1) = datas;
         for id = 2:number
+            [range_s, psi_s, phi_s]  = lidar_module_get_ranges(position3D_s(1:3,id),attitude_s(1:3,id),map_faces);
+            datas = [range_s;psi_s;phi_s];
             sensor_data_s(:,:,id) = datas;
         end
     otherwise

@@ -1,4 +1,9 @@
 function [posS, velS] = map_module_generate_shill_agent(map3d_faces, map3d_struct, dr, dim, height)
+    if isempty(map3d_faces)
+        posS = [];
+        velS = [];
+        return
+    end
     %==============deleta some faces in range=================%
     ind_range_s = find(map3d_struct(15,:) == -2);
     if ~isempty(ind_range_s)

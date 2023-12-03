@@ -32,7 +32,8 @@ elseif dim == 2
 end
 
 if size(trajectories,1) < 3
-    trajectories = nan*trajectories;
+    trajectories(:,:,1:dim) = nan;
+    trajectories = repmat(trajectories,4,1,1);
 end
 
 if flag_init

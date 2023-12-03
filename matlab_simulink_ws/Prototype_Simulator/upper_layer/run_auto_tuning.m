@@ -1,5 +1,5 @@
 function x_opt = run_auto_tuning(flag_use_parallel,repeat_times,...
-    lower_boudary_s, upper_boudary_s, param_name_s, alg_opt_name)
+    lower_boudary_s, upper_boudary_s, param_name_s, alg_opt_name, xml_name)
 %RUN_AUTO_TUNING Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -14,7 +14,7 @@ optimize_target_txt_name = [data_save_dir_name,'/Optimize_',time_now_string];
 %%% Handle of optimization function
 fun = @(x)model_swarm_repeat(mode_simulation,...
     struct("param_name_s",param_name_s,"param_value_s",{arrayfun(@(xx)string(xx),x)}),...
-    [],repeat_times,optimize_target_txt_name,false); 
+    [],repeat_times,optimize_target_txt_name,false,xml_name); 
 
 x_opt = [];
 switch alg_opt_name

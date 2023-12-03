@@ -1,4 +1,4 @@
-function draw_body(my_axes_1, states, dim, flag_motion_model,len_arm, colors)
+function draw_body(my_axes_1, states, dim, flag_motion_model,len_arm, colors, marker_size)
 %VISUAL_MODULE_DRAW_BODY Summary of this function goes here
 % my_axes_1: target axes
 % states: states of agents, [num_states, num_agents] 
@@ -14,9 +14,9 @@ end
 
 % Change the data format to fit the input of the 'plot/plot3' function
 switch flag_motion_model
-    case 0 %point mass
+    case 'point_mass' %point mass
         bodies = cat(3,states(1,:),states(2,:),states(3,:));
-    case 1 %quadcopter
+    case 'quadcopter' %quadcopter
         xyzs = states(1:3,:);
 
         points4 = len_arm*0.7071*[[1;1;0],[1;-1;0],[-1;-1;0],[-1;1;0]];
@@ -40,7 +40,7 @@ switch flag_motion_model
         zs = [points4zs([1,3],:);nan*zeros(1,num);points4zs([2,4],:);nan*zeros(1,num)];zs = zs(:);
 
         bodies = cat(3,xs,ys,zs);
-    case 2
+    case 'point_mass_rotation'
         bodies = cat(3,states(1,:),states(2,:),states(3,:),states(4,:),states(5,:),states(6,:));
     otherwise
         bodies = cat(3,states(1,:),states(2,:),states(3,:));
@@ -56,27 +56,33 @@ flag_init = isempty(obj);
 if flag_init
     %====Initialize and label the image object of bodies=====%
     switch flag_motion_model
-        case 0 %point mass
+        case 'point_mass' %point mass
             if dim==3
                 p = scatter3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3));
             elseif dim == 2
                 p = scatter(my_axes_1,bodies(:,:,1),bodies(:,:,2));
             end
-            set(p,'Marker','o','CData',colors','MarkerFaceColor','flat');
-        case 1 %quadcopter
+            set(p,'Marker','o','CData',colors','MarkerFaceColor','flat','SizeData',marker_size);
+        case 'quadcopter' %quadcopter
             if dim==3
                 p = plot3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3));
             elseif dim == 2
                 p = plot(my_axes_1,bodies(:,:,1),bodies(:,:,2));
             end
-            set(p,'LineStyle','-','LineWidth',2,'Color','k','Marker','.','MarkerSize',10,'MarkerEdgeColor','r');
-        case 2
+            set(p,'LineStyle','-','LineWidth',2,'Color','k','Marker','.','MarkerSize',marker_size,'MarkerEdgeColor','r');
+        case 'point_mass_rotation'
             if dim==3
-                p = quiver3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3),bodies(:,:,4),bodies(:,:,5),bodies(:,:,6));
+                p = scatter3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3));
             elseif dim == 2
-                p = quiver(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,4),bodies(:,:,5));
+                p = scatter(my_axes_1,bodies(:,:,1),bodies(:,:,2));
             end
-            set(p,'Marker','o','MarkerFaceColor',get(p,'Color'));
+            set(p,'Marker','o','CData',colors','MarkerFaceColor','flat','SizeData',marker_size);
+        %     if dim==3
+        %         p = quiver3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3),bodies(:,:,4),bodies(:,:,5),bodies(:,:,6));
+        %     elseif dim == 2
+        %         p = quiver(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,4),bodies(:,:,5));
+        %     end
+            % set(p,'Marker','o','MarkerFaceColor',get(p,'Color'));
         otherwise
             if dim==3
                 p = plot3(my_axes_1,bodies(:,:,1),bodies(:,:,2),bodies(:,:,3));
@@ -90,27 +96,33 @@ else
     %====Update data====%
     
     switch flag_motion_model
-        case 0 %point mass
+        case 'point_mass' %point mass
             if dim==3
                 set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3));
             elseif dim ==2
                 set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2));
             end
             set(obj,'CData',colors');
-        case 1 %quadcopter
+        case 'quadcopter' %quadcopter
             if dim==3
                 set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3));
             elseif dim ==2
                 set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2));
             end
-        case 2
+        case 'point_mass_rotation'
             if dim==3
-                set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3),...
-                    'UData',bodies(:,:,4),'VData',bodies(:,:,5),'WData',bodies(:,:,6));
+                set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3));
             elseif dim ==2
-                set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),...
-                    'UData',bodies(:,:,4),'VData',bodies(:,:,5));
+                set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2));
             end
+            set(obj,'CData',colors');
+        %     if dim==3
+        %         set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3),...
+        %             'UData',bodies(:,:,4),'VData',bodies(:,:,5),'WData',bodies(:,:,6));
+        %     elseif dim ==2
+        %         set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),...
+        %             'UData',bodies(:,:,4),'VData',bodies(:,:,5));
+        %     end
         otherwise
             if dim==3
                 set(obj,'XData',bodies(:,:,1),'YData',bodies(:,:,2),'ZData',bodies(:,:,3));

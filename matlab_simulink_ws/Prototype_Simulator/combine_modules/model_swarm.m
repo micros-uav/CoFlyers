@@ -1,4 +1,5 @@
-function performances_time_average = model_swarm(parameters_gui, parameters_op, parameters_bp, re, mode_simulation)
+function performances_time_average = model_swarm(parameters_gui,...
+    parameters_op, parameters_bp, re, mode_simulation, xml_name, app)
 %MODEL_SWARM Combines the modules in lower layer into one module
 %INPUT:
 %   mode_simulation: =0 when rapid prototyping, =1 when auto-tuning, =2
@@ -11,11 +12,12 @@ function performances_time_average = model_swarm(parameters_gui, parameters_op, 
 %OUTPUT:
 %   performances_time_average: the time averages of performances
 
+
 %========================Initialization==========================
 %%% get parameters from the pre-defined file
 [states,dstates,...
     map3d_faces, map3d_struct, model_stls] = initialize_parameters_states(parameters_gui,parameters_op, ...
-    parameters_bp, mode_simulation);
+    parameters_bp, mode_simulation, xml_name);
 
 %Get setting from inputs
 [number,...
@@ -51,7 +53,7 @@ else
     sensor_data_s = [];
 end
 [commands_upper,control_mode_s] =...
-    swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s);
+    swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s, map3d_struct);
 values = evaluation_module_one(t, states, map3d_faces, map3d_struct, evaluation_metric_type);
 commands_bottom = motion_module_bottom_control(t, states, commands_upper,...
     control_mode_s, motion_model_type, sample_time_control_bottom);
@@ -70,14 +72,38 @@ values_series(:,count_upper) = values;
 
 % Initialize figure, axes and video
 if visual_module_get_activate(sample_time_motion, t, true)
+    if isempty(app)
+        fig = figure;
+        change_figure_position(fig);
+        tiledlayout(1,2);
+        axis_1 = nexttile;
+        axis_2 = nexttile;
+    else
+        fig = app.UIFigure;
+        axis_1 = app.UIAxes;
+        axis_2 = app.UIAxes2;
+    end
+
+    flag_stage = 0;
     visual_module_draw_figures(states, time_series(1), states_ob_series(:,:,1), time_series(1), values_series(:,1),...
-        map3d_faces, map3d_struct, model_stls, mode_simulation, 0, motion_model_type);
+        map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
+
+    % Mouse click event of the left axis
+    if visual_module_get_activate_BD()
+        [map3d_faces,map3d_struct] = visual_module_buttondown(t, axis_1, map3d_faces,map3d_struct);
+    end
+
 end
 
 %=========================Iteraction===========================
 
 % loop
 for t = sample_time_motion:sample_time_motion:time_max
+    if ~isempty(app)
+        if strcmp(app.StartsimulationButton.Text,'Start simulation')
+            break
+        end
+    end
     % Next iteration
     count = count + 1;
     
@@ -99,7 +125,7 @@ for t = sample_time_motion:sample_time_motion:time_max
 
         % Get desired position and velocity from flocking rules
         [commands_upper,control_mode_s] =...
-            swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s);
+            swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s, map3d_struct);
 
         % Calculate the performance of current frame
         [values] = evaluation_module_one(t, states_ob,map3d_faces, map3d_struct,evaluation_metric_type);
@@ -118,6 +144,14 @@ for t = sample_time_motion:sample_time_motion:time_max
     
     % Updata map
     [map3d_faces,map3d_struct] = map_module_update_map3d(t,sample_time_motion,map3d_faces,map3d_struct);
+    if map_module_periodic_boundary_activate()
+        states = map_module_periodic_boundary(states);
+    end
+    
+    % Mouse click event of the left axis
+    if visual_module_get_activate_BD()
+        [map3d_faces,map3d_struct] = visual_module_buttondown(t, axis_1, map3d_faces,map3d_struct);
+    end
 
     % Save data
     if mod(count-1,interval_state_save) == 0
@@ -127,9 +161,10 @@ for t = sample_time_motion:sample_time_motion:time_max
     
     % Plot 
     if visual_module_get_activate(sample_time_motion, t, false)
+        flag_stage = 1;
         visual_module_draw_figures(states_ob, time_series(1:interval_state_save:count), states_ob_series(:,:,1:count_data_save),...
             linspace(0,time_series(count),count_upper), values_series(:,1:count_upper),...
-            map3d_faces, map3d_struct, model_stls, mode_simulation, 1, motion_model_type);
+            map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
     end
 end
 %==========================================================
@@ -141,8 +176,10 @@ performances_time_average = evaluation_module_average(linspace(0,time_series(cou
 
 % Plot values, final trajectory and close Video
 if visual_module_get_activate(sample_time_motion, t, true)
-    visual_module_draw_figures(states_ob, time_series(1:interval_state_save:end), states_ob_series, linspace(0,time_series(count),count_upper), values_series,...
-        map3d_faces, map3d_struct, model_stls, mode_simulation, 2, motion_model_type);
+    flag_stage = 2;
+    visual_module_draw_figures(states_ob, time_series(1:interval_state_save:end),...
+        states_ob_series, linspace(0,time_series(count),count_upper), values_series,...
+        map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
 end
 
 % Save data
@@ -155,5 +192,13 @@ if activate_save_states
     save([data_save_dir_name,'/mats/data_',time_now_string,'_w',num2str(id),'_re',num2str(re),'.mat']);
 end
 % 
+
+%% Functions
+function change_figure_position(figure_in)
+    position_in = figure_in.Position;
+    scnsize_in = get(0,'ScreenSize');
+    position_new_in = [scnsize_in(3)/2 - position_in(3),position_in(2),position_in(3)*2,position_in(4)];
+    set(figure_in,'Position',position_new_in)
+end
 
 end

@@ -1,5 +1,5 @@
 function [command_upper_s,control_mode_s] =...
-    Vasarhelyi_module_generate_desire(t,states, sample_time, sensor_data_s)
+    Vasarhelyi_module_generate_desire(t,states, sample_time, sensor_data_s, map3d_struct)
 %VASARHELYI_MODULE_GENERATE_DESIRE_I  Generate the desired position and velocity
 % according to the current flocking states and model parameters
 %   point-mass: state = [x; y; z; vx; vy; vz; ax; ay; az]

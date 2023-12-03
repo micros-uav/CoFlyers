@@ -17,21 +17,23 @@ for i  = 1:length(control_mode_unique_u)
     cm = control_mode_unique_u(i);
     ind_s = find(control_mode_s_u ==cm);
     switch flag_motion_model
-        case 0 % point-mass
+        case 'point_mass' % point-mass
             control_mode_s_b = pm_mode_upper2bottom(control_mode_s_u(ind_s));
             commands_bottom(:,ind_s) = pm_control(t, states(:,ind_s),...
                 command_upper_s(1:3,ind_s), command_upper_s(5:7,ind_s),command_upper_s(9:11,ind_s),...
                 control_mode_s_b,sample_time_control_b);
-        case 1 % quadcopter
+        case 'quadcopter' % quadcopter
             control_mode_s_b = qm_mode_upper2bottom(control_mode_s_u(ind_s));
             commands_bottom(:,ind_s) = qm_control(t, states(:,ind_s),...
                 command_upper_s(1:4,ind_s), command_upper_s(5:8,ind_s),command_upper_s(9:12,ind_s), 0,...
                 control_mode_s_b,sample_time_control_b);
-        case 2 % point-mass rotation
+        case 'point_mass_rotation' % point-mass rotation
             control_mode_s_b = pm_mode_upper2bottom(control_mode_s_u(ind_s));
             commands_bottom(:,ind_s) = pmr_control(t, states(:,ind_s),...
                 command_upper_s(1:3,ind_s), command_upper_s(5:7,ind_s),...
                 control_mode_s_b,sample_time_control_b);
+        otherwise
+            warning("The input of motion_model_type is wrong!");
     end
 end
 

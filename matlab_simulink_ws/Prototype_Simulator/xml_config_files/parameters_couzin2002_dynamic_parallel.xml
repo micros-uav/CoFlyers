@@ -1,0 +1,233 @@
+<CoFlyers>
+    <!-- Note:
+    1: using field.subfield to reference a declared variable.
+    2: allowing to use MATLAB commands in 'value'.
+    3. if the MATLAB command has multiple outputs, use a string connecting each variable 
+        name in order of '-' as the variable name, and the program will automatically separate 
+        each variable.
+    4. adding a suffix '__' to the variable name will ignore the creation of the variable, 
+        but it can still be referenced in this file
+    -->
+
+    <!-- global settings -->
+    <number value="100"/> 
+    <time_max value="401"/>
+    <sample_time_motion value="0.1"/>
+    <sample_time_control_upper value="0.1"/>
+    <sample_time_control_bottom value="0.1"/>  
+    <activate_save_states value="0"/>
+    <time_interval_save value="0.1"/> 
+    <!-- motion_model_type：
+           point_mass, 
+           quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
+           point_mass_rotation
+    -->
+    <motion_model_type value="'point_mass_rotation'"/>
+    <swarm_algorithm_type value="'Couzin2002'"/>
+    <evaluation_metric_type value="'Couzin2002_eva'"/>
+    
+    <!-- Init position  -->
+    <!--
+    <NSqrt__ value="ceil(sqrt(CoFlyers.number))"/>
+    <delta_r__ value = "1.8"/>
+    <position__ value="[(mod(0:CoFlyers.number-1,CoFlyers.NSqrt__))*CoFlyers.delta_r__ + CoFlyers.map.x_range(1) + CoFlyers.delta_r__;
+    (floor((0:CoFlyers.number-1)/CoFlyers.NSqrt__) - floor((CoFlyers.number-1)/CoFlyers.NSqrt__)/2)*CoFlyers.delta_r__;
+    zeros(1,CoFlyers.number)+1.0]"/>
+    -->
+    <position__ value="rand(3,CoFlyers.number) * 15.0"/>
+
+    <!-- visualization module -->
+    <visual>
+        <activate_plot        value="1"/>
+        <time_interval_plot   value="0.1"/>
+        <activate_trajectory  value="1"/>
+        <follow_agent         value="1"/>
+        <activate_save_figure value="0"/>
+        <activate_save_video  value="0"/>
+        <dim_visual           value="3"/>
+        <time_interval_trajectory value="2"/>
+        <video_speed value="10"/> <!-- frame rate -->
+        <x_range     value="CoFlyers.map.x_range"/>
+        <y_range     value="CoFlyers.map.y_range"/>
+        <z_range     value="CoFlyers.map.z_range"/>
+        <legend_name value="'$p_{group}$|||$m_{group}$'"/>
+        <font_size        value="14"/>
+        <font_size_sub    value="10"/>
+        <marker_size      value="15"/>       <!-- Marker size of the left axis -->
+        <background_color value="'k'"/>      <!-- Backgroud color of the left axis -->
+        <activate_BD_1    value="0"/>        <!-- ButtonDownFcn of the left axis -->
+    </visual>
+    
+    <!-- noise module -->
+    <noise>
+        <velocity_noise value="0"/>
+    </noise>
+
+    <!-- swarn module -->
+    <swarm>
+
+        <Vicsek1995>
+            <r_com value="1"/>
+            <v_flock value="0.1"/>
+            <eta value="0.2"/>
+        </Vicsek1995>
+
+        <PSO>
+            <c_local value="0.5"/>
+            <c_global value="0.5"/>
+        </PSO>
+
+        <Couzin2002>
+            <v_flock value="3.0"/>         <!-- move speed -->
+            <!--Swarm: 1.0,0.5,10.0. Torus: 1.0, 3.0, 10.0.  -->
+            <!--Dynamic Parallel: 1.0,3.0,14.0. Highly Parallel: 1.0, 10.0, 14.0.  -->
+            <r_rep   value="1.0"/>         <!-- radius of repulsion zone  -->
+            <dro     value="3.5"/>           <!-- radius differnce of alignment zone  -->   
+            <dra     value="10"/>          <!-- radius differnce of attraction zone  -->
+
+            <alpha   value="135/180*pi"/>  <!-- half field of view  -->
+            <sigma   value="0.3"/>         <!-- angle noise  -->
+            <dim     value="3.0"/>         <!-- algorithm dimension  -->
+            <height  value="1.0"/>         <!-- height maintenance for dim=3  -->
+        </Couzin2002>
+
+        <user_swarm>
+            <r_com value="4"/>
+        </user_swarm>
+        
+    </swarm>
+    
+    <!-- evaluation module -->
+    <evaluation>
+        <Couzin2002_eva>
+
+        </Couzin2002_eva>
+    </evaluation>
+    
+
+    <!-- sensor environment module -->
+    <sensor_env>
+        <activate_sensor value = "0"/>
+        <lidar>
+            <resolution value="2*pi/359"/>
+            <r_sense_min value="0.15"/>
+            <r_sense_max value="3.00"/>
+            <phi_range value=" [0;0]"/>
+            <psi_range value="[-pi;pi]"/>
+        </lidar>
+    </sensor_env>
+
+    <!-- motion module -->
+    <motion>
+        <point_mass>
+            <a_max value="2"/>
+            <v_max value="1.5"/>
+            <T_p value="1"/>
+            <T_v value="1"/>
+        </point_mass>
+        
+        <quadcopter>
+            <gravity value="9.81"/>
+            <inertia value="2.90833e-4; 2.90833e-4; 5.4e-4"/>
+            <mass value="0.092"/>
+            <len_arm value="0.06"/>
+            <v_max_h value="1.5"/>
+            <v_max_v value="1.0"/>
+            <yaw_rate_max value="0.5"/>
+            <a_max_h value="2"/>
+            <a_max_v value="2"/>
+            <euler_max value="15*pi/180"/>
+            <thrust_max value="2.2563"/>
+            <ct value="1.2220e-07"/>
+            <cm value="3.0000e-09"/>
+            <T_rotor_inverse value="20"/>
+            <kp_att value="0.08725; 0.08725; 0.16200"/>
+            <kd_att value="0.0175; 0.0175; 0.0324"/>
+            <kp_pos value="1;1;1;0.1"/>
+            <ki_pos value="0;0;0;0"/>
+            <kd_pos value="0;0;0;0"/>
+            <cd_filter_pos value="0.4"/>
+            <lb_pos_pid value="-2;-2;-2;-2"/>
+            <ub_pos_pid value="2;2;2;2"/>
+            <kp_vel value="2.2;2.2;1"/>
+            <ki_vel value="0; 0; 0"/>
+            <kd_vel value="0; 0; 0"/>
+            <cd_filter_vel value="0.4"/>
+            <lb_vel_pid value="-2;-2;-2"/>
+            <ub_vel_pid value="2;2;2"/>
+        </quadcopter>
+
+        <point_mass_rotation>
+            <speed_max value="3"/>
+            <theta_max value="0.7"/>
+            <T_p value="0.1"/>
+        </point_mass_rotation>
+
+    </motion>
+
+    <!-- map module -->
+    <!--Note:
+    1) static=0 represents the model is dynamic and the behavior of the model is customized 
+        in update_map3d_user.m.
+    2) alpha represents transparency and is limited between 0 and 1. 
+    3) the id number of static model defaults to -2.
+    4) If the name of a STL file carries the suffix '_rough', the file is used to generate perceptual data. 
+        In addition, a corresponding file without the suffix is required for visualization.
+    -->
+    <map>
+        <activate value="0"/>
+        <activate_periodic_boundary value="0"/>
+        <x_range value="-5;5"/> <!-- set value to "" to ignore the range -->
+        <y_range value="-5;5"/>
+        <z_range value="0;3"/>
+        <x_color value="0.5;0.5;0.5"/>
+        <x_alpha value="0.2"/>
+        <y_color value="0.5;0.5;0.5"/>
+        <y_alpha value="0.2"/>
+        <z_color value="0.5;0.5;0.5"/>
+        <z_alpha value="0"/>
+        <!--
+        <model>
+            <stl value="CoFlyers.stl"/>
+            <scale value="0.3;2;0.3"/>
+            <position value="[[-11;-3;-1.136]]"/> 
+            <rotation value="90;0;0"/> 
+            <color value="0.3;0.3;0.3"/>
+            <alpha value="1"/>
+            <static value="1"/> 
+        </model>
+        
+        <model>
+            <stl value="cylinder_rough.stl"/>
+            <scale value="1;1;1"/>
+            <position value="[[0;0;1],[1;0;1]]"/> 
+            <rotation value="0;0;0"/> 
+            <color value="0.5;0.5;0.5"/>
+            <alpha value="0.5"/>
+            <static value="1"/> 
+        </model>
+        
+        <model>
+            <stl value="cube.stl"/> 
+            <scale value="0.5;0.5;2"/> 
+            <position value="0;2;1"/> 
+            <rotation value="0;0;0"/> 
+            <color value="1;0;0"/>
+            <alpha value="1"/>
+            <static value="0"/> 
+            <id value="1"/>
+        </model>
+     -->
+    </map>
+
+
+    <simulink>
+        <sim_quad value="1"/>  <!-- 0: r, 1: v, 2:vr -->
+        <!-- <local_ip value="'192.168.200.11'"/>-->
+        <!-- <target_ip value="ones(1,CoFlyers.number)*11"/>-->
+        <local_ip value="'127.0.0.1'"/>
+        <target_ip value="ones(1,CoFlyers.number)*1"/>
+        <number_real value="1"/>
+    </simulink>
+
+</CoFlyers>

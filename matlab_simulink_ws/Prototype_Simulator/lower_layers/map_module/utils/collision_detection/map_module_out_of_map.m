@@ -2,6 +2,12 @@ function in_s = map_module_out_of_map(position3d_s, map3d_struct)
 %MAP_MODULE_OUT_OF_MAP Summary of this function goes here
 %   Detailed explanation goes here
 
+
+if isempty(map3d_struct)
+    in_s = true(1,size(position3d_s,2));
+    return
+end
+
 ind_range = find(map3d_struct(15,:) == -2);
 if ~isempty(ind_range)
     position_range_s = map3d_struct(1:3,ind_range);

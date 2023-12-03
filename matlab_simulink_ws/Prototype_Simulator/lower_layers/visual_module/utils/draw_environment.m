@@ -1,4 +1,4 @@
-function  draw_environment(my_axes, map3d_faces, map3d_struct,model_stls, dim)
+function  draw_environment(my_axes, map3d_faces, map3d_struct, model_stls, dim, clear_model)
 % DRAW_ENVIRONMENT 
 %  EXAMPLE:
 %     [map3d_faces, map3d_struct, model_stls] = generate_map3d();
@@ -9,12 +9,19 @@ if isempty(map3d_struct)
     return;
 end
 
-% For simulink
-if isempty(model_stls) && exist("model_stls.mat","file")
-    model_stls = importdata("model_stls.mat");
+
+if nargin<6
+    clear_model = false;
 end
 
 %
+if clear_model
+    % obj_s = findobj(my_axes.Children,'-regexp',"Tag","model_\w");
+    % if ~isempty(obj_s)
+        delete(findobj(my_axes.Children,'-regexp',"Tag","model_\w"));
+    % end
+end
+
 obj = findobj(my_axes.Children,'Tag','model_1');
 flag_init = isempty(obj);
 if flag_init

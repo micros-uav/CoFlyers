@@ -37,8 +37,9 @@ end
 if bitand(control_mode,0b000010) > 0
     vxyz_d([1,2],:) = vxyz_d([1,2],:) + vxyz_d_fws([1,2],:);
 end
-if bitand(control_mode,0b001000) > 0
-    vxyz_d(3,:) = vxyz_d(3,:) + vxyz_d(3,:);
+
+if bitand(control_mode,0b010000) > 0
+    vxyz_d(3,:) = vxyz_d(3,:) + vxyz_d_fws(3,:);
 end
 
 vxyz_d_norm = sqrt(sum(vxyz_d.^2,1));
@@ -59,7 +60,7 @@ end
 
 
 if bitand(control_mode,0b000100) > 0
-    axyz([1,2],:) = axyz([1,2],:) + axyz_d_fws([1,2,4],:);
+    axyz([1,2],:) = axyz([1,2],:) + axyz_d_fws([1,2],:);
 end
 
 if bitand(control_mode,0b100000) > 0

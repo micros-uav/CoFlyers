@@ -2,7 +2,7 @@ function draw_performance(my_axes_2, time_series, values_series)
 %VISUAL_MODULE_DRAW_PERFORMANCE Summary of this function goes here
 %   Detailed explanation goes here
 
-origin_hold = ishold;
+origin_hold = ishold(my_axes_2);
 if ~origin_hold
     hold(my_axes_2,"on");
 end

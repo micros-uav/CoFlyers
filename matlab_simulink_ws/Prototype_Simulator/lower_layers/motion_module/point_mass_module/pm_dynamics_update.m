@@ -1,4 +1,4 @@
-function [states,dstates] = pm_dynamics_update(t, states,commands_bottom,sample_time_motion)
+function [states,dstates] = pm_dynamics_update(t, states_in,commands_bottom,sample_time_motion)
 %PM_DYNAMICS_UPDATE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,7 +12,7 @@ v_max,...
 T_p,...
 T_v] = fun_params();
 
-axyz = commands_bottom;
+axyz = commands_bottom(1:3,:);
 
 axyz_norm = sqrt(sum(axyz.^2,1));
 % Clamp acceleration
@@ -22,8 +22,8 @@ if ~isempty(clamp_a)
 end
 
 %%% Numerical intergration, first-order
-dstates = [states(4:6,:);axyz];
-states = states + dstates * sample_time_motion;
+dstates = [states_in(4:6,:);axyz];
+states = states_in(1:6,:) + dstates * sample_time_motion;
 % Clamp velocity
 vxyz_norm = sqrt(sum(states(4:6,:).^2,1));
 clamp_v = find(vxyz_norm >  v_max);

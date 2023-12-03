@@ -1,5 +1,5 @@
 function performances_mean = model_swarm_repeat(mode_simulation, ...
-    parameters_op, parameters_bp, Nr, txtName, flag_parallel)
+    parameters_op, parameters_bp, Nr, txtName, flag_parallel,xml_name)
 %MODEL_SWARM_REPEAT repeats running "model_swarm" to get the average of Nr
 %simulations
 %INPUT:
@@ -17,12 +17,12 @@ end
 values_all = [];
 if flag_parallel
     parfor i = 1:Nr
-        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation);
+        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation,xml_name,[]);
         values_all(:,i) = values;
     end
 else
     for i = 1:Nr
-        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation);
+        values = model_swarm([], parameters_op, parameters_bp,i,mode_simulation,xml_name,[]);
         values_all(:,i) = values;
     end
 end
