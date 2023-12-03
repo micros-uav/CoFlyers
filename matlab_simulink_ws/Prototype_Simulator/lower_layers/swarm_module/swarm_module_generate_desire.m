@@ -11,8 +11,8 @@ function [command_upper_s,control_mode_s] = swarm_module_generate_desire(t, stat
 % VELOCITY_CONTROL_TYPE = 6;
 % VELOCITY_HORIZONTAL_CONTROL_TYPE = 7;
 switch swarm_algorithm_type
-	case 'Vicsek1995'
-		[command_upper_s,control_mode_s] = Vicsek1995_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct);
+	case 'Vasarhelyi'
+		[command_upper_s,control_mode_s] = Vasarhelyi_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct);
 	otherwise
 		command_upper_s = [];
 		control_mode_s = [];

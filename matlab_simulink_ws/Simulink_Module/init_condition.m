@@ -1,85 +1,43 @@
 %% using parameters.xml to config. 
 close all;
 
-[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml("../Prototype_Simulator/parameters.xml");
+[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] =...
+read_parameter_xml("../Prototype_Simulator/xml_config_files/parameters.xml");
 
+model_stls = join(model_stls);
+sim_quad = param_simulink.sim_quad;
+number   = params.number;
+flag_alg = params.swarm_algorithm_type;
+motion_model_type = params.motion_model_type;
+sample_time_control_upper = params.sample_time_control_upper;
+sample_time_control_bottom = params.sample_time_control_bottom;
+sample_time_motion = params.sample_time_motion;
+%% 
+if sim_quad == 0
+    % Real-world experiment
+    sample_time_base = sample_time_control_upper;
+    sample_time_control_bottom =  sample_time_control_upper;
+    sample_time_motion =  sample_time_control_upper;
+    number_real = number;
+    number_sim  = 1;        % Cannot be 0
+    activate_sim = false;
+elseif sim_quad == 1
+    % Simple simulation
+    sample_time_base = 0.0025;
+    param_simulink.local_ip = '127.0.0.1';
+    param_simulink.target_ip = ones(1,number)*1;
+    number_real = 0 ;
+    number_sim  = number;
+    activate_sim = true;
+else
+    % VR experiment
+    sample_time_base = 0.0025;
+    number_real = min(param_simulink.number_real,number);
+    number_sim  = max(number - number_real,0);
+    activate_sim = true;
+end
+local_ip_sim = param_simulink.local_ip;
+target_ip_array_sim = param_simulink.target_ip(number-number_sim+1:number);
 local_ip = param_simulink.local_ip;
 target_ip_array = param_simulink.target_ip;
-sim_quad = param_simulink.sim_quad;
-number = size(position0,2);
-
-sample_time_control = params.sample_time_control_upper;
-flag_alg = params.swarm_algorithm_type;
-%%
-if ~sim_quad
-    sample_time_base = sample_time_control;
-else
-    sample_time_base = 0.0025;
-    local_ip = '127.0.0.1';
-    target_ip_array = ones(1,number)*1;
-end
-%% The following code generally does not need to be modified
-% sample_time_control = sample_time_control_upper;
-% flag_alg = swarm_algorithm_type;
-
-path_here = mfilename('fullpath');
-ind = strfind(path_here,"init_condition");
-save(strcat(path_here(1:(ind-1)),"model_stls.mat"),"model_stls");
-
-%%%% simulator params %%%%
-[gravity,...
-    inertia,...
-    mass,...
-    len_arm,...
-    v_max_h,...
-    v_max_v,...
-    yaw_rate_max,...
-    a_max_h,...
-    a_max_v,...
-    euler_max,...
-    thrust_max,...
-    ct,...
-    cm,...
-    T_rotor_inverse,...
-    kp_att,...
-    kd_att,...
-    kp_pos,...
-    ki_pos,...
-    kd_pos,...
-    cd_filter_pos,...
-    lb_pos_pid,...
-    ub_pos_pid,...
-    kp_vel,...
-    ki_vel,...
-    kd_vel,...
-    cd_filter_vel,...
-    lb_vel_pid,...
-    ub_vel_pid] = quadcopter_module_parameters();
-
-inertia = inertia';
-kp_att = kp_att';
-kd_att = kd_att';
-
-kp_pos = kp_pos';
-ki_pos = ki_pos';
-kd_pos = kd_pos';
-lb_pos_pid = lb_pos_pid';
-ub_pos_pid = ub_pos_pid';
-
-kp_vel = kp_vel';
-ki_vel = ki_vel';
-kd_vel = kd_vel';
-lb_vel_pid = lb_vel_pid';
-ub_vel_pid = ub_vel_pid';
-
-position = position0;
-velocity = [rand(2,number)*0.001;zeros(1,number)];
-qwxyz = zeros(4,number); qwxyz(1,:) = 1;
-pqr = zeros(3,number);
-motor_speed = zeros(4,number);
-states_omeges = [position;velocity;qwxyz;pqr;motor_speed];
-
-% states_omeges = initialize_states(number,parameters_flocking,parameters_motion,...
-%     parameters_map,1);
-vehicle_int_con = states_omeges(1:13,:);
-motor_init_con = states_omeges(14:17,:);
+position0_sim = position0(:,number-number_sim+1:end);

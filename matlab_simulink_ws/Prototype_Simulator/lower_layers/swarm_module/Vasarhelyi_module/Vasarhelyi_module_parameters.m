@@ -22,7 +22,7 @@ vel_shill] = Vasarhelyi_module_parameters()
 % Every time read_parameter_xml.m is run, this function will be generated
 r_com = 8.000000000000;
 v_flock = 0.200000000000;
-r_rep_0 = 1.689600000000;
+r_rep_0 = 1.689580000000;
 p_rep = 0.953980000000;
 r_frict_0 = 5.650700000000;
 c_frict = 0.311050000000;

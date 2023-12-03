@@ -23,7 +23,7 @@
            point_mass_rotation
     -->
     <motion_model_type value="'point_mass'"/>
-    <swarm_algorithm_type value="'a'"/>
+    <swarm_algorithm_type value="'Vasarhelyi'"/>
     <evaluation_metric_type value="'evaluation_0'"/>
     
     <!-- Init position  -->
