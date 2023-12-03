@@ -4,7 +4,7 @@ CoFlyers: a universal platform for collective flying of swarm drones
 IROS2023
 
 <p align="center">
-<img src="./docs/images/CoFlyers_LOGO.png" alt="figure" height="400">
+<img src="./docs/images/CoFlyers_Logo.png" alt="figure" height="200">
 </p>
 
 ## 目录
