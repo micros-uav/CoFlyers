@@ -3,6 +3,8 @@
 #include"configuration.h"
 #include<thread>
 
+#include"mcs_virtual.h"
+
 namespace drone_swarm
 {
 	class drone_swarm
@@ -19,10 +21,14 @@ namespace drone_swarm
 
 		config::params_swarm params;
 		drone_commander::drone_commander* drones = nullptr;
+
+		friend void run_receive_optitrack_data(drone_swarm&);
+		friend void mocap_stop(drone_swarm& swarm);
 	private:
 		bool flag_run = true;
 		std::thread thread_receive_state_from_tellos;
 		void callback_receive_state_from_tellos();
+		mcs::Motion_capture_system* mcs_handle = nullptr;
 	};
 
 
@@ -30,5 +36,5 @@ namespace drone_swarm
 	void get_timestamp_handler(const double timestamp);
 	void process_rigid_data_handler(const unsigned int id, const data_description::state_rigidbody* state_ptr);
 	void run_receive_optitrack_data(drone_swarm &);
-	void mocap_stop();
+	void mocap_stop(drone_swarm& swarm);
 }

@@ -53,29 +53,66 @@ Usage [optional]:
 #include "NatNetClient.h"
 
 //////////////
-#include "data_description.h"
+#include"mcs_virtual.h"
 ////////////
 
 
 namespace natnet
 {
 	///////////////////User///////////////////////
-	void set_process_rigid_data_handler(void(*process_rigid_data_handler1)(const unsigned int id, const data_description::state_rigidbody* state));
-	void set_timestamp_handler(void(*get_timestamp_handler1)(const double));
+	//void set_process_rigid_data_handler(void(*process_rigid_data_handler1)(const unsigned int id, const data_description::state_rigidbody* state));
+	//void set_timestamp_handler(void(*get_timestamp_handler1)(const double));
 
-	void(*process_rigid_data_handler)(const unsigned int id, const data_description::state_rigidbody* state) = nullptr;
-	void(*get_timestamp_handler)(const double timestamp) = nullptr;
+	//void(*process_rigid_data_handler)(const unsigned int id, const data_description::state_rigidbody* state) = nullptr;
+	//void(*get_timestamp_handler)(const double timestamp) = nullptr;
 	
-	data_description::state_rigidbody *state_ptr = nullptr;
+	//data_description::state_rigidbody *state_ptr = nullptr;
 
-	void set_process_rigid_data_handler(void(*process_rigid_data_handler1)(const unsigned int id, const data_description::state_rigidbody* state))
+//	void set_process_rigid_data_handler(void(*process_rigid_data_handler1)(const unsigned int id, const data_description::state_rigidbody* state))
+//	{
+//		process_rigid_data_handler = process_rigid_data_handler1;
+//}
+//	void set_timestamp_handler(void(*get_timestamp_handler1)(const double))
+//	{
+//		get_timestamp_handler = get_timestamp_handler1;
+//	}
+
+	int activate_opt(const char* ip_server, const char* ip_client);
+	int stop_opt();
+
+	class mcs_opt : public mcs::Motion_capture_system
 	{
-		process_rigid_data_handler = process_rigid_data_handler1;
-}
-	void set_timestamp_handler(void(*get_timestamp_handler1)(const double))
-	{
-		get_timestamp_handler = get_timestamp_handler1;
-	}
+	public:
+		mcs_opt()
+		{
+
+		}
+		~mcs_opt()
+		{
+
+		}
+		int activate(const char* ip_server, const char* ip_client)
+		{
+			//this->thread_receive_data_from_mcs = std::thread(activate_zvr,ip_server,ip_client);
+			return activate_opt(ip_server, ip_client);
+		}
+		void set_process_rigid_data_handler(void(*process_rigid_data_handler_in)(const unsigned int id, const data_description::state_rigidbody* state))
+		{
+			this->process_rigid_data_handler = process_rigid_data_handler_in;
+		}
+		void set_timestamp_handler(void(*get_timestamp_handler_in)(const double))
+		{
+			this->get_timestamp_handler = get_timestamp_handler_in;
+		}
+		void stop()
+		{
+			stop_opt();
+		}
+		friend void NATNET_CALLCONV DataHandler(sFrameOfMocapData* data, void* pUserData);
+	private:
+		void(*process_rigid_data_handler)(const unsigned int id, const data_description::state_rigidbody* state) = nullptr;
+		void(*get_timestamp_handler)(const double timestamp) = nullptr;
+}mcs_zvr_handle;
 
 	/////////////////////////////////////////////
 #ifndef _WIN32
@@ -101,10 +138,8 @@ namespace natnet
 	int g_analogSamplesPerMocapFrame = 0;
 	sServerDescription g_serverDescription;
 
-	int activate(const char * ip_server, const char * ip_client);
-	int stop();
 
-	int stop()
+	int stop_opt()
 	{
 		// Done - clean up.
 		if (g_pClient)
@@ -123,7 +158,7 @@ namespace natnet
 		return ErrorCode_OK;
 	}
 
-	int activate(const char * ip_server, const char * ip_client)
+	int activate_opt(const char * ip_server, const char * ip_client)
 	{
 		// print version info
 		unsigned char ver[4];
@@ -259,9 +294,9 @@ namespace natnet
 	void NATNET_CALLCONV DataHandler(sFrameOfMocapData* data, void* pUserData)
 	{
 
-		if (get_timestamp_handler != nullptr)
+		if (mcs_zvr_handle.get_timestamp_handler != nullptr)
 		{
-			get_timestamp_handler(data->fTimestamp);
+			mcs_zvr_handle.get_timestamp_handler(data->fTimestamp);
 		}
 		int i = 0;
 
@@ -289,11 +324,10 @@ namespace natnet
 				data->RigidBodies[i].qy,
 				data->RigidBodies[i].qz,
 				data->RigidBodies[i].qw);*/
-			if (process_rigid_data_handler != nullptr && bTrackingValid)
+			if (mcs_zvr_handle.process_rigid_data_handler != nullptr && bTrackingValid)
 			{
-				state_ptr = (data_description::state_rigidbody*)&(data->RigidBodies[i].x);
 				//printf("ID:%d,x:%f\n",data->RigidBodies[i].ID,state_ptr->x);
-				process_rigid_data_handler(data->RigidBodies[i].ID,state_ptr);
+				mcs_zvr_handle.process_rigid_data_handler(data->RigidBodies[i].ID, (data_description::state_rigidbody*)&(data->RigidBodies[i].x));
 			}
 		}
 		

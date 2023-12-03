@@ -66,6 +66,6 @@ int main()
 	printf("Exiting......");
 
 	swarm.stop();
-	drone_swarm::mocap_stop();
+	drone_swarm::mocap_stop(swarm);
 	return 1;
 }

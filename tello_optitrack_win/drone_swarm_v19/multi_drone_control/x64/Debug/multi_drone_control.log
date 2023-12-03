@@ -1,20 +1,12 @@
-﻿  configuration.cpp
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(105,21): warning C4018: “<”: 有符号/无符号不匹配
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(113,21): warning C4018: “>”: 有符号/无符号不匹配
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(124,16): warning C4018: “<”: 有符号/无符号不匹配
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(64,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(68,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(88,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(92,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(101,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  drone_swarm.cpp
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.h(18,24): warning C4305: “初始化”: 从“double”到“float”截断
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(124,70): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(244,19): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(245,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(252,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(352,11): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  main.cpp
-H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.h(18,24): warning C4305: “初始化”: 从“double”到“float”截断
-  正在生成代码...
-  multi_drone_control.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\multi_drone_control.exe
+﻿  drone_swarm.cpp
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\single_drone_control\drone_commander.h(18,24): warning C4305: “初始化”: 从“double”到“float”截断
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\zvr_sdk\zvr_class_my.h(270,29): warning C4477: “_snprintf_s”: 格式字符串“%ld”需要类型“long”的参数，但可变参数 1 拥有了类型“int64_t”
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\zvr_sdk\zvr_class_my.h(270,29): message : 请考虑在格式字符串中使用“%lld”
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\zvr_sdk\zvr_class_my.h(270,29): message : 请考虑在格式字符串中使用“%Id”
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\zvr_sdk\zvr_class_my.h(270,29): message : 请考虑在格式字符串中使用“%I64d”
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(140,70): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(260,19): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(261,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(268,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\multi_drone_control\drone_swarm.cpp(372,11): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  multi_drone_control.vcxproj -> D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\x64\Debug\multi_drone_control.exe

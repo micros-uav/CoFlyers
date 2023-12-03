@@ -1,1 +1,13 @@
-﻿  drone_controller.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\drone_controller.lib
+﻿  configuration.cpp
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(119,21): warning C4018: “<”: 有符号/无符号不匹配
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(127,21): warning C4018: “>”: 有符号/无符号不匹配
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(138,16): warning C4018: “<”: 有符号/无符号不匹配
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(78,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(82,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(102,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(106,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\configuration.cpp(115,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  drone_controller.cpp
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\drone_controller\drone_controller.cpp(48,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  正在生成代码...
+  drone_controller.vcxproj -> D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\x64\Debug\drone_controller.lib

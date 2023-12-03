@@ -1,1 +1,17 @@
-﻿  tello_sdk.vcxproj -> H:\paper_Coflyers\CoFlyers_v2_0_0\CoFlyers\tello_optitrack_win\drone_swarm_v19\x64\Debug\tello_sdk.lib
+﻿  data_description.cpp
+  UDPInterfaceBase.cpp
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\UDPInterfaceBase.cpp(59,35): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\src\UDPInterfaceBase.cpp(60,31): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  UDPInterfaceRobot.cpp
+  UDPInterfaceTello.cpp
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(7,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(8,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(29,5): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(44,5): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(60,5): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(81,5): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(161,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\tello_sdk\UDPInterfaceTello.cpp(179,3): warning C4244: “=”: 从“ULONGLONG”转换到“double”，可能丢失数据
+  正在生成代码...
+  test_tello.cpp
+  tello_sdk.vcxproj -> D:\Work_group\project_vr\develop\tello_optitrack_win\drone_swarm_v19\x64\Debug\tello_sdk.lib

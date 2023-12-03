@@ -1,6 +1,7 @@
 0================ Flag to control whether to tune pid controller
 16=============== Maximum number of drones
 0.7=============== takeoff height
+0==================== Type of the motion capture system, 0:OptiTrack, 1:ZVR
 192.168.2.5========== Local ip to communicate with MOCAP
 192.168.2.3========== Target ip to communicate with MOCAP
 120=============== Capture frame of MOCAP

@@ -1,7 +1,11 @@
 #include"drone_swarm.h"
-#include"NatNetClass_my.h"
 #include"operations.h"
 #include<direct.h>
+
+
+#include"zvr_class_my.h"
+#include"NatNetClass_my.h"
+
 namespace drone_swarm
 {
 	drone_swarm::drone_swarm()
@@ -25,7 +29,19 @@ namespace drone_swarm
 			exit(1);
 			return;
 		}
-		;
+		
+		switch (this->params.type_mcs)
+		{
+		case config::MCS_TYPE::OPTITRACK:
+			this->mcs_handle = &natnet::mcs_zvr_handle;
+			break;
+		case config::MCS_TYPE::ZVR:
+			this->mcs_handle = &zvr::mcs_zvr_handle;
+			break;
+		default:
+			break;
+		}
+
 		if (this->drones == nullptr)
 		{
 			this->drones = new drone_commander::drone_commander[this->params.number];
@@ -254,14 +270,18 @@ namespace drone_swarm
 		}
 		
 		//
-		natnet::set_process_rigid_data_handler(process_rigid_data_handler);
-		natnet::set_timestamp_handler(get_timestamp_handler);
-		natnet::activate(swarm_ptr->params.ip_target_mocap, swarm_ptr->params.ip_local_mocap);
+		//natnet::set_process_rigid_data_handler(process_rigid_data_handler);
+		//natnet::set_timestamp_handler(get_timestamp_handler);
+		//natnet::activate(swarm_ptr->params.ip_target_mocap, swarm_ptr->params.ip_local_mocap);
+		swarm.mcs_handle->set_process_rigid_data_handler(process_rigid_data_handler);
+		swarm.mcs_handle->set_timestamp_handler(get_timestamp_handler);
+		swarm.mcs_handle->activate(swarm_ptr->params.ip_target_mocap, swarm_ptr->params.ip_local_mocap);
 	}
 	// Stop mocap and clear up.
-	void mocap_stop()
+	void mocap_stop(drone_swarm& swarm)
 	{
-		natnet::stop();
+		//natnet::stop();
+		swarm.mcs_handle->stop();
 
 		if (ts_state != nullptr) { delete[] ts_state;	ts_state = nullptr; }
 		if (te_state != nullptr) { delete[] te_state; te_state = nullptr; }
@@ -373,7 +393,7 @@ namespace drone_swarm
 				
 				//flag_captured[id] = true;
 				double dt = ((double)std::chrono::duration_cast<std::chrono::milliseconds>(ts_state[id] - time_stamp_pre).count())/1000.0;
-				printf("dt: %lf.\n",dt);
+				//printf("dt: %lf.\n",dt);
 
 				time_stamp_pre = ts_state[id];
 				unsigned int ind_v = ind_ptr_v[id];
@@ -423,11 +443,11 @@ namespace drone_swarm
 				s_filter_ptr->acc.y += (state_origin_now.acc.y - a_ptr_oldest->y) / (float)span_a;
 				s_filter_ptr->acc.z += (state_origin_now.acc.z - a_ptr_oldest->z) / (float)span_a;
 
-				printf("ID:%d, x%f, y%f, z%f, vx %f, vy %f, vz %f, ax %f, ay %f, az %f, yaw%f, roll%f, pitch%f\n",
-					id,swarm_ptr->drones[id].state.pos.x, swarm_ptr->drones[id].state.pos.y, swarm_ptr->drones[id].state.pos.z,
-					swarm_ptr->drones[id].state.vel.x, swarm_ptr->drones[id].state.vel.y, swarm_ptr->drones[id].state.vel.z,
-					swarm_ptr->drones[id].state.acc.x, swarm_ptr->drones[id].state.acc.y, swarm_ptr->drones[id].state.acc.z,
-					swarm_ptr->drones[id].state.angle.yaw, swarm_ptr->drones[id].state.angle.roll, swarm_ptr->drones[id].state.angle.pitch);
+				//printf("ID:%d, x%f, y%f, z%f, vx %f, vy %f, vz %f, ax %f, ay %f, az %f, yaw%f, roll%f, pitch%f\n",
+				//	id,swarm_ptr->drones[id].state.pos.x, swarm_ptr->drones[id].state.pos.y, swarm_ptr->drones[id].state.pos.z,
+				//	swarm_ptr->drones[id].state.vel.x, swarm_ptr->drones[id].state.vel.y, swarm_ptr->drones[id].state.vel.z,
+				//	swarm_ptr->drones[id].state.acc.x, swarm_ptr->drones[id].state.acc.y, swarm_ptr->drones[id].state.acc.z,
+				//	swarm_ptr->drones[id].state.angle.yaw, swarm_ptr->drones[id].state.angle.roll, swarm_ptr->drones[id].state.angle.pitch);
 				
 				//
 				ind_ptr_v[id] = ind_span_first_v;
@@ -457,6 +477,4 @@ namespace drone_swarm
 		}
 	}
 
-
-	
 }

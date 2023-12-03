@@ -30,6 +30,9 @@
     <ClInclude Include="..\include\data_description.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\mcs_virtual.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test_optitrack.cpp">

@@ -61,6 +61,20 @@ namespace config
 		printf("The default height of take-off is %f.\n", params.height_takeoff);
 
 		getline(myfile, string_line);
+		params.type_mcs = std::stoi(string_line);
+		switch (params.type_mcs)
+		{
+		case MCS_TYPE::OPTITRACK:
+			printf("The type of the motion capture system is OptiTrack.\n");
+			break;
+		case MCS_TYPE::ZVR:
+			printf("The type of the motion capture system is ZVR.\n");
+			break;
+		default:
+			break;
+		}
+
+		getline(myfile, string_line);
 		strcpy(params.ip_local_mocap, string_line.c_str());
 		printf("The local ip to communicate with mocap is %s.\n", params.ip_local_mocap);
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1585
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34114.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "optitrack_sdk", "optitrack_sdk\optitrack_sdk.vcxproj", "{51C7C969-F467-46F4-BA07-981435074D10}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "package_forwarding", "package_forwarding\package_forwarding.vcxproj", "{AD897810-FBBF-494D-9E4C-1783D21F624B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "multi_drone_control", "multi_drone_control\multi_drone_control.vcxproj", "{CEACD1B9-437B-43BF-A2F0-CA930719D58D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zvr_sdk", "zvr_sdk\zvr_sdk.vcxproj", "{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,14 @@ Global
 		{CEACD1B9-437B-43BF-A2F0-CA930719D58D}.Release|x64.Build.0 = Release|x64
 		{CEACD1B9-437B-43BF-A2F0-CA930719D58D}.Release|x86.ActiveCfg = Release|Win32
 		{CEACD1B9-437B-43BF-A2F0-CA930719D58D}.Release|x86.Build.0 = Release|Win32
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Debug|x64.ActiveCfg = Debug|x64
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Debug|x64.Build.0 = Debug|x64
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Debug|x86.ActiveCfg = Debug|Win32
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Debug|x86.Build.0 = Debug|Win32
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Release|x64.ActiveCfg = Release|x64
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Release|x64.Build.0 = Release|x64
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Release|x86.ActiveCfg = Release|Win32
+		{01CC088C-DB52-4556-8CE8-D8CC10A1C07B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

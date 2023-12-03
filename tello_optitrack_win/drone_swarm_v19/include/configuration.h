@@ -59,7 +59,14 @@ namespace  config
 		float THRUST_MIN = -100.0f;
 		float THRUST_MAX = 100.0f;
 	};
-
+#ifndef HAVE_ENUM_MCS_TYPE
+#define HAVE_ENUM_MCS_TYPE
+	typedef enum MCS_TYPE
+	{
+		OPTITRACK=0,
+		ZVR=1
+	}MCS_TYPE;
+#endif
 	struct params_swarm
 	{
 		// Tune pid controller
@@ -69,12 +76,13 @@ namespace  config
 		unsigned int number = 12;
 		float height_takeoff = 0.7f;
 		// Motion capture system
+		unsigned int type_mcs = MCS_TYPE::OPTITRACK;
 		char ip_local_mocap[16]{};
 		char ip_target_mocap[16]{};
 		unsigned int frame_num = 120;
 		unsigned int span_filter_v = 10; // For sliding-window filter, velocity
 		unsigned int span_filter_a = 10; // For sliding-window filter, acceleration
-		bool flag_save_data = true;	   // For saving data
+		bool flag_save_data = true;	     // For saving data
 
 		// External control
 		char ip_local_external[16]{};
@@ -93,6 +101,8 @@ namespace  config
 			}
 		};
 	};
+
+
 
 	bool get_params_controller_from_txt(params_controller& params,const char*file_name);
 	bool get_params_swarm_from_txt(params_swarm& params, const char*file_name);
