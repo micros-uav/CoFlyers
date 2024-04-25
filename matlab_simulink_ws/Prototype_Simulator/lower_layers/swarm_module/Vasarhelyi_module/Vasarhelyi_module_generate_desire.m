@@ -1,5 +1,5 @@
 function [command_upper_s,control_mode_s] =...
-    Vasarhelyi_module_generate_desire(t,states, sample_time, sensor_data_s, map3d_struct)
+    Vasarhelyi_module_generate_desire(t,states, sample_time, sensor_data_s, map3d_struct, terrain, terrain_params)
 %VASARHELYI_MODULE_GENERATE_DESIRE_I  Generate the desired position and velocity
 % according to the current flocking states and model parameters
 %   point-mass: state = [x; y; z; vx; vy; vz; ax; ay; az]
@@ -35,7 +35,7 @@ for id  = 1:number
     %%%%%Distributed control%%%%%
     [posDesired_id,velDesired_id,accDesired_id,control_mode_id] =...
             Vasarhelyi_module_generate_desire_i(id,state_i,states_neighbor,...
-            dis_to_neighbor,posid_to_neighbor);
+            dis_to_neighbor,posid_to_neighbor,terrain,terrain_params);
     
     %%%%%  %%%%%
     posDesired(:,id) = posDesired_id;

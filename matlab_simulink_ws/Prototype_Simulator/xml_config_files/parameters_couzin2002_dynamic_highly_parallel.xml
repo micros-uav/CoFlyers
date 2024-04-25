@@ -54,8 +54,12 @@
         <font_size        value="14"/>
         <font_size_sub    value="10"/>
         <marker_size      value="15"/>       <!-- Marker size of the left axis -->
-        <background_color value="'k'"/>      <!-- Backgroud color of the left axis -->
+        <background_color value="'w'"/>      <!-- Backgroud color of the left axis -->
         <activate_BD_1    value="0"/>        <!-- ButtonDownFcn of the left axis -->
+        <len_arm value="0.5"/> <!-- Arm length of quadcopter drones -->
+        <cmap_terrain value = "sky"/>
+        <cmap_traj value = "hsv"/>
+        <T_end value = "CoFlyers.time_max"/>
     </visual>
     
     <!-- noise module -->
@@ -154,6 +158,7 @@
             <cd_filter_vel value="0.4"/>
             <lb_vel_pid value="-2;-2;-2"/>
             <ub_vel_pid value="2;2;2"/>
+            <h_ground value = "-100000"/>
         </quadcopter>
 
         <point_mass_rotation>

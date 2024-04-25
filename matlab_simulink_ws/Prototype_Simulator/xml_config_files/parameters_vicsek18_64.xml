@@ -12,9 +12,9 @@
     <!-- global settings -->
     <number value="64"/> 
     <time_max value="401"/>
-    <sample_time_motion value="0.1"/>
+    <sample_time_motion value="0.0025"/>
     <sample_time_control_upper value="0.1"/>
-    <sample_time_control_bottom value="0.1"/>  
+    <sample_time_control_bottom value="0.0025"/>  
     <activate_save_states value="0"/>
     <time_interval_save value="1"/>
     <!-- motion_model_type：
@@ -22,7 +22,7 @@
            quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
            point_mass_rotation
     -->
-    <motion_model_type value="'point_mass'"/>
+    <motion_model_type value="'quadcopter'"/>
     <swarm_algorithm_type value="'Vasarhelyi'"/>
     <evaluation_metric_type value="'evaluation_0'"/>
     
@@ -47,8 +47,8 @@
         <follow_agent value="0"/>
         <activate_save_figure value="0"/>
         <activate_save_video value="0"/>
-        <dim_visual value="2"/>
-        <time_interval_trajectory value="20"/>
+        <dim_visual value="3"/>
+        <time_interval_trajectory value="40"/>
         <video_speed value="10"/> <!-- frame rate -->
         <x_range value="CoFlyers.map.x_range"/>
         <y_range value="CoFlyers.map.y_range"/>
@@ -57,8 +57,12 @@
         <font_size      value="14"/>
         <font_size_sub  value="10"/>
         <marker_size value="10"/>       <!-- Marker size of the left axis -->
-        <background_color value="'k'"/> <!-- Backgroud color of the left axis -->
+        <background_color value="'w'"/> <!-- Backgroud color of the left axis -->
         <activate_BD_1 value="0"/>      <!-- ButtonDownFcn of the left axis -->
+        <len_arm value="0.5"/> <!-- Arm length of quadcopter drones -->
+        <cmap_terrain value = "sky"/>
+        <cmap_traj value = "hsv"/>
+        <T_end value = "CoFlyers.time_max"/>
     </visual>
     
     <!-- noise module -->
@@ -145,17 +149,18 @@
             <kp_att value="0.08725; 0.08725; 0.16200"/>
             <kd_att value="0.0175; 0.0175; 0.0324"/>
             <kp_pos value="1;1;1;0.1"/>
-            <ki_pos value="0;0;0;0"/>
-            <kd_pos value="0;0;0;0"/>
+            <ki_pos value="0.1;0.1;0.1;0.01"/>
+            <kd_pos value="0.1;0.1;0.1;0.01"/>
             <cd_filter_pos value="0.4"/>
             <lb_pos_pid value="-2;-2;-2;-2"/>
             <ub_pos_pid value="2;2;2;2"/>
             <kp_vel value="2.2;2.2;1"/>
-            <ki_vel value="0; 0; 0"/>
-            <kd_vel value="0; 0; 0"/>
+            <ki_vel value="0.2; 0.2; 0.1"/>
+            <kd_vel value="0.2; 0.2; 0.1"/>
             <cd_filter_vel value="0.4"/>
             <lb_vel_pid value="-2;-2;-2"/>
             <ub_vel_pid value="2;2;2"/>
+            <h_ground value = "-100000"/>
         </quadcopter>
 
         <point_mass_rotation>

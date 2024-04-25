@@ -10,13 +10,13 @@
     -->
 
     <!-- global settings -->
-    <number value="300"/> 
+    <number value="100"/> 
     <time_max value="401"/>
     <sample_time_motion value="0.1"/>
     <sample_time_control_upper value="0.1"/>
     <sample_time_control_bottom value="0.1"/>  
     <activate_save_states value="0"/>
-    <time_interval_save value="1"/>
+    <time_interval_save value="0.1"/>
     <!-- motion_model_type：
            point_mass, 
            quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
@@ -42,12 +42,12 @@
     <visual>
         <activate_plot value="1"/>
         <time_interval_plot value="0.1"/>
-        <activate_trajectory value="0"/>
+        <activate_trajectory value="1"/>
         <follow_agent value="0"/>
         <activate_save_figure value="0"/>
         <activate_save_video value="0"/>
         <dim_visual value="2"/>
-        <time_interval_trajectory value="20"/>
+        <time_interval_trajectory value="5"/>
         <video_speed value="10"/> <!-- frame rate -->
         <x_range value="CoFlyers.map.x_range"/>
         <y_range value="CoFlyers.map.y_range"/>
@@ -56,8 +56,12 @@
         <font_size      value="14"/>
         <font_size_sub  value="10"/>
         <marker_size value="10"/>       <!-- Marker size of the left axis -->
-        <background_color value="'k'"/> <!-- Backgroud color of the left axis -->
+        <background_color value="'w'"/> <!-- Backgroud color of the left axis -->
         <activate_BD_1 value="1"/>      <!-- ButtonDownFcn of the left axis -->
+        <len_arm value="0.5"/> <!-- Arm length of quadcopter drones -->
+        <cmap_terrain value = "sky"/>
+        <cmap_traj value = "hsv"/>
+        <T_end value = "CoFlyers.time_max"/>
     </visual>
     
     <!-- noise module -->
@@ -132,6 +136,7 @@
             <cd_filter_vel value="0.4"/>
             <lb_vel_pid value="-2;-2;-2"/>
             <ub_vel_pid value="2;2;2"/>
+            <h_ground value = "-100000"/>
         </quadcopter>
 
         <point_mass_rotation>

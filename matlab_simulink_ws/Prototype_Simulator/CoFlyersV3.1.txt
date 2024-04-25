@@ -1,0 +1,25 @@
+April 25, 2024. V3.1
+1. Fix the bug where the GUI is unable to save videos. 
+   Related files:
+    CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\visual_module_draw_figures.m
+2. Fix the bug where only 9 models can be input.
+   Related files:
+    CoFlyers\matlab_simulink_ws\Prototype_Simulator\utils\xml_read\read_map_param_struct.m
+3. Add the function of importing an elevation map in the map module.
+   Related files:
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\utils\xml_read\read_map_param_struct.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\utils\xml_read\read_parameter_xml.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\combine_modules\initialize_parameters_states.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\combine_modules\model_swarm.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\sensor_env_module\*
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\swarm_module\*
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\utils\draw_environment.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\visual_module_draw_figures.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\evaluation_module\*
+     CoFlyers\github\CoFlyers\matlab_simulink_ws\Simulink_Module\init_condition.m
+     CoFlyers\github\CoFlyers\matlab_simulink_ws\Simulink_Module\testControlWithDroneSwarm.slx
+
+4. Update trajectory drawing method.
+   Related files:
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\utils\draw_trajectory.m
+     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\visual_module_draw_figures.m

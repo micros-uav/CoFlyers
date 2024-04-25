@@ -1,5 +1,5 @@
 function [posDesired_id,velDesired_id,accDesired_id,control_mode_id] = Vasarhelyi_module_generate_desire_i(id,state_i,states_neighbor,...
-        dis_to_neighbor,posid_to_neighbor)
+        dis_to_neighbor,posid_to_neighbor,terrain,terrain_params)
 %VASARHELYI_MODULE_GENERATE_DESIRE_I Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -27,6 +27,9 @@ dr_shill,...
 pos_shill,...
 vel_shill] = fun_params();
 
+
+
+
 VELOCITY_HORIZONTAL_CONTROL_TYPE = 7;
 
 posDesired_id = [state_i(1:2);height;0];
@@ -37,6 +40,32 @@ control_mode_id = VELOCITY_HORIZONTAL_CONTROL_TYPE;
 pos2DId = state_i(1:2);
 vel2DId = state_i(4:5);
 vel2D_neighbor = states_neighbor(4:5,:);
+
+% Local terrain to shill agents
+if ~isempty(terrain)
+    r_w = 5;
+    r_sub = floor((pos2DId(2)-terrain_params(2,1))/terrain_params(2,2));
+    c_sub = floor((pos2DId(1)-terrain_params(1,1))/terrain_params(1,2));
+    h_sub = floor((r_w/terrain_params(2,2)));
+    w_sub = floor((r_w/terrain_params(1,2)));
+    [h,w] = size(terrain);
+    r_min = max(1,r_sub-h_sub);
+    r_max = min(h,r_sub+h_sub);
+    c_min = max(1,c_sub-w_sub);
+    c_max = min(w,c_sub+w_sub);
+    terrain_sub = terrain(r_min:r_max,c_min:c_max);
+    [r_obs,c_obs] = find(terrain_sub>state_i(3));
+    if ~isempty(r_obs)
+        r_obs = r_obs + r_min - 1;
+        c_obs = c_obs + c_min - 1;
+        temp_p_shill = [(c_obs'*terrain_params(1,2))+terrain_params(1,1)
+            (r_obs'*terrain_params(2,2))+terrain_params(2,1)];
+        temp = [pos2DId - temp_p_shill];
+        vel_shill = [vel_shill, temp./vecnorm(temp)];
+        pos_shill = [pos_shill, temp_p_shill];
+    end
+end
+
 %Self-propelling term
 velIdNorm = norm(vel2DId);
 if velIdNorm == 0
@@ -46,6 +75,7 @@ else
     vFlockId = v_flock * vel2DId/velIdNorm;
 end
 %    vFlockId = v_flock * [1;0];
+
 
 vRepId = zeros(2,1);
 vFrictId = zeros(2,1);

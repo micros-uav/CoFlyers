@@ -1,5 +1,5 @@
 function visual_module_draw_figures(states, time_series_s, states_series, time_series, values_series,...
-    map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage,...
+    map3d_faces, map3d_struct, model_stls, terrain, terrain_params, mode_simulation, flag_stage,...
     flag_motion_model, fig, axis_1, axis_2)
 %VISUAL_MODULE_DRAW_FIGURES Summary of this function goes here
 %   Detailed explanation goes here
@@ -25,31 +25,31 @@ file_name_param = "visual_module_parameters";
 [~,str_core] = get_multi_core_value();
 fun_params = str2func(strcat(file_name_param,str_core));
 
-[activate_plot,time_interval_plot,activate_trajectory,...
-follow_agent,activate_save_figure,activate_save_video,...
-dim_visual,time_interval_trajectory,video_speed,...
-x_range,y_range,z_range_map,legend_name,...
-font_size,font_size_sub,marker_size,background_color] = fun_params();
+[activate_plot,...
+time_interval_plot,...
+activate_trajectory,...
+follow_agent,...
+activate_save_figure,...
+activate_save_video,...
+dim_visual,...
+time_interval_trajectory,...
+video_speed,...
+x_range,...
+y_range,...
+z_range_map,...
+legend_name,...
+font_size,...
+font_size_sub,...
+marker_size,...
+background_color,...
+activate_BD_1,...
+len_arm,...
+cmap_terrain,...
+cmap_traj,...
+T_end] = fun_params();
 
 legend_names = strsplit(legend_name,'|||');
-%=========================================================================%
-
-
-%%% Colors of the bodies pf the point-mass agents
-colormap_body = hsv;
-if dim_visual == 3
-    vel_mean = mean(states(4:6,:),2);
-    vel_mean = vel_mean/(norm(vel_mean)+1e-8);
-    vel_unit = states(4:6,:)./(vecnorm(states(4:6,:))+1e-8);
-    dangle_s = acos(sum(vel_unit.*vel_mean,1));
-    dangle_s_int = floor(dangle_s/pi*256)+1;
-    color_s_bodies = colormap_body(dangle_s_int,:)';
-else
-    direction = (atan2(states(5,:),states(4,:))+pi)/2/pi;
-    direction_int = floor(direction*256)+1;
-    color_s_bodies = colormap_body(direction_int,:)';
-end
-%% Callback when the simulation starts
+%% Init. Callback when the simulation starts
 if flag_stage == FLAG_INIT
     if activate_save_video
         my_video = VideoWriter([data_save_dir_name,'/videos/video_',time_now_string,'.avi']);
@@ -58,21 +58,9 @@ if flag_stage == FLAG_INIT
         open(my_video);
     end
     %====Axes create====%
-    % if isempty(axis_1)
-    %     change_figure_position(fig);
-    %     tiledlayout(1,2);
-    %     a_1 = nexttile;
-    %     a_2 = nexttile;
-    % else
-    %     a_1 = axis_1;
-    %     a_2 = axis_2;
-    % end
-    % change_figure_position(fig);
     a_1 = axis_1;
     a_2 = axis_2;
     
-
-
     %====Axes1 init====%
     a_1.Tag = "CF1";
     hold(a_1,'on'); grid(a_1,'on'); box(a_1,'on')
@@ -84,13 +72,6 @@ if flag_stage == FLAG_INIT
         view(a_1,[-45,30]);
     end
     title(a_1,['Elapsed time ',num2str(time_series_s(end),"%.2f"),' s'])
-    % Colorbar
-    if activate_trajectory
-        c = colorbar(a_1);
-        c.Label.String = 'Speed (m/s)';
-        caxis(a_1,[0,0.24]);
-        c.FontSize = font_size_sub;
-    end
     set(a_1,'FontSize',font_size,'FontName','Times New Roman');
 
     if ~follow_agent
@@ -99,12 +80,18 @@ if flag_stage == FLAG_INIT
         if dim_visual == 3
             zlim(a_1,z_range_map);
         end
-
     end
     
     set(a_1,'color',background_color)
 
-    draw_environment(a_1, map3d_faces, map3d_struct, model_stls, dim_visual);
+    draw_environment(a_1, map3d_faces, map3d_struct, model_stls, terrain, terrain_params, dim_visual, cmap_terrain);
+    if dim_visual==3
+        view(a_1,[-45,30]);
+        axis(a_1,"equal");                      % Set aspect ratio.
+        axis(a_1,"vis3d");
+        camlight(a_1);                          % Add a light
+        lighting(a_1,"gouraud");                % Use decent lighting.
+    end
     %====Axes2 init====%
     a_2.Tag = "CF2";
     hold(a_2,'on'); grid(a_2,'on'); box(a_2,'on')
@@ -120,15 +107,16 @@ if flag_stage == FLAG_INIT || flag_stage == FLAG_RUNNING
         t_now        = time_series_s(end);
         ind_tail = find(time_series_s > t_now - time_interval_trajectory, 1); % Index corresponding to trajectory tail
         if ~isempty(ind_tail)
-            draw_trajectory(a_1, states_series(:,:,ind_tail:end),dim_visual);
+            draw_trajectory(a_1,time_series_s(ind_tail:end), states_series(:,:,ind_tail:end), dim_visual, cmap_traj, T_end);
         end
     end
 
-    len_arm = 0.1;
+    color_s_bodies = zeros(3,num);
+
     draw_body(a_1, states, dim_visual, flag_motion_model, len_arm, color_s_bodies, marker_size);
 
-    draw_environment(a_1, map3d_faces, map3d_struct, model_stls, dim_visual);
-
+    draw_environment(a_1, map3d_faces, map3d_struct, model_stls, terrain, terrain_params, dim_visual, cmap_terrain);
+    
     a_1.Title.String = ['Elapsed time ',num2str(time_series(end),"%.2f"),' s'];
 
     if follow_agent
@@ -158,7 +146,15 @@ if flag_stage == FLAG_INIT || flag_stage == FLAG_RUNNING
     end
     drawnow;
     if activate_save_video
-        A = getframe(a_1.Parent.Parent);
+        if isa(a_1.Parent,"matlab.ui.Figure")
+            % Running from APP
+            A = getframe(a_1.Parent);
+        elseif isa(a_1.Parent.Parent,"matlab.ui.Figure")
+            % Running from Script
+            A = getframe(a_1.Parent.Parent);
+        else
+            A = [];
+        end
         writeVideo(my_video,A);
     end
 end

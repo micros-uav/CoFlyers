@@ -1,4 +1,4 @@
-function values =Vicsek1995_eva_module_one(t, states, map3d_faces, map3d_struct)
+function values =Vicsek1995_eva_module_one(t, states, map3d_faces, map3d_struct, terrain, terrain_params)
 %VICSEK1995_EVA_MODULE_ONE 
 % Automatically generated once by read_parameter_xml.m
 % This function will be called by evaluation_module_one.m

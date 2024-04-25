@@ -62,6 +62,15 @@ Simulated environment and LIDAR
 </p>
 <br>
 
+<p align="center">
+<img src="./docs/images/terrain.gif" alt="figure" height="400">
+</p>
+<p align="center" style="color: #999;">
+Terrain based on an elevation map
+</p>
+<br>
+
+
 * Parameter auto-tuning for getting the optimized parameters
 <p align="center">
 <img src="./docs/images/auto_tuning.png" alt="figure" height="200">
@@ -151,6 +160,9 @@ Architecture of prototype simulator
 The prototype simulator is developed based on a layered and modular idea. Its layers and modules are shown in the above figure. The swarm module and evaluation module are the main modules that users need to pay attention to and develop. The two are used respectively for deploying swarm algorithms and evaluation metrics of swarm performances.
 
 The module parameters of the simulator are all configured in a parameter configuration file in XML format. The post-processing program will automatically generate MATLAB script functions that define parameters based on this configuration file for use by other functions in each module. In addition, for the swarm module and evaluation module, after users add sub modules in the configuration file, the post-processing program will automatically generate MATLAB functions with standard input and output, which are used to deploy the user's codes related to swarm algorithms and evaluation metrics.
+
+
+
 
 ### Graphical user interface for drwaing
 

@@ -39,7 +39,8 @@ ki_vel,...
 kd_vel,...
 cd_filter_vel,...
 lb_vel_pid,...
-ub_vel_pid] = fun_params();
+ub_vel_pid,...
+h_ground] = fun_params();
 
 params_quad = [mass
     inertia
@@ -60,7 +61,7 @@ params_att = [inertia
 w_d = attitudeController_m(YrRPT_d,YRP_pqr,params_att);
 
 %==============Dynamics==================
-sdot = quadcopterDynamics_m(0, states(1:13,:), states(14:17,:), params_quad);
+sdot = quadcopterDynamics_m(0, states(1:13,:), states(14:17,:), params_quad, h_ground);
 wdot = motorsDynamics_m(0,states(14:17,:),w_d,T_rotor_inverse);
 dstates = [sdot;wdot];
 states = states + dstates*sample_time_motion;

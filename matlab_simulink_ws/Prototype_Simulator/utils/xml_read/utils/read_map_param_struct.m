@@ -1,11 +1,11 @@
-function [map3d_struct_0, model_stls, ind_models] = read_map_param_struct(s)
+function [map3d_struct_0, model_stls, ind_models, ind_terrain] = read_map_param_struct(s)
 %READ_MAP_PARAM_STRUCT Summary of this function goes here
 %   Detailed explanation goes here
 
 map3d_struct_0 = [];
 model_stls = [];
 ind_models = [];
-
+ind_terrain = [];
 if ~s.activate
     return
 end
@@ -13,8 +13,7 @@ end
 field_names = fieldnames(s);
 
 %===================Get models===================%
-ind_models = find(cellfun(@(x)~isempty(x),strfind(field_names,"model"))' &...
-    cellfun(@(x)strlength(x)==6,field_names)');
+ind_models = find(cellfun(@(x)~isempty(x),strfind(field_names,"model"))');
 
 for i = 1:length(ind_models)
     fn = field_names{ind_models(i)};
@@ -64,6 +63,10 @@ for i = 1:length(ind_models)
     map3d_struct_0 = [map3d_struct_0,[position;rotation;scale;color;alpha;static;id_s]];
     model_stls = [model_stls,strtrim(string(stl_name))];
 end
+
+%===================Get terrain===================%
+ind_terrain = find(cellfun(@(x)~isempty(x),strfind(field_names,"terrain"))' );
+
 
 
 

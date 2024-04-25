@@ -8,7 +8,7 @@ psi_range] = lidar_module_parameters_5()
 % Every time read_parameter_xml.m is run, this function will be generated
 resolution = 0.017501908934;
 r_sense_min = 0.150000000000;
-r_sense_max = 3.000000000000;
+r_sense_max = 10.000000000000;
 phi_range = [0.000000000000
 0.000000000000];
 psi_range = [-3.141592653590

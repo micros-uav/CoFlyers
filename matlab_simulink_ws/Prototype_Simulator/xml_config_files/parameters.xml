@@ -12,17 +12,17 @@
     <!-- global settings -->
     <number value="64"/> 
     <time_max value="401"/>
-    <sample_time_motion value="0.1"/>
+    <sample_time_motion value="0.0025"/>
     <sample_time_control_upper value="0.1"/>
-    <sample_time_control_bottom value="0.1"/>  
+    <sample_time_control_bottom value="0.0025"/>  
     <activate_save_states value="0"/>
     <time_interval_save value="1"/>
     <!-- motion_model_type：
            point_mass, 
-           quadcopter. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
+           quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
            point_mass_rotation
     -->
-    <motion_model_type value="'point_mass'"/>
+    <motion_model_type value="'quadcopter'"/>
     <swarm_algorithm_type value="'Vasarhelyi'"/>
     <evaluation_metric_type value="'evaluation_0'"/>
     
@@ -30,7 +30,7 @@
     <NSqrt__ value="ceil(sqrt(CoFlyers.number))"/>
     <delta_r__ value = "1.8"/>
     <position__ value="[(mod(0:CoFlyers.number-1,CoFlyers.NSqrt__))*CoFlyers.delta_r__ + CoFlyers.map.x_range(1) + CoFlyers.delta_r__;
-    (floor((0:CoFlyers.number-1)/CoFlyers.NSqrt__))*CoFlyers.delta_r__ + CoFlyers.map.y_range(1) + CoFlyers.delta_r__;
+    (floor((0:CoFlyers.number-1)/CoFlyers.NSqrt__) - floor((CoFlyers.number-1)/CoFlyers.NSqrt__)/2)*CoFlyers.delta_r__;
     zeros(1,CoFlyers.number)+1.0]"/>
     
     <!--
@@ -47,8 +47,8 @@
         <follow_agent value="0"/>
         <activate_save_figure value="0"/>
         <activate_save_video value="0"/>
-        <dim_visual value="2"/>
-        <time_interval_trajectory value="20"/>
+        <dim_visual value="3"/>
+        <time_interval_trajectory value="40"/>
         <video_speed value="10"/> <!-- frame rate -->
         <x_range value="CoFlyers.map.x_range"/>
         <y_range value="CoFlyers.map.y_range"/>
@@ -57,8 +57,12 @@
         <font_size      value="14"/>
         <font_size_sub  value="10"/>
         <marker_size value="10"/>       <!-- Marker size of the left axis -->
-        <background_color value="'k'"/> <!-- Backgroud color of the left axis -->
+        <background_color value="[1,1,1]"/> <!-- Backgroud color of the left axis -->
         <activate_BD_1 value="0"/>      <!-- ButtonDownFcn of the left axis -->
+        <len_arm value="0.5"/> <!-- Arm length of quadcopter drones -->
+        <cmap_terrain value = "sky"/>
+        <cmap_traj value = "hsv"/>
+        <T_end value = "CoFlyers.time_max"/>
     </visual>
     
     <!-- noise module -->
@@ -86,13 +90,14 @@
             <v_max value="CoFlyers.swarm.Vasarhelyi.v_flock*1.2"/>
             <dim value = "2"/>
             <height value = "0.7"/>
-            <dr_shill value="1.0"/>
+            <dr_shill value="0.1"/>
             <pos_shill-vel_shill value = "map_module_generate_shill_agent(map3d_faces,...
                                           map3d_struct,...
                                           CoFlyers.swarm.Vasarhelyi.dr_shill,...
                                           CoFlyers.swarm.Vasarhelyi.dim,...
                                           CoFlyers.swarm.Vasarhelyi.height)"/>
         </Vasarhelyi>
+        
     </swarm>
     
     <!-- evaluation module -->
@@ -144,17 +149,18 @@
             <kp_att value="0.08725; 0.08725; 0.16200"/>
             <kd_att value="0.0175; 0.0175; 0.0324"/>
             <kp_pos value="1;1;1;0.1"/>
-            <ki_pos value="0;0;0;0"/>
-            <kd_pos value="0;0;0;0"/>
+            <ki_pos value="0.1;0.1;0.1;0.01"/>
+            <kd_pos value="0.1;0.1;0.1;0.01"/>
             <cd_filter_pos value="0.4"/>
             <lb_pos_pid value="-2;-2;-2;-2"/>
             <ub_pos_pid value="2;2;2;2"/>
             <kp_vel value="2.2;2.2;1"/>
-            <ki_vel value="0; 0; 0"/>
-            <kd_vel value="0; 0; 0"/>
+            <ki_vel value="0.2; 0.2; 0.1"/>
+            <kd_vel value="0.2; 0.2; 0.1"/>
             <cd_filter_vel value="0.4"/>
             <lb_vel_pid value="-2;-2;-2"/>
             <ub_vel_pid value="2;2;2"/>
+            <h_ground value = "-100000"/>
         </quadcopter>
 
         <point_mass_rotation>
@@ -177,8 +183,8 @@
     <map>
         <activate value="1"/>
         <activate_periodic_boundary value="0"/>
-        <x_range value="-20;20"/> <!-- set value to "" to ignore the range -->
-        <y_range value="-20;20"/>
+        <x_range value="-15;15"/> <!-- set value to "" to ignore the range -->
+        <y_range value="-15;15"/>
         <z_range value="0;2"/>
         <x_color value="0.5;0.5;0.5"/>
         <x_alpha value="0.2"/>
@@ -186,18 +192,51 @@
         <y_alpha value="0.2"/>
         <z_color value="0.5;0.5;0.5"/>
         <z_alpha value="0"/>
-        <!-- 
+        
+        <!--
         <model>
-			<stl value="cylinder.stl"/>
-			<position value="[[0.000;0.000;1.000;]]"/> 
-			<rotation value="[[0.000;0.000;0.000;]]"/> 
-			<scale value="[[5.000;5.000;1.000;]]"/> 
-			<color value="[[0.500;0.500;0.500;]]"/> 
-			<alpha value="[[0.500;]]"/> 
-			<static value="[[1;]]"/> 
-			<id value="[[-1;]]"/> 
+            <stl value="cylinder_rough.stl"/>
+            <scale value="1;1;1"/>
+            <position value="[[5;5;0]]"/> 
+            <rotation value="0;0;0"/> 
+            <color value="0.5;0.5;0.5"/>
+            <alpha value="1"/>
+            <static value="0"/> 
+            <id value="0"/>
         </model>
         -->
+        <!--
+        <model>
+            <stl value="CoFlyers.stl"/>
+            <scale value="0.3;2;0.3"/>
+            <position value="[[-11;-3;-1.136]]"/> 
+            <rotation value="90;0;0"/> 
+            <color value="0.3;0.3;0.3"/>
+            <alpha value="1"/>
+            <static value="1"/> 
+        </model>
+        
+        <model>
+            <stl value="cylinder_rough.stl"/>
+            <scale value="1;1;1"/>
+            <position value="[[0;0;1],[1;0;1]]"/> 
+            <rotation value="0;0;0"/> 
+            <color value="0.5;0.5;0.5"/>
+            <alpha value="0.5"/>
+            <static value="1"/> 
+        </model>
+        
+        <model>
+            <stl value="cube.stl"/> 
+            <scale value="0.5;0.5;2"/> 
+            <position value="0;2;1"/> 
+            <rotation value="0;0;0"/> 
+            <color value="1;0;0"/>
+            <alpha value="1"/>
+            <static value="0"/> 
+            <id value="1"/>
+        </model>
+     -->
     </map>
 
 

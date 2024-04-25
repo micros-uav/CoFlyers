@@ -10,52 +10,45 @@
     -->
 
     <!-- global settings -->
-    <number value="100"/> 
+    <number value="64"/> 
     <time_max value="401"/>
     <sample_time_motion value="0.1"/>
     <sample_time_control_upper value="0.1"/>
     <sample_time_control_bottom value="0.1"/>  
     <activate_save_states value="0"/>
-    <time_interval_save value="0.1"/> 
+    <time_interval_save value="1"/>
     <!-- motion_model_type：
            point_mass, 
-           quadcoper. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
+           quadcopter. You must set a fast rate of motion and bottom control. For example, set sample_time_control_bottom and sample_time_motion  to 0.0025.
            point_mass_rotation
     -->
-    <motion_model_type value="'point_mass_rotation'"/>
-    <swarm_algorithm_type value="'Couzin2002'"/>
-    <evaluation_metric_type value="'Couzin2002_eva'"/>
+    <motion_model_type value="'point_mass'"/>
+    <swarm_algorithm_type value="'Vasarhelyi'"/>
+    <evaluation_metric_type value="'evaluation_0'"/>
     
     <!-- Init position  -->
-    <!--
-    <NSqrt__ value="ceil(sqrt(CoFlyers.number))"/>
-    <delta_r__ value = "1.8"/>
-    <position__ value="[(mod(0:CoFlyers.number-1,CoFlyers.NSqrt__))*CoFlyers.delta_r__ + CoFlyers.map.x_range(1) + CoFlyers.delta_r__;
-    (floor((0:CoFlyers.number-1)/CoFlyers.NSqrt__) - floor((CoFlyers.number-1)/CoFlyers.NSqrt__)/2)*CoFlyers.delta_r__;
-    zeros(1,CoFlyers.number)+1.0]"/>
-    -->
-    <position__ value="rand(3,CoFlyers.number) * 15.0"/>
-
+    <position__ value="get_init_position(5, CoFlyers.number, -200, -5, 89)"/>
+    
     <!-- visualization module -->
     <visual>
-        <activate_plot        value="1"/>
-        <time_interval_plot   value="0.1"/>
-        <activate_trajectory  value="1"/>
-        <follow_agent         value="1"/>
+        <activate_plot value="1"/>
+        <time_interval_plot value="1"/>
+        <activate_trajectory value="1"/>
+        <follow_agent value="0"/>
         <activate_save_figure value="0"/>
-        <activate_save_video  value="0"/>
-        <dim_visual           value="3"/>
-        <time_interval_trajectory value="2"/>
+        <activate_save_video value="0"/>
+        <dim_visual value="3"/>
+        <time_interval_trajectory value="20"/>
         <video_speed value="10"/> <!-- frame rate -->
-        <x_range     value="CoFlyers.map.x_range"/>
-        <y_range     value="CoFlyers.map.y_range"/>
-        <z_range     value="CoFlyers.map.z_range"/>
-        <legend_name value="'$p_{group}$|||$m_{group}$'"/>
-        <font_size        value="14"/>
-        <font_size_sub    value="10"/>
-        <marker_size      value="15"/>       <!-- Marker size of the left axis -->
-        <background_color value="'w'"/>      <!-- Backgroud color of the left axis -->
-        <activate_BD_1    value="0"/>        <!-- ButtonDownFcn of the left axis -->
+        <x_range value="CoFlyers.map.x_range"/>
+        <y_range value="CoFlyers.map.y_range"/>
+        <z_range value="CoFlyers.map.z_range"/>
+        <legend_name value="'$\phi^{corr}$|||$\phi^{vel}$|||$\phi^{coll}$|||$\phi^{wall}$|||$\phi^{MND}$'"/>
+        <font_size      value="14"/>
+        <font_size_sub  value="10"/>
+        <marker_size value="10"/>       <!-- Marker size of the left axis -->
+        <background_color value="'w'"/> <!-- Backgroud color of the left axis -->
+        <activate_BD_1 value="0"/>      <!-- ButtonDownFcn of the left axis -->
         <len_arm value="0.5"/> <!-- Arm length of quadcopter drones -->
         <cmap_terrain value = "sky"/>
         <cmap_traj value = "hsv"/>
@@ -69,38 +62,40 @@
 
     <!-- swarn module -->
     <swarm>
-        <Vicsek1995>
-            <r_com value="1"/>
-            <v_flock value="0.1"/>
-            <eta value="0.2"/>
-        </Vicsek1995>
+        <Vasarhelyi>
+            <r_com value="20"/>
+            <v_flock value="3"/>
+            <r_rep_0 value="3.5397"/>
+            <p_rep value="0.41172"/>
+            <r_frict_0 value="27.5396"/>
+            <c_frict value="2.8979"/>
+            <v_frict value="0.14728"/>
+            <p_frict value="3.7643"/>
+            <a_frict value="7.661"/>
+            <r_shill_0 value="40.2792"/>
+            <v_shill value="1.0258"/>
+            <p_shill value="19.4472"/>
+            <a_shill value="1.448"/>
 
-        <PSO>
-            <c_local value="0.5"/>
-            <c_global value="0.5"/>
-        </PSO>
-
-        <Couzin2002>
-            <v_flock value="3.0"/>         <!-- move speed -->
-            <!--Swarm: 1.0,0.5,10.0. Torus: 1.0, 3.0, 10.0.  -->
-            <!--Dynamic Parallel: 1.0,3.0,14.0. Highly Parallel: 1.0, 10.0, 14.0.  -->
-            <r_rep   value="1.0"/>         <!-- radius of repulsion zone  -->
-            <dro     value="3"/>           <!-- radius differnce of alignment zone  -->   
-            <dra     value="10"/>          <!-- radius differnce of attraction zone  -->
-
-            <alpha   value="135/180*pi"/>  <!-- half field of view  -->
-            <sigma   value="1.0"/>         <!-- angle noise  -->
-            <dim     value="3.0"/>         <!-- algorithm dimension  -->
-            <height  value="1.0"/>         <!-- height maintenance for dim=3  -->
-        </Couzin2002>
-        
+            <v_max value="CoFlyers.swarm.Vasarhelyi.v_flock*1.2"/>
+            <dim value = "2"/>
+            <height value = "100"/>
+            <dr_shill value="1.0"/>
+            <pos_shill-vel_shill value = "map_module_generate_shill_agent(map3d_faces,...
+                                          map3d_struct,...
+                                          CoFlyers.swarm.Vasarhelyi.dr_shill,...
+                                          CoFlyers.swarm.Vasarhelyi.dim,...
+                                          CoFlyers.swarm.Vasarhelyi.height)"/>
+        </Vasarhelyi>
     </swarm>
     
     <!-- evaluation module -->
     <evaluation>
-        <Couzin2002_eva>
-
-        </Couzin2002_eva>
+        <evaluation_0>
+            <v_flock value="CoFlyers.swarm.Vasarhelyi.v_flock"/>
+            <r_coll value="0.4"/>
+            <a_tol value="0.00003"/>
+        </evaluation_0>
     </evaluation>
     
 
@@ -120,7 +115,7 @@
     <motion>
         <point_mass>
             <a_max value="2"/>
-            <v_max value="1.5"/>
+            <v_max value="4"/>
             <T_p value="1"/>
             <T_v value="1"/>
         </point_mass>
@@ -130,7 +125,7 @@
             <inertia value="2.90833e-4; 2.90833e-4; 5.4e-4"/>
             <mass value="0.092"/>
             <len_arm value="0.06"/>
-            <v_max_h value="1.5"/>
+            <v_max_h value="4"/>
             <v_max_v value="1.0"/>
             <yaw_rate_max value="0.5"/>
             <a_max_h value="2"/>
@@ -158,7 +153,7 @@
         </quadcopter>
 
         <point_mass_rotation>
-            <speed_max value="3"/>
+            <speed_max value="0.1"/>
             <theta_max value="0.7"/>
             <T_p value="0.1"/>
         </point_mass_rotation>
@@ -175,49 +170,34 @@
         In addition, a corresponding file without the suffix is required for visualization.
     -->
     <map>
-        <activate value="0"/>
+        <activate value="1"/>
         <activate_periodic_boundary value="0"/>
-        <x_range value="-5;5"/> <!-- set value to "" to ignore the range -->
-        <y_range value="-5;5"/>
-        <z_range value="0;3"/>
+        <x_range value="-236;280"/> <!-- set value to "" to ignore the range -->
+        <y_range value="-185;137"/>
+        <z_range value="0;252"/>
         <x_color value="0.5;0.5;0.5"/>
-        <x_alpha value="0.2"/>
+        <x_alpha value="0.0"/>
         <y_color value="0.5;0.5;0.5"/>
-        <y_alpha value="0.2"/>
+        <y_alpha value="0.0"/>
         <z_color value="0.5;0.5;0.5"/>
         <z_alpha value="0"/>
-        <!--
+        <terrain>
+			<png value="canyon_snow_sub.png"/>
+			<position value="[-236;-185;122.84]"/> 
+			<scale value="[1;1;0.01]"/> 
+        </terrain>
+        <!-- 
         <model>
-            <stl value="CoFlyers.stl"/>
-            <scale value="0.3;2;0.3"/>
-            <position value="[[-11;-3;-1.136]]"/> 
-            <rotation value="90;0;0"/> 
-            <color value="0.3;0.3;0.3"/>
-            <alpha value="1"/>
-            <static value="1"/> 
+			<stl value="cylinder.stl"/>
+			<position value="[[0.000;0.000;1.000;]]"/> 
+			<rotation value="[[0.000;0.000;0.000;]]"/> 
+			<scale value="[[5.000;5.000;1.000;]]"/> 
+			<color value="[[0.500;0.500;0.500;]]"/> 
+			<alpha value="[[0.500;]]"/> 
+			<static value="[[1;]]"/> 
+			<id value="[[-1;]]"/> 
         </model>
-        
-        <model>
-            <stl value="cylinder_rough.stl"/>
-            <scale value="1;1;1"/>
-            <position value="[[0;0;1],[1;0;1]]"/> 
-            <rotation value="0;0;0"/> 
-            <color value="0.5;0.5;0.5"/>
-            <alpha value="0.5"/>
-            <static value="1"/> 
-        </model>
-        
-        <model>
-            <stl value="cube.stl"/> 
-            <scale value="0.5;0.5;2"/> 
-            <position value="0;2;1"/> 
-            <rotation value="0;0;0"/> 
-            <color value="1;0;0"/>
-            <alpha value="1"/>
-            <static value="0"/> 
-            <id value="1"/>
-        </model>
-     -->
+        -->
     </map>
 
 
@@ -229,4 +209,5 @@
         <target_ip value="ones(1,CoFlyers.number)*1"/>
         <number_real value="1"/>
     </simulink>
+
 </CoFlyers>

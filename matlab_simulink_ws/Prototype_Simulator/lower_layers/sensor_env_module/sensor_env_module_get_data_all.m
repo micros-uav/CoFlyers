@@ -1,4 +1,4 @@
-function  sensor_data_s = sensor_env_module_get_data_all(states_ob, flag_motion_model,map_faces)
+function  sensor_data_s = sensor_env_module_get_data_all(states_ob, flag_motion_model,map_faces,terrain,terrain_params)
 %SENSOR_ENV_MODULE_GET_DATA_ALL Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -19,12 +19,12 @@ flag_sensor       = 0;
 switch flag_sensor
     case 0
 %         angles = Lidar_module_get_angles(parameters_sensor);
-        [range_s, psi_s, phi_s]  = lidar_module_get_ranges(position3D_s(1:3,1),attitude_s(1:3,1),map_faces);
+        [range_s, psi_s, phi_s]  = lidar_module_get_ranges(position3D_s(1:3,1),attitude_s(1:3,1),map_faces,terrain,terrain_params);
         datas = [range_s;psi_s;phi_s];
         sensor_data_s = zeros([size(datas),number]);
         sensor_data_s(:,:,1) = datas;
         for id = 2:number
-            [range_s, psi_s, phi_s]  = lidar_module_get_ranges(position3D_s(1:3,id),attitude_s(1:3,id),map_faces);
+            [range_s, psi_s, phi_s]  = lidar_module_get_ranges(position3D_s(1:3,id),attitude_s(1:3,id),map_faces,terrain,terrain_params);
             datas = [range_s;psi_s;phi_s];
             sensor_data_s(:,:,id) = datas;
         end

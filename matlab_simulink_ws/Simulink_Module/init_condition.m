@@ -1,7 +1,7 @@
 %% using parameters.xml to config. 
 close all;
 
-[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] =...
+[map3d_faces, map3d_struct, model_stls, params, position0, param_simulink, terrain, terrain_params] =...
 read_parameter_xml("../Prototype_Simulator/xml_config_files/parameters.xml");
 
 model_stls = join(model_stls);

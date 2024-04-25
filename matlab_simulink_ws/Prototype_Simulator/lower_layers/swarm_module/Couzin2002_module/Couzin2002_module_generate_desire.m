@@ -1,4 +1,4 @@
-function [command_upper_s,control_mode_s] =Couzin2002_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct)
+function [command_upper_s,control_mode_s] =Couzin2002_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct, terrain, terrain_params)
 %COUZIN2002_MODULE_GENERATE_DESIRE Generate the desired position and velocity
 % Automatically generated once by read_parameter_xml.m
 % This function will be called by swarms_module_generate_desire.m

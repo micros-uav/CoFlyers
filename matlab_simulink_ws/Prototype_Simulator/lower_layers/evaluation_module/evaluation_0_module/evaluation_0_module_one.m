@@ -1,4 +1,4 @@
-function values = evaluation_0_module_one(t, states, map3d_faces, map3d_struct)
+function values = evaluation_0_module_one(t, states, map3d_faces, map3d_struct, terrain, terrain_params)
 %EVALUATION_MODEL_ONE 
 
 file_name_param = 'evaluation_0_module_parameters';

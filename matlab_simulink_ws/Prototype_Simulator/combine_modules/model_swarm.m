@@ -16,7 +16,8 @@ function performances_time_average = model_swarm(parameters_gui,...
 %========================Initialization==========================
 %%% get parameters from the pre-defined file
 [states,dstates,...
-    map3d_faces, map3d_struct, model_stls] = initialize_parameters_states(parameters_gui,parameters_op, ...
+    map3d_faces, map3d_struct, model_stls,...
+    terrain,terrain_params] = initialize_parameters_states(parameters_gui,parameters_op, ...
     parameters_bp, mode_simulation, xml_name);
 
 %Get setting from inputs
@@ -48,13 +49,13 @@ t = 0;
 states_ob = motion_module_observation(states,dstates,motion_model_type);
 states_m = noise_module_add_noise(states_ob);
 if sensor_env_module_get_activate()
-    sensor_data_s = sensor_env_module_get_data_all(states_ob, motion_model_type,map3d_faces);
+    sensor_data_s = sensor_env_module_get_data_all(states_ob, motion_model_type,map3d_faces,terrain,terrain_params);
 else
     sensor_data_s = [];
 end
 [commands_upper,control_mode_s] =...
-    swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s, map3d_struct);
-values = evaluation_module_one(t, states, map3d_faces, map3d_struct, evaluation_metric_type);
+    swarm_module_generate_desire(swarm_algorithm_type, t,states_m, sample_time_control_upper, sensor_data_s, map3d_struct, terrain, terrain_params);
+values = evaluation_module_one(evaluation_metric_type, t, states, map3d_faces, map3d_struct, terrain, terrain_params);
 commands_bottom = motion_module_bottom_control(t, states, commands_upper,...
     control_mode_s, motion_model_type, sample_time_control_bottom);
 
@@ -86,7 +87,7 @@ if visual_module_get_activate(sample_time_motion, t, true)
 
     flag_stage = 0;
     visual_module_draw_figures(states, time_series(1), states_ob_series(:,:,1), time_series(1), values_series(:,1),...
-        map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
+        map3d_faces, map3d_struct, model_stls, terrain, terrain_params, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
 
     % Mouse click event of the left axis
     if visual_module_get_activate_BD()
@@ -118,17 +119,17 @@ for t = sample_time_motion:sample_time_motion:time_max
         count_upper = count_upper + 1;
         % Get Sensor data from map3d_faces
         if sensor_env_module_get_activate()
-            sensor_data_s = sensor_env_module_get_data_all(states_ob, motion_model_type,map3d_faces);
+            sensor_data_s = sensor_env_module_get_data_all(states_ob, motion_model_type,map3d_faces,terrain,terrain_params);
         else
             sensor_data_s = [];
         end
 
         % Get desired position and velocity from flocking rules
         [commands_upper,control_mode_s] =...
-            swarm_module_generate_desire(t,states_m, swarm_algorithm_type, sample_time_control_upper, sensor_data_s, map3d_struct);
+            swarm_module_generate_desire(swarm_algorithm_type, t,states_m, sample_time_control_upper, sensor_data_s, map3d_struct, terrain, terrain_params);
 
         % Calculate the performance of current frame
-        [values] = evaluation_module_one(t, states_ob,map3d_faces, map3d_struct,evaluation_metric_type);
+        [values] = evaluation_module_one(evaluation_metric_type, t, states_ob,map3d_faces, map3d_struct, terrain, terrain_params);
         values_series(:,count_upper) = values;
     end
     
@@ -164,7 +165,7 @@ for t = sample_time_motion:sample_time_motion:time_max
         flag_stage = 1;
         visual_module_draw_figures(states_ob, time_series(1:interval_state_save:count), states_ob_series(:,:,1:count_data_save),...
             linspace(0,time_series(count),count_upper), values_series(:,1:count_upper),...
-            map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
+            map3d_faces, map3d_struct, model_stls, terrain, terrain_params, mode_simulation, flag_stage, motion_model_type, fig, axis_1, axis_2);
     end
 end
 %==========================================================
@@ -172,7 +173,7 @@ if mod(count-1,interval_state_save) ~= 0
         states_ob_series(:,:,count_data_save)    = states_ob;
 end
 % Calculate the performance of the whole process
-performances_time_average = evaluation_module_average(linspace(0,time_series(count),count_upper), values_series,evaluation_metric_type);
+performances_time_average = evaluation_module_average(evaluation_metric_type, linspace(0,time_series(count),count_upper), values_series);
 
 % Plot values, final trajectory and close Video
 if visual_module_get_activate(sample_time_motion, t, true)

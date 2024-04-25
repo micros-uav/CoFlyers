@@ -6,7 +6,7 @@ eta] = Vicsek1995_module_parameters()
 % Every time read_parameter_xml.m is run, this function will be generated
 r_com = 1.000000000000;
 v_flock = 0.100000000000;
-eta = 0.000000000000;
+eta = 0.200000000000;
 
 
 end

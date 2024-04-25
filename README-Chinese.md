@@ -60,6 +60,14 @@ IROS2023
 </p>
 <br>
 
+<p align="center">
+<img src="./docs/images/terrain.gif" alt="figure" height="400">
+</p>
+<p align="center" style="color: #999;">
+基于高程图的地形
+</p>
+<br>
+
 * 为获得优化后的参数的自动调参
 <p align="center">
 <img src="./docs/images/auto_tuning.png" alt="figure" height="200">

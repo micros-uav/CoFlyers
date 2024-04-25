@@ -9,7 +9,7 @@ number = size(position0,2);
 
 switch motion_model_type
     case 'quadcopter' %quadcopter model
-        velocity = [rand(2,number)*0.001;zeros(1,number)];
+        velocity = [(rand(2,number)-0.5)*0.001;zeros(1,number)];
         qwxyz = zeros(4,number); qwxyz(1,:) = 1;
         pqr = zeros(3,number);
         motor_speed = zeros(4,number);

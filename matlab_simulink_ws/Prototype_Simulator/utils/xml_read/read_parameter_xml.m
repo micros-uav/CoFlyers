@@ -1,10 +1,15 @@
-function [map3d_faces, map3d_struct, model_stls, params, position0, param_simulink] = read_parameter_xml(file_name_xml, ps_mofify, flag_write)
-%READ_PARAMETER_XML Summary of this function goes here
-%   Detailed explanation goes here
+function [map3d_faces, map3d_struct, model_stls, params,...
+    position0, param_simulink,...
+    terrain, terrain_params] = read_parameter_xml(file_name_xml, ps_mofify, flag_write)
+%READ_PARAMETER_XML Obtain parameters for each module from an XML file
+%   file_name_xml: path of the XML file relative to the path of Prototype_Simulator
+%   ps_mofify: external input parameters that will modify default parameters
+%   flag_write: flag for deciding whether to write new files for modules
 
+%%% Obtain the current CPU core serial number %%%
 [flag_parallel,str_core] = get_multi_core_value();
 
-% 
+%%% Check the input arguments %%%
 if nargin < 1
     file_name_xml = "xml_config_files\parameters.xml";
     ps_mofify = struct("param_name_s",[],"param_value_s",[]);
@@ -15,25 +20,30 @@ elseif nargin < 2
 elseif nargin < 3
     flag_write = true;
 end
-
 if isempty(ps_mofify)
     ps_mofify = struct("param_name_s",[],"param_value_s",[]);
 end
 if isempty(file_name_xml)
     file_name_xml = "parameters.xml";
 end
-
 if isempty(file_name_xml)
     file_name_xml = "parameters.xml";
 end
+%% Get params from XML and ps_mofify
 
-% translate xml to struct
-% 
+%%% Translate XML to Struct %%%
 first_name = "CoFlyers";
 param_xml = parseXML(file_name_xml);
 [CoFlyers, param_string] = parseXML2(param_xml, first_name);
+init_map = false;
 
-% modify params
+%%% Get the creation time of the xml file %%%
+xml_file = dir(file_name_xml);
+ctime_xml = datenum(xml_file.date);
+
+
+%%% Modify the default parameters 'CoFlyers' and 'param_string' according to
+% 'ps_mofify' %%%
 for ii = 1:length(ps_mofify.param_value_s)
     param_value = ps_mofify.param_value_s(ii);
     param_name = ps_mofify.param_name_s(ii);
@@ -61,15 +71,19 @@ for ii = 1:length(ps_mofify.param_value_s)
     end
 end
 
-% Find models of map module
+%%% Find models of the map module %%%
 temp_11 = strfind(param_string(2,:),strcat(first_name,".map.model"));
 temp_22 = strfind(param_string(2,:),".stl");
 is_model = arrayfun(@(x)~isempty(temp_11{x})&&~isempty(temp_22{x}),1:length(temp_11));
-% param_string(:,temp_33) = [];
-num_model = sum(is_model);
+temp_11 = strfind(param_string(2,:),strcat(first_name,".map.terrain."));
+is_terrain = arrayfun(@(x)~isempty(temp_11{x}),1:length(temp_11));
+if sum(is_terrain) > 1
+    error("The number of terrain models can only be less than or equal to 1.")
+end
+num_model = sum(is_model)+sum(is_terrain);
 
-% Deal with MATLAB commands with ref
-init_map = false;
+
+%%% Deal with MATLAB commands with ref %%%
 count = 1;
 ind_delete = [];
 while size(param_string,2)>num_model
@@ -114,59 +128,37 @@ while size(param_string,2)>num_model
         error(strcat("%s file error.\n",str_error),file_name_xml);
     end
 
-    %%%
+    %%%  Get map %%%
     temp = contains(param_string(2,:),".map.")|...
         contains(param_string(1,:),".map.")|...
         contains(param_string(1,:),"map3d_faces")|...
         contains(param_string(1,:),"map3d_struct");
-    if ~init_map && sum(temp)==numel(temp)
+    if ~init_map && (sum(temp)==numel(temp)||size(param_string,2)==num_model)
         % Generate map
-        [map3d_struct_0, model_stls,ind_models] = read_map_param_struct(CoFlyers.map);
+        [map3d_faces, map3d_struct, model_stls,...
+            terrain, terrain_params,...
+            ind_models, ind_terrain, init_map] = get_map(CoFlyers);
+        % Remove
         temp = fieldnames(CoFlyers.map);
-        CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
-        [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
-        init_map = true;
+        CoFlyers.map = rmfield(CoFlyers.map,temp([ind_models,ind_terrain]));
     end
 end
-
-if ~init_map
-    % Generate map
-    [map3d_struct_0, model_stls,ind_models] = read_map_param_struct(CoFlyers.map);
-    temp = fieldnames(CoFlyers.map);
-    CoFlyers.map = rmfield(CoFlyers.map,temp(ind_models));
-    [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
-%     init_map = true;
-end
-% CoFlyers = rmfield(CoFlyers, "map");
 position0 = CoFlyers.position__;
 CoFlyers = rmfield(CoFlyers, "position__");
 param_simulink = CoFlyers.simulink;
 CoFlyers = rmfield(CoFlyers, "simulink");
-%========================Remove XXX__ params================%%%
+
+%%% Remove XXX__ params %%%
 CoFlyers = remove_XXX__(CoFlyers);
 params = CoFlyers;
-
+%% Write params to file
+%%%
 if ~flag_write
     return
 end
 
-%%
-% Get the creation time of the xml file
-xml_file = dir(file_name_xml);
-ctime_xml = datenum(xml_file.date);
-% Get the creation time of the "setting_parameters.m" file
-% oth_file = dir("combine_modules/setting_parameters.m");
-% ctime_oth = datenum(oth_file.date);
-% if ctime_xml < ctime_oth && isempty(ps_mofify.param_name_s)
-%     disp('The XML file has not been changed, so the module files will not be updated. (read_parameter_xml.m)');
-%     return
-% end
-
-%%
-%%%======================Write params to file=================%%%
-%%%
+%%% Get the path of the prototype simulator %%%
 path_simulator = mfilename('fullpath');
-% path_simulator = path_simulator(1:end-18);
 ind = strfind(path_simulator,'Prototype_Simulator') +...
     length('Prototype_Simulator');
 path_simulator = path_simulator(1:ind);
@@ -175,10 +167,6 @@ path_simulator = path_simulator(1:ind);
 [values, values_name, modules_name] = get_values_and_names(params);
 
 %%% write setting parameter %%%
-
-
-
-
 dir_name_1 = strcat(path_simulator,"combine_modules");
 if ~exist(dir_name_1,'dir')
     mkdir(dir_name_1);
@@ -276,6 +264,27 @@ addpath(genpath(path_simulator));
 
 %%
 %%% Functions %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    function [map3d_faces, map3d_struct, model_stls,...
+        terrain, terrain_params,...    
+        ind_models, ind_terrain, init_map] = get_map(params)
+        % Generate map
+        [map3d_struct_0, model_stls, ind_models, ind_terrain] = read_map_param_struct(params.map);
+        
+        [map3d_faces, map3d_struct] = generate_map3d_from_struct(map3d_struct_0, model_stls);
+        init_map = true;
+        % Get terrain
+        if ~isempty(ind_terrain)
+            terrain = double(imread(params.map.terrain.png))-32768;
+            terrain_params = [params.map.terrain.position,params.map.terrain.scale];
+            terrain = terrain*terrain_params(3,2)+terrain_params(3,1);
+        else
+            terrain = [];
+            terrain_params = [];
+        end
+    end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     function result = get_struct_string(param_struct_sub, field_name_pre)
         result = string([]);
         names = fieldnames(param_struct_sub);
@@ -317,65 +326,6 @@ addpath(genpath(path_simulator));
                 %                 end
             else
                 subfields_name = [subfields_name, string(field_name)];
-            end
-        end
-    end
-
-
-    function [result1,result2] = parseXML2(xml_struct, result1_name)
-        %PARSEXML2 Summary of this function goes here
-        %   Detailed explanation goes here
-
-        [result1,result2] = get_children_recurion(xml_struct, result1_name);
-
-        function [result1, result2] = get_children_recurion(xml_struct, field_name_pre)
-            result2 = string([]);
-            if isempty(xml_struct)
-                result1 = [];
-            else
-                result1 = struct();
-            end
-            count_model = 1;
-            for i = 1:length(xml_struct.Children)
-                % Deal with models
-                name_str = xml_struct.Children(i).Name;
-                if strcmp(name_str,"model") && strcmp(field_name_pre,strcat(first_name,".map"))
-                    name_str = strcat(name_str,num2str(count_model));
-                    count_model = count_model + 1;
-                end
-                % Get the full name of the current field.
-                if isempty(field_name_pre)
-                    fullfield_str = string(name_str);
-                else
-                    fullfield_str = strcat(field_name_pre,'.',name_str);
-                end
-                % Get Value
-                if ~isempty(xml_struct.Children(i).Attributes)
-                    str_value = string(xml_struct.Children(i).Attributes.Value);
-                else
-                    str_value = [];
-                end
-                if ~isempty(str_value)
-                    try
-                        eval(strcat("result1.(name_str) = [",str_value,"];"));
-                    catch
-                        % Need reference
-                        %  Declare variable names in the structure in advance 
-                        temp_2 = strsplit(name_str,"-");
-                        for j = 1:length(temp_2)
-                            result1.(temp_2{j}) = str_value;
-                        end
-                        % 
-                        result2 = [result2, [str_value;fullfield_str]];
-                    end
-                end
-
-                %%% Get submodule
-                if ~isempty(xml_struct.Children(i).Children)
-                    [a,b] = get_children_recurion(xml_struct.Children(i),fullfield_str);
-                    result1.(name_str) = a;
-                    result2 = [result2,b];
-                end
             end
         end
     end
@@ -476,7 +426,7 @@ addpath(genpath(path_simulator));
         % end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
-        fprintf(file_id,['function [command_upper_s,control_mode_s] = swarm_module_generate_desire(t, states, swarm_algorithm_type, sample_time, sensor_data_s, map3d_struct)\n']);
+        fprintf(file_id,['function [command_upper_s,control_mode_s] = swarm_module_generate_desire(swarm_algorithm_type, t, states, sample_time, sensor_data_s, map3d_struct, terrain, terrain_params)\n']);
 
         fprintf(file_id,['%%SWARM_MODULE_GENERATE_DESIRE Generate the desired position and velocity\n',...
             '%% Automatically generated by read_parameter_xml.m\n',...
@@ -495,7 +445,7 @@ addpath(genpath(path_simulator));
         fprintf(file_id,'switch swarm_algorithm_type\n');
         for i = 1:length(field_names)
             fprintf(file_id,'\tcase ''%s''\n',field_names{i});
-            fprintf(file_id,'\t\t[command_upper_s,control_mode_s] = %s_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct);\n',field_names{i});
+            fprintf(file_id,'\t\t[command_upper_s,control_mode_s] = %s_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct, terrain, terrain_params);\n',field_names{i});
         end
 
         fprintf(file_id,'\totherwise\n');
@@ -514,7 +464,7 @@ addpath(genpath(path_simulator));
             %%% write function name %%%
             file_id = fopen(file_fullpath,'w');
             fprintf(file_id,['function [command_upper_s,control_mode_s] =',...
-                '%s_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct)\n'],subswarm_name);
+                '%s_module_generate_desire(t, states, sample_time, sensor_data_s, map3d_struct, terrain, terrain_params)\n'],subswarm_name);
 
             fprintf(file_id,['%%%s_MODULE_GENERATE_DESIRE Generate the desired position and velocity\n',...
                 '%% Automatically generated once by read_parameter_xml.m\n',...
@@ -596,7 +546,7 @@ addpath(genpath(path_simulator));
         % end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
-        fprintf(file_id,['function values = evaluation_module_one(t, states, map3d_faces, map3d_struct,evaluation_metric_type)\n']);
+        fprintf(file_id,['function values = evaluation_module_one(evaluation_metric_type, t, states, map3d_faces, map3d_struct, terrain, terrain_params)\n']);
 
         fprintf(file_id,['%%EVALUATION_MODEL_ONE \n',...
             '%% Automatically generated by read_parameter_xml.m\n',...
@@ -606,7 +556,7 @@ addpath(genpath(path_simulator));
         fprintf(file_id,'switch evaluation_metric_type\n');
         for i = 1:length(field_names)
             fprintf(file_id,'\tcase ''%s''\n',field_names{i});
-            fprintf(file_id,'\t\tvalues = %s_module_one(t, states, map3d_faces, map3d_struct);\n',field_names{i});
+            fprintf(file_id,'\t\tvalues = %s_module_one(t, states, map3d_faces, map3d_struct, terrain, terrain_params);\n',field_names{i});
         end
 
         fprintf(file_id,'\totherwise\n');
@@ -631,7 +581,7 @@ addpath(genpath(path_simulator));
         % end
         %%% write function name %%%
         file_id = fopen(file_fullpath,'w');
-        fprintf(file_id,['function values = evaluation_module_average(time_series, values_series, evaluation_metric_type)\n']);
+        fprintf(file_id,['function values = evaluation_module_average(evaluation_metric_type, time_series, values_series)\n']);
 
         fprintf(file_id,['%%EVALUATION_MODEL_AVERAGE \n',...
             '%% Automatically generated by read_parameter_xml.m\n',...
@@ -660,7 +610,7 @@ addpath(genpath(path_simulator));
             %%% write function name %%%
             file_id = fopen(file_fullpath,'w');
             fprintf(file_id,['function values =',...
-                '%s_module_one(t, states, map3d_faces, map3d_struct)\n'],subeva_name);
+                '%s_module_one(t, states, map3d_faces, map3d_struct, terrain, terrain_params)\n'],subeva_name);
 
             fprintf(file_id,['%%%s_MODULE_ONE \n',...
                 '%% Automatically generated once by read_parameter_xml.m\n',...

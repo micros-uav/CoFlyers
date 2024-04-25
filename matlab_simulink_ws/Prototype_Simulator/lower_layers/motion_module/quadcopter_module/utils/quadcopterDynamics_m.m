@@ -1,4 +1,4 @@
-function sdot = quadcopterDynamics_m(t, s, w, params)
+function sdot = quadcopterDynamics_m(t, s, w, params, h_ground)
 %QUADCOPTERDYNAMICS Solve quadcoptor equation of motion
 %   readonly
 %   calculate the derivative of the state vector
@@ -55,7 +55,7 @@ b2w = quaternion2RotationMatrix(quat);
 
 % Acceleration
 accel = 1 / mass * reshape(b2w(:,3,:),3,num).*repmat(F,3,1);
-temp = z>0;
+temp = z>h_ground;
 accel(3,temp) = accel(3,temp) - repmat(gravity,1,sum(temp));
 % Angular velocity
 K_quat = 2; %this enforces the magnitude 1 constraint for the quaternion
