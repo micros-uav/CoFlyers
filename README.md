@@ -186,7 +186,7 @@ The GUI for drawing is used to provide users with a tool that can interactively 
 <img src = "./docs/images/Gui_sim_v18_X5.gif"  width = "45%"  hight="300">
 </p>
 <p align="center" style="color: #999;">
-Graphical user interface for simulating (left：PSO，右：Vásárhelyi)
+Graphical user interface for simulating (left: PSO, right: Vásárhelyi)
 </p>
 
 <br>
