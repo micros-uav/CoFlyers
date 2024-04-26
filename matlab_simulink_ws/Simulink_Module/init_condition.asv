@@ -2,7 +2,7 @@
 close all;
 
 [map3d_faces, map3d_struct, model_stls, params, position0, param_simulink, terrain, terrain_params] =...
-read_parameter_xml("../Prototype_Simulator/xml_config_files/parameters.xml");
+read_parameter_xml("../Prototype_Simulator/xml_config_files/parameters_terrain.xml");
 
 model_stls = join(model_stls);
 sim_quad = param_simulink.sim_quad;
@@ -13,9 +13,12 @@ sample_time_control_upper = params.sample_time_control_upper;
 sample_time_control_bottom = params.sample_time_control_bottom;
 sample_time_motion = params.sample_time_motion;
 if isempty(terrain)
-    terrain = inf;
+    % terrain = inf;
+    % terrain_params = inf;
+    terrain = zeros;
     terrain_params = inf;
 end
+
 %% 
 if sim_quad == 0
     % Real-world experiment

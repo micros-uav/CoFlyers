@@ -10,7 +10,7 @@ end
 if ~flag_app
     app = [];
     parameters_gui = [];
-    % xml_name = 'xml_config_files\parameters.xml';
+    xml_name = 'xml_config_files\parameters.xml';
     % xml_name = 'xml_config_files\parameters_vicsek18_64.xml';
     % xml_name = 'xml_config_files\parameters_PSO.xml';
     % xml_name = 'xml_config_files\parameters_vicsek95_h_d_l_n.xml';
@@ -22,7 +22,7 @@ if ~flag_app
     % xml_name = 'xml_config_files\parameters_couzin2002_swarm.xml';
     % xml_name = 'xml_config_files\parameters_couzin2002_torus.xml';
     % xml_name = 'xml_config_files\parameters_obstacles.xml';
-    xml_name = 'xml_config_files\parameters_terrain.xml';
+    % xml_name = 'xml_config_files\parameters_terrain.xml';
 else
     parameters_gui = app.get_all_param();
     xml_name = get_xml_name(app);
