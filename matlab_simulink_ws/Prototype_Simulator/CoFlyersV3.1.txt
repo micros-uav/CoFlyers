@@ -1,4 +1,4 @@
-April 25, 2024. V3.1
+April 25, 2024. V3.1.0
 1. Fix the bug where the GUI is unable to save videos. 
    Related files:
     CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\visual_module_draw_figures.m
@@ -23,3 +23,6 @@ April 25, 2024. V3.1
    Related files:
      CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\utils\draw_trajectory.m
      CoFlyers\matlab_simulink_ws\Prototype_Simulator\lower_layers\visual_module\visual_module_draw_figures.m
+
+April 26, 2024. V3.1.1
+1. Update Terrain related content in the app of CoFlyersGUI_map.mlapp.

@@ -1,7 +1,7 @@
 function write_xml_from_paras_map(x_range,x_color,x_alpha,activate_x,...
     y_range,y_color,y_alpha,activate_y,...
     z_range,z_color,z_alpha,activate_z,...
-    map3d_struct, model_stls)
+    map3d_struct, model_stls, terrain_png, terrain_pos, terrain_scale)
 %WRITE_XML_FROM_PARAS_MAP Write the map parameters to a XML file in the
 %CoFlyers format.
 %===================%
@@ -76,8 +76,13 @@ end
 %     fprintf(file_id,"\t\t\t<id value=""0""/>\n");
 %     fprintf(file_id,"\t\t<model/>\n");
 % end
-
-
+if (~isempty(terrain_png))&&(~isempty(terrain_pos))&&(~isempty(terrain_scale))
+    fprintf(file_id,"\t\t<terrain>\n");
+    fprintf(file_id,"\t\t\t<png value=""%s""/>\n",terrain_png);
+    fprintf(file_id,"\t\t\t<position value=""%s""/> \n",fun_f(terrain_pos));
+    fprintf(file_id,"\t\t\t<scale value=""%s""/> \n",fun_f(terrain_scale));
+    fprintf(file_id,"\t\t</terrain>\n");
+end
 fprintf(file_id,"\t</map>\n");
 fprintf(file_id,"</CoFlyers>");
 fclose(file_id);

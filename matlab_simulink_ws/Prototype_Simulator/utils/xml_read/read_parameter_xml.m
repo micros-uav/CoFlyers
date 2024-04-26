@@ -138,15 +138,15 @@ while size(param_string,2)>num_model
         [map3d_faces, map3d_struct, model_stls,...
             terrain, terrain_params,...
             ind_models, ind_terrain, init_map] = get_map(CoFlyers);
-        % Remove
-        temp = fieldnames(CoFlyers.map);
-        CoFlyers.map = rmfield(CoFlyers.map,temp([ind_models,ind_terrain]));
+        % % Remove
+        % temp = fieldnames(CoFlyers.map);
+        % CoFlyers.map = rmfield(CoFlyers.map,temp([ind_models,ind_terrain]));
     end
 end
 position0 = CoFlyers.position__;
-CoFlyers = rmfield(CoFlyers, "position__");
+% CoFlyers = rmfield(CoFlyers, "position__");
 param_simulink = CoFlyers.simulink;
-CoFlyers = rmfield(CoFlyers, "simulink");
+% CoFlyers = rmfield(CoFlyers, "simulink");
 
 %%% Remove XXX__ params %%%
 CoFlyers = remove_XXX__(CoFlyers);
@@ -275,9 +275,7 @@ addpath(genpath(path_simulator));
         init_map = true;
         % Get terrain
         if ~isempty(ind_terrain)
-            terrain = double(imread(params.map.terrain.png))-32768;
-            terrain_params = [params.map.terrain.position,params.map.terrain.scale];
-            terrain = terrain*terrain_params(3,2)+terrain_params(3,1);
+            [terrain, terrain_params] = get_terrain(params.map.terrain.png, params.map.terrain.position, params.map.terrain.scale);
         else
             terrain = [];
             terrain_params = [];
