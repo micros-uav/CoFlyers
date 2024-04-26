@@ -1,1 +1,0 @@
-	t	ID	x	y	z	vx	vy	vz	yaw	roll	pitch	
