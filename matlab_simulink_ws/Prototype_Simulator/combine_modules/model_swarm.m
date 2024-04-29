@@ -73,7 +73,7 @@ values_series(:,count_upper) = values;
 
 % Initialize figure, axes and video
 if visual_module_get_activate(sample_time_motion, t, true)
-    if isempty(app)
+    if ~isa(app,"CoFlyersGUI")
         fig = figure;
         change_figure_position(fig);
         tiledlayout(1,2);
@@ -100,7 +100,7 @@ end
 
 % loop
 for t = sample_time_motion:sample_time_motion:time_max
-    if ~isempty(app)
+    if isa(app,"CoFlyersGUI")
         if strcmp(app.StartsimulationButton.Text,'Start simulation')
             break
         end

@@ -69,7 +69,6 @@ if flag_stage == FLAG_INIT
     ylabel(a_1,'Y Position (m)');
     if dim_visual == 3
         zlabel(a_1,'Z Position (m)');
-        view(a_1,[-45,30]);
     end
     title(a_1,['Elapsed time ',num2str(time_series_s(end),"%.2f"),' s'])
     set(a_1,'FontSize',font_size,'FontName','Times New Roman');
