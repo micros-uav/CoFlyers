@@ -1,8 +1,10 @@
 % function [map3d_faces, map3d_struct] = visual_module_buttondown(t, axis_1, map3d_faces_in,map3d_struct_in)
-function [map3d_faces,map3d_struct] = visual_module_buttondown(t, axis_1, map3d_faces_in,map3d_struct_in)
+function [map3d_faces,map3d_struct] = visual_module_buttondown(t, fig, map3d_faces_in,map3d_struct_in)
 %VISUAL_MODULE_BUTTONDOWN
 
 persistent point_mouse
+
+axis_1 = findobj(fig,"Tag","axis_swarm");
 
 map3d_faces = map3d_faces_in;
 map3d_struct = map3d_struct_in;

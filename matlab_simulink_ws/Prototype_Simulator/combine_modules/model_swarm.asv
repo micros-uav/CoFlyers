@@ -182,7 +182,7 @@ if visual_module_get_activate(sample_time_motion, t, true)
     flag_stage = 2;
     visual_module_draw_figures(states_ob, time_series(1:interval_state_save:end),...
         states_ob_series, linspace(0,time_series(count),count_upper), values_series,...
-        map3d_faces, map3d_struct, model_stls, terrain, terrain_params, mode_simulation, flag_stage, motion_model_type, fig);
+        map3d_faces, map3d_struct, model_stls, mode_simulation, flag_stage, motion_model_type, fig);
 end
 
 % Save data

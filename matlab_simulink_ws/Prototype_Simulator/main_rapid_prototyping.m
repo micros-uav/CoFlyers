@@ -8,11 +8,11 @@ if exist('app','var')
     end
 end
 if ~flag_app
-    app = [];
     parameters_gui = [];
+    fig_app = [];
     xml_name = 'xml_config_files\parameters.xml';
     % xml_name = 'xml_config_files\parameters_vicsek18_64.xml';
-    % xml_name = 'xml_config_files\parameters_PSO.xml';
+%     xml_name = 'xml_config_files\parameters_PSO.xml';
     % xml_name = 'xml_config_files\parameters_vicsek95_h_d_l_n.xml';
     % xml_name = 'xml_config_files\parameters_viscek95_l_d_l_n.xml';
     % xml_name = 'xml_config_files\parameters_viscek95_h_d_h_n.xml';
@@ -26,6 +26,7 @@ if ~flag_app
 else
     parameters_gui = app.get_all_param();
     xml_name = app.get_xml_name();
+    fig_app = app.UIFigure;
 end
 parameters_auto_tuning = [];
 parameters_batch_processing    = [];
@@ -35,7 +36,7 @@ parameters_batch_processing    = [];
 % for i = 1:repeat_num
 tic
 values = model_swarm(parameters_gui, parameters_auto_tuning,...
-    parameters_batch_processing, 1, mode_simulation, xml_name, app);
+    parameters_batch_processing, 1, mode_simulation, xml_name, fig_app);
 disp(values');
 toc
 
