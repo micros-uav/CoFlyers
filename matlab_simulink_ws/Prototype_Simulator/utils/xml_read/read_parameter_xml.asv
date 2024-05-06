@@ -199,7 +199,7 @@ for ii = 1:length(modules_name)
         for jj = 1:length(submodules_name)
             submodule_name = submodules_name(jj);
             %%% Params of the terrain and models do not need to be written in a file. %%%
-            if strcmp(module_name,"map") && (strcmp(submodule_name,"terrain") || contains(submodule_name,"model"))
+            if strcmp(module_name,"map") && (strcmp(module_name,"terrain") || s)
                 break;
             end
             %%%
