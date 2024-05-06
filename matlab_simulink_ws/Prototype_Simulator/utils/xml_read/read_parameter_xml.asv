@@ -154,13 +154,13 @@ if size(position0,1)~=3 || size(position0,2) ~= CoFlyers.number
     error(strcat(head, "the dimension of 'position__' must be exactly 3×number."));
 end
 if ~isfield(CoFlyers.evaluation,CoFlyers.evaluation_metric_type)
-    error(strcat(head, "unknown type '%s'.",CoFlyers.evaluation_metric_type));
+    error(strcat(head, "XML error: unknown type '%s'.",CoFlyers.evaluation_metric_type);
 end
 if ~isfield(CoFlyers.swarm,CoFlyers.swarm_algorithm_type)
-    error(strcat(head, "unknown type '%s'.",CoFlyers.swarm_algorithm_type));
+    error("XML error: unknown type '%s'.",CoFlyers.swarm_algorithm_type);
 end
 if ~isfield(CoFlyers.motion,CoFlyers.motion_model_type)
-    error(strcat(head, "unknown type '%s'.",CoFlyers.motion_model_type));
+    error("XML error: unknown type '%s'.",CoFlyers.motion_model_type);
 end
 
 %% Write params to file
