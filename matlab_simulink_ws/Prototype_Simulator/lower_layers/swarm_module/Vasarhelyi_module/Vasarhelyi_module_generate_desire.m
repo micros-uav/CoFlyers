@@ -18,6 +18,7 @@ fun_params = str2func([file_name_param, str_core]);
 
 [r_com] = fun_params();
 
+
 for id  = 1:number
     state_i = states(:,id);
     %%%%%Find neighbors%%%%%

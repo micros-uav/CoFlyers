@@ -5,7 +5,6 @@ function visual_module_draw_figures(states, time_series_s, states_series, time_s
 %   Detailed explanation goes here
 
 persistent my_video
-
 %%% Three stages of function calling%%% 
 FLAG_INIT = 0;      % Before the iteration
 FLAG_RUNNING = 1;   % When the iteration

@@ -14,10 +14,10 @@ z_alpha] = map_module_parameters()
 % Every time read_parameter_xml.m is run, this function will be generated
 activate = 1.000000000000;
 activate_periodic_boundary = 0.000000000000;
-x_range = [0.000000000000
-10.000000000000];
-y_range = [0.000000000000
-10.000000000000];
+x_range = [-15.000000000000
+15.000000000000];
+y_range = [-15.000000000000
+15.000000000000];
 z_range = [0.000000000000
 2.000000000000];
 x_color = [0.500000000000
