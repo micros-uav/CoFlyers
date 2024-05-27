@@ -464,5 +464,23 @@ If the declared quantity is greater than number_real will cause some UDP ports t
 
 Now, we can run the swarm commander testControlWithDroeSwarm.slx to control the real drones and the virtual drones, simultaneously.
 
+## Reference
+
+* [CoFlyers: A Universal Platform for Collective Flying of Swarm Drones](https://ieeexplore.ieee.org/abstract/document/10342485)
+
+Please, cite us with:
+```
+@INPROCEEDINGS{10342485,
+  author={Huang, Jialei and Wang, Fakui and Hu, Tianjiang},
+  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, 
+  title={CoFlyers: A Universal Platform for Collective Flying of Swarm Drones}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={8808-8813},
+  keywords={Computer languages;Codes;Software packages;Prototypes;Birds;Behavioral sciences;Task analysis},
+  doi={10.1109/IROS55552.2023.10342485}}
+```
+
 ## Troubleshooting
 Please open an [Issue](https://github.com/micros-uav/CoFlyers/issues) if you have some droubles and advice.

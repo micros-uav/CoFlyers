@@ -461,6 +461,22 @@ roslaunch udp_common udp_node_.launch udp_node_uav_multiple_10.launch
 
 在完成配置后，与前面的章节类似，我们可以运行集群指挥站testControlWithDroneSwarm.slx来同时控制真实无人机和虚拟无人机。
 
+## 引用
+
+* [CoFlyers: A Universal Platform for Collective Flying of Swarm Drones](https://ieeexplore.ieee.org/abstract/document/10342485)
+
+请引用以下文章:
+```
+@INPROCEEDINGS{10342485,
+  author={Huang, Jialei and Wang, Fakui and Hu, Tianjiang},
+  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, 
+  title={CoFlyers: A Universal Platform for Collective Flying of Swarm Drones}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={8808-8813},
+  keywords={Computer languages;Codes;Software packages;Prototypes;Birds;Behavioral sciences;Task analysis},
+  doi={10.1109/IROS55552.2023.10342485}}
 
 ## 故障排除
 如果对本平台有什么问题或建议，请建立一个[Issue](https://github.com/micros-uav/CoFlyers/issues)。
